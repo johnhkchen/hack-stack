@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import StatusIndicator from '../components/StatusIndicator.astro';
+import BusinessList from '../components/BusinessList.astro';
+---
+
+<Layout title="Technical Demo">
+  <main class="container">
+    <Navigation 
+      title="Technical Demo" 
+      subtitle="FastAPI backend with Astro frontend" 
+      currentPage="home" 
+    />
+    
+    <article>
+      <h2>Sample Data</h2>
+      <p>Business directory with sample entries</p>
+      <BusinessList />
+    </article>
+
+    <!-- Demo Credentials / Tech Receipt -->
+    <StatusIndicator />
+
+    <footer style="text-align: center; margin-top: 2rem; padding: 2rem; border-top: 1px solid var(--pico-border-color);">
+      <p><small>FastAPI • Astro • Svelte • PicoCSS</small></p>
+    </footer>
+  </main>
+</Layout>

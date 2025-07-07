@@ -1,0 +1,52 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Modern hackathon demo stack" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    
+    <!-- PicoCSS for instant beautiful styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    
+    <style>
+      /* Minimal custom styles - rely on PicoCSS */
+      .status-section {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--pico-contrast-background);
+        border: 1px solid var(--pico-border-color);
+        border-radius: var(--pico-border-radius);
+        font-size: 0.9rem;
+      }
+      
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--pico-ins-color);
+      }
+      
+      .status-dot.mock { background: #f59e0b; }
+      .status-dot.error { background: var(--pico-del-color); }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

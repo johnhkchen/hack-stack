@@ -1,0 +1,236 @@
+---
+// Fetch comprehensive demo status for tech receipt
+let demoStatus = {
+  health: 'error',
+  mode: 'unknown',
+  demo_ready: false,
+  startup_time: 'connection failed',
+  available_vendors: []
+};
+
+let debugInfo = null;
+let error = true;
+
+// Determine the correct API base URL based on environment
+const apiBaseUrl = import.meta.env.SSR ? 'http://backend:8000' : '';
+
+try {
+  // Fetch only health for faster SSR, with timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+  
+  const healthResponse = await fetch(`${apiBaseUrl}/api/health`, {
+    signal: controller.signal
+  });
+  clearTimeout(timeoutId);
+  
+  if (healthResponse.ok) {
+    demoStatus = await healthResponse.json();
+    error = false;
+    
+    // Try to fetch debug info quickly, but don't block rendering
+    try {
+      const debugResponse = await fetch(`${apiBaseUrl}/api/debug`, {
+        signal: AbortSignal.timeout(1000) // 1 second timeout
+      });
+      if (debugResponse.ok) {
+        debugInfo = await debugResponse.json();
+      }
+    } catch {
+      // Ignore debug fetch errors, use basic status only
+    }
+  }
+} catch (err) {
+  console.error('SSR status check failed:', err);
+}
+---
+
+<article class="demo-receipt">
+  <header>
+    <h3>Demo Status</h3>
+    <div class="status-badge {error ? 'error' : demoStatus.demo_ready ? 'ready' : 'loading'}">
+      {error ? 'Offline' : demoStatus.demo_ready ? 'Demo Ready' : 'Starting...'}
+    </div>
+  </header>
+
+  <div class="tech-credentials">
+    <div class="credential-row">
+      <span class="label">System Health</span>
+      <span class="value {error ? 'error' : 'success'}">
+        {error ? 'Connection Failed' : 'All services operational'}
+      </span>
+    </div>
+
+    <div class="credential-row">
+      <span class="label">Runtime Mode</span>
+      <span class="value">{error ? 'Unknown' : `${demoStatus.mode} mode - fast startup`}</span>
+    </div>
+
+    {!error && demoStatus.startup_time && (
+      <div class="credential-row">
+        <span class="label">Started</span>
+        <span class="value">{demoStatus.startup_time}</span>
+      </div>
+    )}
+
+    {debugInfo && debugInfo.services && (
+      <div class="credential-row">
+        <span class="label">Services</span>
+        <span class="value">
+          {Object.keys(debugInfo.services).length} running
+          {debugInfo.summary && ` (${debugInfo.summary.healthy_services}/${debugInfo.summary.total_services} healthy)`}
+        </span>
+      </div>
+    )}
+
+    {debugInfo && debugInfo.vendors && (
+      <div class="credential-row">
+        <span class="label">Integrations</span>
+        <span class="value">
+          {Object.keys(debugInfo.vendors).length} configured
+          {debugInfo.vendors.weaviate ? ' • Weaviate sponsor' : ''}
+        </span>
+      </div>
+    )}
+
+    <div class="credential-row tech-stack">
+      <span class="label">Tech Stack</span>
+      <span class="value">FastAPI • Astro • Svelte • Docker</span>
+    </div>
+  </div>
+
+  {!error && (
+    <footer class="receipt-footer">
+      <small>✓ Production-ready architecture • ✓ Real-time API testing • ✓ Mobile responsive</small>
+    </footer>
+  )}
+</article>
+
+<style>
+  .demo-receipt {
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    margin: 2rem 0;
+    font-family: var(--pico-font-family-monospace);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .demo-receipt header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px dashed var(--pico-border-color);
+    margin: 0;
+  }
+
+  .demo-receipt h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--pico-color);
+    font-family: var(--pico-font-family);
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-badge.ready {
+    background: #10b981;
+    color: white;
+  }
+
+  .status-badge.loading {
+    background: #f59e0b;
+    color: white;
+  }
+
+  .status-badge.error {
+    background: var(--pico-del-color);
+    color: white;
+  }
+
+  .tech-credentials {
+    padding: 1rem 1.5rem;
+  }
+
+  .credential-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted rgba(0,0,0,0.1);
+  }
+
+  .credential-row:last-child {
+    border-bottom: none;
+  }
+
+  .credential-row.tech-stack {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--pico-border-color);
+    border-bottom: none;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--pico-muted-color);
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 0.875rem;
+    color: var(--pico-color);
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .value.success {
+    color: #10b981;
+  }
+
+  .value.error {
+    color: var(--pico-del-color);
+  }
+
+  .receipt-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px dashed var(--pico-border-color);
+    text-align: center;
+    background: rgba(0,0,0,0.02);
+    margin: 0;
+  }
+
+  .receipt-footer small {
+    color: var(--pico-muted-color);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 767px) {
+    .demo-receipt header {
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .credential-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .value {
+      text-align: left;
+    }
+  }
+</style>

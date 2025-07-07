@@ -1,0 +1,147 @@
+# Backend Debug Configuration
+# Defines server-side health checks and service monitoring
+
+project:
+  name: "Hack Stack Backend"
+  description: "FastAPI backend with vendor integrations and health monitoring"
+  version: "1.0.0"
+  stack: "FastAPI • uv • Docker • CORS"
+
+services:
+  backend:
+    name: "FastAPI Backend"
+    type: "api"
+    url: "http://backend:8000"
+    self_service: true  # Flag to indicate this service should self-report
+    health_check:
+      endpoint: "/api/health"
+      method: "GET"
+      expected_status: 200
+      timeout: 5
+    features:
+      - name: "API Routes"
+        description: "Core API endpoints"
+        test_endpoint: "/api/health"
+      - name: "Vendor Processing"
+        description: "AI vendor integration"
+        test_endpoint: "/api/vendor/openai"
+      - name: "CORS Configuration"
+        description: "Cross-origin resource sharing"
+        
+  frontend:
+    name: "Astro Frontend"
+    type: "web"
+    url: "http://frontend:4321"
+    health_check:
+      endpoint: "/"
+      method: "GET"
+      expected_status: 200
+      timeout: 5
+    features:
+      - name: "Astro SSR"
+        description: "Server-side rendering"
+      - name: "Svelte Islands"
+        description: "Interactive components"
+      - name: "PicoCSS Styling"
+        description: "Minimal CSS framework"
+
+  nginx:
+    name: "Nginx Proxy"
+    type: "proxy"
+    url: "http://nginx:80"
+    health_check:
+      endpoint: "/health"
+      method: "GET"
+      expected_status: 200
+      timeout: 3
+    features:
+      - name: "Reverse Proxy"
+        description: "Routes requests to services"
+      - name: "Static Assets"
+        description: "Serves static files"
+      - name: "Compression"
+        description: "Gzip compression enabled"
+
+vendors:
+  openai:
+    name: "OpenAI"
+    type: "ai_service"
+    enabled: true
+    env_var: "OPENAI_API_KEY"
+    mock_endpoint: "/api/vendor/openai"
+    live_endpoint: "https://api.openai.com/v1/chat/completions"
+    features:
+      - name: "Chat Completions"
+        description: "GPT model integration"
+      - name: "Mock Responses"
+        description: "Realistic sample data"
+        
+  anthropic:
+    name: "Anthropic"
+    type: "ai_service"
+    enabled: true
+    env_var: "ANTHROPIC_API_KEY"
+    mock_endpoint: "/api/vendor/anthropic"
+    live_endpoint: "https://api.anthropic.com/v1/messages"
+    features:
+      - name: "Claude Integration"
+        description: "Anthropic API support"
+      - name: "Fallback Logic"
+        description: "Graceful degradation"
+        
+  weaviate:
+    name: "Weaviate"
+    type: "vector_db"
+    enabled: true
+    env_var: "WEAVIATE_API_KEY"
+    mock_endpoint: "/api/vendor/weaviate"
+    live_endpoint: "${WEAVIATE_URL}/v1/.well-known/ready"
+    features:
+      - name: "Vector Search"
+        description: "Semantic search capabilities"
+      - name: "Data Ingestion"
+        description: "Document processing"
+
+environment:
+  detection:
+    method: "env_vars"
+    indicators:
+      - OPENAI_API_KEY
+      - ANTHROPIC_API_KEY
+      - WEAVIATE_API_KEY
+      - WEAVIATE_URL
+  modes:
+    mock:
+      description: "Demo mode with realistic sample data"
+      icon: "🎭"
+      color: "#f59e0b"
+    live:
+      description: "Production mode with real API calls"
+      icon: "🟢"
+      color: "#10b981"
+    hybrid:
+      description: "Mixed mode with some live services"
+      icon: "🔄"
+      color: "#3b82f6"
+
+dashboard:
+  refresh_interval: 30
+  show_response_times: true
+  show_uptime: true
+  show_feature_matrix: true
+  theme: "dark"
+  
+demo_readiness:
+  criteria:
+    - name: "All Services Running"
+      check: "services_healthy"
+      weight: 40
+    - name: "API Endpoints Responsive"
+      check: "api_responsive"
+      weight: 30
+    - name: "Frontend Loading"
+      check: "frontend_healthy"
+      weight: 20
+    - name: "At Least One Vendor"
+      check: "vendor_available"
+      weight: 10

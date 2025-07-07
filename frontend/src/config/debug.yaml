@@ -1,0 +1,185 @@
+# Frontend Debug Configuration
+# Defines client-side health checks and monitoring
+
+project:
+  name: "Hack Stack Frontend"
+  description: "Astro + Svelte frontend with progressive enhancement"
+  version: "1.0.0"
+  stack: "Astro • Svelte • PicoCSS • Vite"
+
+frontend_services:
+  astro_ssr:
+    name: "Astro SSR"
+    type: "rendering"
+    check_method: "ssr_status"
+    features:
+      - name: "Server Rendering"
+        description: "Pages render on server"
+        test: "document.querySelector('[data-astro-source-file]')"
+      - name: "Static Generation"
+        description: "Build-time page generation"
+      - name: "Route Handling"
+        description: "File-based routing"
+
+  svelte_islands:
+    name: "Svelte Islands"
+    type: "interactivity"
+    check_method: "component_hydration"
+    features:
+      - name: "Component Hydration"
+        description: "Interactive components load"
+        test: "document.querySelector('astro-island')"
+      - name: "State Management"
+        description: "Component state works"
+      - name: "Event Handling"
+        description: "User interactions work"
+
+  css_framework:
+    name: "PicoCSS Styling"
+    type: "styling"
+    check_method: "css_loaded"
+    features:
+      - name: "PicoCSS CDN"
+        description: "External CSS framework"
+        test: "getComputedStyle(document.body).getPropertyValue('--pico-primary')"
+      - name: "Custom Styles"
+        description: "Component-specific styles"
+      - name: "Responsive Design"
+        description: "Mobile-friendly layout"
+
+  vite_dev:
+    name: "Vite Development"
+    type: "tooling"
+    check_method: "dev_tools"
+    features:
+      - name: "Hot Module Reload"
+        description: "Live code updates"
+        test: "window.__vite_plugin_react_preamble_installed__"
+      - name: "Dev Toolbar"
+        description: "Astro development tools"
+        test: "window.__astro_dev_toolbar__"
+      - name: "Source Maps"
+        description: "Debug-friendly code"
+
+api_endpoints:
+  backend_health:
+    name: "Backend Health"
+    type: "api"
+    url: "/api/health"
+    method: "GET"
+    expected_status: 200
+    timeout: 5000
+    critical: true
+
+  business_data:
+    name: "Business API"
+    type: "api"
+    url: "/api/businesses"
+    method: "GET"
+    expected_status: 200
+    timeout: 3000
+    critical: false
+
+  vendor_integration:
+    name: "Vendor Processing"
+    type: "api"
+    url: "/api/debug"
+    method: "GET"
+    expected_status: 200
+    timeout: 10000
+    critical: false
+
+browser_checks:
+  javascript:
+    name: "JavaScript Enabled"
+    test: "typeof window !== 'undefined'"
+    critical: true
+
+  fetch_api:
+    name: "Fetch API Support"
+    test: "typeof fetch === 'function'"
+    critical: true
+
+  local_storage:
+    name: "Local Storage"
+    test: "typeof localStorage !== 'undefined'"
+    critical: false
+
+  websocket:
+    name: "WebSocket Support"
+    test: "typeof WebSocket !== 'undefined'"
+    critical: false
+
+performance:
+  metrics:
+    - name: "Page Load Time"
+      target: "< 2s"
+      check: "performance.timing"
+    - name: "First Contentful Paint"
+      target: "< 1.5s"
+      check: "performance.getEntriesByType('paint')"
+    - name: "Interactive Time"
+      target: "< 3s"
+      check: "document.readyState"
+
+external_dependencies:
+  picocss_cdn:
+    name: "PicoCSS CDN"
+    type: "cdn"
+    url: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    check_method: "css_load"
+    fallback: "local_css"
+
+  fonts:
+    name: "Web Fonts"
+    type: "fonts"
+    check_method: "font_load"
+    fallback: "system_fonts"
+
+demo_scenarios:
+  basic_navigation:
+    name: "Basic Navigation"
+    steps:
+      - "Load homepage"
+      - "Verify components render"
+      - "Check interactive elements"
+    success_criteria:
+      - "Page loads without errors"
+      - "Svelte components hydrate"
+      - "API data displays"
+
+  api_integration:
+    name: "API Integration"
+    steps:
+      - "Fetch business data"
+      - "Test vendor endpoints"
+      - "Handle loading states"
+    success_criteria:
+      - "Data loads successfully"
+      - "Loading indicators work"
+      - "Error handling works"
+
+  responsive_design:
+    name: "Responsive Design"
+    steps:
+      - "Test mobile viewport"
+      - "Check tablet layout"
+      - "Verify desktop view"
+    success_criteria:
+      - "Layout adapts properly"
+      - "Touch interactions work"
+      - "Text remains readable"
+
+display_config:
+  theme: "dark"
+  refresh_interval: 30
+  show_performance: true
+  show_network_requests: true
+  show_console_errors: true
+  auto_scroll: true
+
+notifications:
+  error_threshold: 2
+  performance_threshold: 3000
+  show_warnings: true
+  sound_alerts: false

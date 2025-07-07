@@ -1,0 +1,341 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import ApiTestsTable from '../components/ApiTestsTable.svelte';
+
+// Fetch live backend data during SSR
+let backendData = null;
+let backendError = null;
+
+// Determine the correct API base URL based on environment
+const apiBaseUrl = import.meta.env.SSR ? 'http://backend:8000' : '';
+const apiUrl = `${apiBaseUrl}/api/debug`;
+
+try {
+  const response = await fetch(apiUrl);
+  if (response.ok) {
+    backendData = await response.json();
+  } else {
+    backendError = `HTTP ${response.status}: ${response.statusText}`;
+  }
+} catch (error) {
+  backendError = error.message;
+}
+
+// Get timestamp for freshness
+const timestamp = new Date().toISOString();
+---
+
+<Layout title="Debug Dashboard">
+  <main class="container">
+    <Navigation 
+      title="Debug Dashboard" 
+      subtitle={`Updated: ${new Date(timestamp).toLocaleTimeString()}`}
+      currentPage="debug" 
+    />
+
+    {backendError ? (
+      <article>
+        <h2>Backend Connection Failed</h2>
+        <p>Cannot connect to backend API: <code>{backendError}</code></p>
+        <p>This indicates a service connectivity issue.</p>
+      </article>
+    ) : (
+      <div class="grid">
+        <!-- Overall Health -->
+        <article>
+          <h2>Overall Status</h2>
+          <div class="grid">
+            <div>
+              <strong>Health:</strong>
+              <kbd>{backendData.overall_health}</kbd>
+            </div>
+            <div>
+              <strong>Mode:</strong>
+              <kbd>{backendData.environment_mode}</kbd>
+            </div>
+            <div>
+              <strong>Demo Ready:</strong>
+              <kbd>{backendData.demo_ready ? 'Yes' : 'No'}</kbd>
+            </div>
+          </div>
+        </article>
+
+        <!-- Services Status -->
+        <article>
+          <h2>Services</h2>
+          {backendData.services && Object.entries(backendData.services).map(([name, service]) => (
+            <div class="grid">
+              <div>
+                <strong>{service.name}</strong>
+              </div>
+              <div>
+                <span class={`status-dot ${service.status}`}></span>
+                <span>{service.status}</span>
+                {service.response_time && (
+                  <small class="muted">
+                    {Math.round(service.response_time * 1000)}ms
+                  </small>
+                )}
+              </div>
+              {service.error && (
+                <div style="color: var(--pico-del-color);">Error: {service.error}</div>
+              )}
+            </div>
+          ))}
+        </article>
+
+        <!-- Vendors Status -->
+        <article>
+          <h2>Integration Partners</h2>
+          {backendData.vendors && Object.entries(backendData.vendors).map(([name, vendor]) => (
+            <div class={`grid vendor-card ${vendor.security_warning ? 'has-warning' : ''} ${name === 'weaviate' ? 'sponsor-integration' : ''}`}>
+              <div>
+                <strong>{vendor.name}</strong>
+                {name === 'weaviate' && <span class="sponsor-badge">★ Sponsor</span>}
+                <div class="vendor-type">{vendor.type.replace('_', ' ')}</div>
+              </div>
+              <div>
+                <kbd>{vendor.mode}</kbd>
+                <span>
+                  {vendor.has_credentials ? 'Credentials Ready' : 
+                   name === 'weaviate' ? 'Ready for Integration' : 'No Credentials'}
+                </span>
+                {vendor.credential_source && vendor.credential_source !== 'none' && (
+                  <small class={vendor.is_secure ? '' : 'text-danger'}>
+                    {vendor.credential_source === 'host_env' ? 'Host Environment' : 
+                     vendor.credential_source === 'env_file' ? 'Environment File' : vendor.credential_source}
+                  </small>
+                )}
+              </div>
+              {vendor.security_warning && (
+                <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
+                  <small><mark>{vendor.security_warning}</mark></small>
+                </div>
+              )}
+              {name === 'weaviate' && (
+                <div class="sponsor-info">
+                  <div class="sponsor-status">Vector Database • Sponsor Partnership</div>
+                  <div class="sponsor-detail">Semantic search & data ingestion capabilities</div>
+                </div>
+              )}
+            </div>
+          ))}
+        </article>
+      </div>
+    )}
+
+  </main>
+
+  <!-- Interactive Components (Svelte Islands) - Full Width -->
+  <div class="full-width-section">
+    <ApiTestsTable client:load />
+  </div>
+
+  <!-- Raw Data -->
+  <div class="container">
+    <details>
+      <summary>Raw Backend Data</summary>
+      <pre><code>{backendData ? JSON.stringify(backendData, null, 2) : `Error: ${backendError}`}</code></pre>
+    </details>
+  </div>
+
+  <style>
+    /* Mobile-first responsive design */
+    .full-width-section {
+      width: 100%;
+      max-width: none;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    /* Mobile-friendly grid layouts */
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+
+    .has-warning {
+      border-left: 4px solid var(--pico-del-color);
+      padding-left: 1rem;
+      margin: 1rem 0;
+    }
+
+    /* Improve readability on mobile */
+    article {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    article h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Status sections */
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--pico-border-color);
+    }
+
+    .status-item:last-child {
+      border-bottom: none;
+    }
+
+    .status-label {
+      font-weight: 500;
+      color: var(--pico-muted-color);
+      font-size: 0.875rem;
+    }
+
+    .status-value {
+      font-weight: 600;
+    }
+
+    /* Improve kbd styling */
+    kbd {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      border-radius: 0.25rem;
+      background: #6b7280;
+      color: white;
+      font-weight: 500;
+    }
+
+    /* Service and vendor cards */
+    .service-card, .vendor-card {
+      background: var(--pico-background-color);
+      border: 1px solid var(--pico-border-color);
+      border-radius: var(--pico-border-radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-header, .vendor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-name, .vendor-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .service-status, .vendor-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .service-error, .vendor-warning {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--pico-del-color);
+      border-radius: var(--pico-border-radius);
+      color: var(--pico-del-color);
+      font-size: 0.875rem;
+    }
+
+    .vendor-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: #f59e0b;
+      color: #f59e0b;
+    }
+
+    .sponsor-integration {
+      border-left: 4px solid #8b5cf6;
+      background: rgba(139, 92, 246, 0.02);
+    }
+
+    .sponsor-badge {
+      background: #8b5cf6;
+      color: white;
+      padding: 0.125rem 0.5rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+      font-weight: 500;
+    }
+
+    .vendor-type {
+      font-size: 0.75rem;
+      color: var(--pico-muted-color);
+      text-transform: capitalize;
+      margin-top: 0.25rem;
+    }
+
+    .sponsor-info {
+      grid-column: 1 / -1;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .sponsor-status {
+      font-weight: 600;
+      color: #8b5cf6;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sponsor-detail {
+      font-size: 0.875rem;
+      color: var(--pico-muted-color);
+      line-height: 1.4;
+    }
+
+    /* Tablet and desktop styles */
+    @media (min-width: 768px) {
+      .full-width-section {
+        padding: 2rem 1rem;
+        margin: 2rem 0;
+      }
+
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      article {
+        padding: 1.5rem;
+      }
+
+      article h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    /* Large desktop styles */
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pico-primary);
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .status-dot.healthy { background: var(--pico-ins-color); }
+    .status-dot.unhealthy { background: var(--pico-del-color); }
+    .status-dot.degraded { background: #f59e0b; }
+
+    .text-danger {
+      color: var(--pico-del-color);
+    }
+  </style>
+
+</Layout>
