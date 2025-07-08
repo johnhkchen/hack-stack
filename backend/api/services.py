@@ -4,6 +4,7 @@ Clean separation with Protocol-based vendor abstraction
 """
 
 import os
+import json
 from datetime import datetime
 from typing import Protocol, Dict, Any, List, Optional
 from dataclasses import dataclass
@@ -265,40 +266,190 @@ class VendorService:
             return result
 
 class BusinessService:
-    """Service for business data operations"""
+    """Service for business data operations with legacy business registry data"""
     
     def __init__(self):
         self._cache = {}
+        self._legacy_businesses = []
+        self._load_legacy_businesses()
+    
+    def _load_legacy_businesses(self):
+        """Load legacy business applications dataset from JSON file"""
+        try:
+            # Try enhanced dataset with rich narratives first
+            enhanced_data_path = Path(__file__).parent.parent / "data" / "enhanced_legacy_businesses.json"
+            if enhanced_data_path.exists():
+                with open(enhanced_data_path, 'r') as f:
+                    data = json.load(f)
+                    self._legacy_businesses = data.get("applications", [])
+                    print(f"✅ Loaded {len(self._legacy_businesses)} enhanced legacy businesses with rich narratives")
+                    return
+            
+            # Try standard application-based dataset
+            app_data_path = Path(__file__).parent.parent / "data" / "legacy_business_applications.json"
+            if app_data_path.exists():
+                with open(app_data_path, 'r') as f:
+                    data = json.load(f)
+                    self._legacy_businesses = data.get("applications", [])
+                    print(f"✅ Loaded {len(self._legacy_businesses)} legacy business applications from registry")
+                    return
+            
+            # Fallback to old dataset
+            data_path = Path(__file__).parent.parent / "data" / "legacy_businesses.json"
+            if data_path.exists():
+                with open(data_path, 'r') as f:
+                    data = json.load(f)
+                    self._legacy_businesses = data.get("businesses", [])
+                    print(f"✅ Loaded {len(self._legacy_businesses)} legacy businesses from dataset")
+            else:
+                print("⚠️ Legacy businesses dataset not found, using demo data")
+                self._legacy_businesses = DEMO_BUSINESSES
+        except Exception as e:
+            print(f"❌ Error loading legacy businesses: {e}")
+            self._legacy_businesses = DEMO_BUSINESSES
     
     def get_businesses(self, limit: int = 10) -> List[Dict[str, Any]]:
-        """Get businesses with simple caching"""
+        """Get businesses with caching and legacy data support"""
         cache_key = f"businesses_{limit}"
         
         if cache_key not in self._cache:
-            self._cache[cache_key] = DEMO_BUSINESSES[:limit]
+            # Use legacy businesses if available, otherwise fall back to demo data
+            businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+            self._cache[cache_key] = businesses[:limit]
         
         return self._cache[cache_key]
     
     def get_business_by_id(self, business_id: int) -> Dict[str, Any] | None:
-        """Get single business by ID"""
-        for business in DEMO_BUSINESSES:
-            if business["id"] == business_id:
+        """Get single business by ID from legacy dataset"""
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+        
+        for business in businesses:
+            if business.get("id") == business_id:
                 return business
         return None
     
-    def search(self, query: str, limit: int = 10) -> Dict[str, Any]:
-        """Search businesses with simple text matching"""
+    def search(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
+        """Enhanced search with legacy business data"""
         query_lower = query.lower()
         results = []
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
         
-        for business in DEMO_BUSINESSES:
-            if (query_lower in business["name"].lower() or 
-                query_lower in business["story"].lower() or
-                query_lower in business["tagline"].lower()):
-                results.append(business)
+        for business in businesses:
+            # Search across multiple fields including rich narratives
+            searchable_fields = [
+                business.get("name", ""),
+                business.get("tagline", ""),
+                business.get("founding_story", ""),
+                business.get("cultural_impact", ""),
+                business.get("unique_features", ""),
+                business.get("story", ""),  # fallback
+                business.get("type", ""),
+                business.get("neighborhood", ""),
+                " ".join(business.get("features", [])),
+                " ".join(business.get("notable_features", [])),
+                " ".join(business.get("keywords", [])),
+                " ".join(business.get("amenities", []))
+            ]
+            
+            searchable_text = " ".join(searchable_fields).lower()
+            
+            if query_lower in searchable_text:
+                # Add relevance score based on where the match was found
+                score = 0
+                if query_lower in business.get("name", "").lower():
+                    score += 10
+                if query_lower in business.get("tagline", "").lower():
+                    score += 5
+                if query_lower in business.get("founding_story", "").lower():
+                    score += 8  # High-value narrative content
+                if query_lower in business.get("cultural_impact", "").lower():
+                    score += 8  # High-value narrative content
+                if query_lower in business.get("unique_features", "").lower():
+                    score += 7  # High-value narrative content
+                if query_lower in business.get("type", "").lower():
+                    score += 8
+                if query_lower in business.get("neighborhood", "").lower():
+                    score += 6
+                if query_lower in " ".join(business.get("keywords", [])).lower():
+                    score += 5  # Structured searchable content
+                if query_lower in business.get("story", "").lower():
+                    score += 3  # fallback field
+                
+                business_with_score = business.copy()
+                business_with_score["_search_score"] = score
+                results.append(business_with_score)
+        
+        # Sort by relevance score
+        results.sort(key=lambda x: x.get("_search_score", 0), reverse=True)
+        
+        # Remove search score from final results
+        for result in results:
+            result.pop("_search_score", None)
+        
+        return results[:limit]
+    
+    def get_businesses_by_neighborhood(self, neighborhood: str, limit: int = 10) -> List[Dict[str, Any]]:
+        """Get businesses filtered by neighborhood"""
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+        
+        results = [
+            business for business in businesses 
+            if business.get("neighborhood", "").lower() == neighborhood.lower()
+        ]
+        
+        return results[:limit]
+    
+    def get_businesses_by_type(self, business_type: str, limit: int = 10) -> List[Dict[str, Any]]:
+        """Get businesses filtered by type/category"""
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+        
+        results = [
+            business for business in businesses 
+            if business.get("type", "").lower() == business_type.lower()
+        ]
+        
+        return results[:limit]
+    
+    def get_neighborhoods(self) -> List[str]:
+        """Get list of all unique neighborhoods"""
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+        neighborhoods = set()
+        
+        for business in businesses:
+            if business.get("neighborhood"):
+                neighborhoods.add(business["neighborhood"])
+        
+        return sorted(list(neighborhoods))
+    
+    def get_business_types(self) -> List[str]:
+        """Get list of all unique business types"""
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+        types = set()
+        
+        for business in businesses:
+            if business.get("type"):
+                types.add(business["type"])
+        
+        return sorted(list(types))
+    
+    def get_stats(self) -> Dict[str, Any]:
+        """Get business statistics"""
+        businesses = self._legacy_businesses if self._legacy_businesses else DEMO_BUSINESSES
+        
+        total = len(businesses)
+        active = len([b for b in businesses if b.get("status") == "active"])
+        neighborhoods = len(self.get_neighborhoods())
+        types = len(self.get_business_types())
+        
+        # Calculate average rating
+        ratings = [b.get("rating", 0) for b in businesses if b.get("rating")]
+        avg_rating = sum(ratings) / len(ratings) if ratings else 0
         
         return {
-            "query": query,
-            "results": results[:limit],
-            "total": len(results)
+            "total_businesses": total,
+            "active_businesses": active,
+            "total_neighborhoods": neighborhoods,
+            "total_types": types,
+            "average_rating": round(avg_rating, 1) if avg_rating else None,
+            "data_source": "legacy_registry" if self._legacy_businesses else "demo_data"
         }

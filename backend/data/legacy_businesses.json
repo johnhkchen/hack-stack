@@ -1,0 +1,2114 @@
+{
+  "metadata": {
+    "total_businesses": 60,
+    "neighborhoods": 26,
+    "categories": 6,
+    "active_businesses": 48,
+    "generated_at": "2025-07-07T20:16:38.400215"
+  },
+  "businesses": [
+    {
+      "id": 1,
+      "name": "Alioto's Restaurant",
+      "tagline": "A family-owned restaurant serving authentic cuisine with recipes passed down through generations",
+      "type": "Restaurant",
+      "neighborhood": "Chinatown",
+      "founded": "1950",
+      "status": "active",
+      "story": "Established in 1950, Alioto's Restaurant has been a cornerstone of the Upper Market community. Known for family-owned, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family-owned",
+        "Historic recipes"
+      ],
+      "phone": "(415) 378-1395",
+      "email": "info@aliotosrestaurant.com",
+      "website": "https://www.aliotosrestaurant.com",
+      "address": "154 Hayes St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.3,
+      "reviews_count": 238,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Outdoor Seating",
+        "Private Dining",
+        "Delivery",
+        "Wine List"
+      ],
+      "social_media": {
+        "instagram": "@aliotosrestaurantsf",
+        "facebook": "facebook.com/AliotosRestaurantSF"
+      }
+    },
+    {
+      "id": 2,
+      "name": "House of Prime Rib",
+      "tagline": "Neighborhood institution known for fresh ingredients and traditional cooking methods",
+      "type": "Restaurant",
+      "neighborhood": "Sunset District",
+      "founded": "1910",
+      "status": "active",
+      "story": "Established in 1910, House of Prime Rib has been a cornerstone of the Western Addition community. Known for community gathering place, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Community gathering place",
+        "Family-owned",
+        "Historic recipes",
+        "Local ingredients"
+      ],
+      "phone": "(415) 282-1168",
+      "email": "info@houseofprimerib.com",
+      "website": "https://www.houseofprimerib.com",
+      "address": "2709 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.2,
+      "reviews_count": 381,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Outdoor Seating",
+        "Private Dining",
+        "Wine List",
+        "Takeout"
+      ],
+      "social_media": {
+        "instagram": "@houseofprimeribsf",
+        "facebook": "facebook.com/HouseofPrimeRibSF"
+      }
+    },
+    {
+      "id": 3,
+      "name": "House of Prime Rib",
+      "tagline": "Historic eatery that has been a community gathering place for decades",
+      "type": "Restaurant",
+      "neighborhood": "Financial District",
+      "founded": "1910",
+      "status": "active",
+      "story": "Established in 1910, House of Prime Rib has been a cornerstone of the Potrero Hill community. Known for community gathering place, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Community gathering place",
+        "Family-owned",
+        "Local ingredients",
+        "Historic recipes"
+      ],
+      "phone": "(415) 272-6915",
+      "email": "info@houseofprimerib.com",
+      "website": "https://www.houseofprimerib.com",
+      "address": "2819 Divisadero St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.0,
+      "reviews_count": 177,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Outdoor Seating",
+        "Wine List",
+        "Delivery"
+      ],
+      "social_media": {
+        "instagram": "@houseofprimeribsf",
+        "facebook": "facebook.com/HouseofPrimeRibSF"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Chez Nous",
+      "tagline": "Historic eatery that has been a community gathering place for decades",
+      "type": "Restaurant",
+      "neighborhood": "Mission District",
+      "founded": "1916",
+      "status": "active",
+      "story": "Established in 1916, Chez Nous has been a cornerstone of the Upper Market community. Known for community gathering place, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Community gathering place",
+        "Local ingredients",
+        "Family-owned"
+      ],
+      "phone": "(415) 147-5254",
+      "email": "info@cheznous.com",
+      "website": "https://www.cheznous.com",
+      "address": "2121 Union St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 3.5,
+      "reviews_count": 475,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Delivery",
+        "Takeout"
+      ],
+      "social_media": {
+        "instagram": "@cheznoussf",
+        "facebook": "facebook.com/ChezNousSF"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Original Joe's",
+      "tagline": "A family-owned restaurant serving authentic cuisine with recipes passed down through generations",
+      "type": "Restaurant",
+      "neighborhood": "Sunset District",
+      "founded": "1922",
+      "status": "seasonal",
+      "story": "Established in 1922, Original Joe's has been a cornerstone of the SOMA community. Known for family-owned, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local ingredients",
+        "Historic recipes",
+        "Community gathering place"
+      ],
+      "phone": "(415) 223-8147",
+      "email": "info@originaljoes.com",
+      "website": "https://www.originaljoes.com",
+      "address": "3059 Mission St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.3,
+      "reviews_count": 327,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Wine List",
+        "Private Dining",
+        "Delivery"
+      ],
+      "social_media": {
+        "instagram": "@originaljoessf",
+        "facebook": "facebook.com/OriginalJoesSF"
+      }
+    },
+    {
+      "id": 6,
+      "name": "La Taqueria",
+      "tagline": "Neighborhood institution known for fresh ingredients and traditional cooking methods",
+      "type": "Restaurant",
+      "neighborhood": "Pacific Heights",
+      "founded": "1963",
+      "status": "active",
+      "story": "Established in 1963, La Taqueria has been a cornerstone of the Noe Valley community. Known for family-owned, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic recipes",
+        "Family-owned",
+        "Local ingredients",
+        "Community gathering place"
+      ],
+      "phone": "(415) 824-1165",
+      "email": "info@lataqueria.com",
+      "website": "https://www.lataqueria.com",
+      "address": "497 Fillmore St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.1,
+      "reviews_count": 322,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Private Dining",
+        "Delivery",
+        "Outdoor Seating",
+        "Wine List"
+      ],
+      "social_media": {
+        "instagram": "@lataqueriasf",
+        "facebook": "facebook.com/LaTaqueriaSF"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Ton Kiang",
+      "tagline": "A family-owned restaurant serving authentic cuisine with recipes passed down through generations",
+      "type": "Restaurant",
+      "neighborhood": "Russian Hill",
+      "founded": "1971",
+      "status": "active",
+      "story": "Established in 1971, Ton Kiang has been a cornerstone of the Fisherman's Wharf community. Known for family-owned, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local ingredients",
+        "Historic recipes",
+        "Community gathering place",
+        "Family-owned"
+      ],
+      "phone": "(415) 501-9213",
+      "email": "info@tonkiang.com",
+      "website": "https://www.tonkiang.com",
+      "address": "3989 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.3,
+      "reviews_count": 193,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Takeout",
+        "Delivery"
+      ],
+      "social_media": {
+        "instagram": "@tonkiangsf",
+        "facebook": "facebook.com/TonKiangSF"
+      }
+    },
+    {
+      "id": 8,
+      "name": "R&G Lounge",
+      "tagline": "Local favorite featuring time-honored recipes and warm hospitality",
+      "type": "Restaurant",
+      "neighborhood": "Inner Sunset",
+      "founded": "1920",
+      "status": "active",
+      "story": "Established in 1920, R&G Lounge has been a cornerstone of the Lower Haight community. Known for family-owned, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family-owned",
+        "Local ingredients",
+        "Historic recipes"
+      ],
+      "phone": "(415) 291-4858",
+      "email": "info@r&glounge.com",
+      "website": "https://www.r&glounge.com",
+      "address": "1090 Polk St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.9,
+      "reviews_count": 93,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Outdoor Seating",
+        "Delivery",
+        "Private Dining"
+      ],
+      "social_media": {
+        "instagram": "@r&gloungesf",
+        "facebook": "facebook.com/R&GLoungeSF"
+      }
+    },
+    {
+      "id": 9,
+      "name": "Scoma's",
+      "tagline": "Historic eatery that has been a community gathering place for decades",
+      "type": "Restaurant",
+      "neighborhood": "Noe Valley",
+      "founded": "1912",
+      "status": "active",
+      "story": "Established in 1912, Scoma's has been a cornerstone of the Pacific Heights community. Known for family-owned, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family-owned",
+        "Local ingredients",
+        "Community gathering place"
+      ],
+      "phone": "(415) 349-6167",
+      "email": "info@scomas.com",
+      "website": "https://www.scomas.com",
+      "address": "2852 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.7,
+      "reviews_count": 236,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Wine List",
+        "Private Dining",
+        "Delivery",
+        "Takeout"
+      ],
+      "social_media": {
+        "instagram": "@scomassf",
+        "facebook": "facebook.com/ScomasSF"
+      }
+    },
+    {
+      "id": 10,
+      "name": "Original Joe's",
+      "tagline": "A family-owned restaurant serving authentic cuisine with recipes passed down through generations",
+      "type": "Restaurant",
+      "neighborhood": "Union Square",
+      "founded": "1958",
+      "status": "active",
+      "story": "Established in 1958, Original Joe's has been a cornerstone of the Haight-Ashbury community. Known for historic recipes, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family-owned",
+        "Historic recipes",
+        "Community gathering place",
+        "Local ingredients"
+      ],
+      "phone": "(415) 602-1402",
+      "email": "info@originaljoes.com",
+      "website": "https://www.originaljoes.com",
+      "address": "268 Valencia St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 3.6,
+      "reviews_count": 313,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Private Dining",
+        "Delivery"
+      ],
+      "social_media": {
+        "instagram": "@originaljoessf",
+        "facebook": "facebook.com/OriginalJoesSF"
+      }
+    },
+    {
+      "id": 11,
+      "name": "Tadich Grill",
+      "tagline": "Local favorite featuring time-honored recipes and warm hospitality",
+      "type": "Restaurant",
+      "neighborhood": "Western Addition",
+      "founded": "1953",
+      "status": "seasonal",
+      "story": "Established in 1953, Tadich Grill has been a cornerstone of the Castro community. Known for local ingredients, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family-owned",
+        "Community gathering place",
+        "Local ingredients",
+        "Historic recipes"
+      ],
+      "phone": "(415) 351-4074",
+      "email": "info@tadichgrill.com",
+      "website": "https://www.tadichgrill.com",
+      "address": "2586 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 3.8,
+      "reviews_count": 201,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Delivery",
+        "Takeout",
+        "Outdoor Seating",
+        "Wine List"
+      ],
+      "social_media": {
+        "instagram": "@tadichgrillsf",
+        "facebook": "facebook.com/TadichGrillSF"
+      }
+    },
+    {
+      "id": 12,
+      "name": "Little Star Pizza",
+      "tagline": "Local favorite featuring time-honored recipes and warm hospitality",
+      "type": "Restaurant",
+      "neighborhood": "SOMA",
+      "founded": "1911",
+      "status": "active",
+      "story": "Established in 1911, Little Star Pizza has been a cornerstone of the Castro community. Known for historic recipes, this restaurant continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic recipes",
+        "Community gathering place"
+      ],
+      "phone": "(415) 675-2257",
+      "email": "info@littlestarpizza.com",
+      "website": "https://www.littlestarpizza.com",
+      "address": "1684 Market St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.4,
+      "reviews_count": 468,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Private Dining",
+        "Wine List"
+      ],
+      "social_media": {
+        "instagram": "@littlestarpizzasf",
+        "facebook": "facebook.com/LittleStarPizzaSF"
+      }
+    },
+    {
+      "id": 13,
+      "name": "Comstock Saloon",
+      "tagline": "Historic watering hole that has been serving the community since the early 1900s",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Visitacion Valley",
+      "founded": "1931",
+      "status": "active",
+      "story": "Established in 1931, Comstock Saloon has been a cornerstone of the North Beach community. Known for community hub, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local musicians",
+        "Historic atmosphere"
+      ],
+      "phone": "(415) 362-5157",
+      "email": "info@comstocksaloon.com",
+      "website": "https://www.comstocksaloon.com",
+      "address": "3845 Market St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.1,
+      "reviews_count": 458,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Craft Beer",
+        "Happy Hour"
+      ],
+      "social_media": {
+        "instagram": "@comstocksaloonsf",
+        "facebook": "facebook.com/ComstockSaloonSF"
+      }
+    },
+    {
+      "id": 14,
+      "name": "Bimbo's 365 Club",
+      "tagline": "Cultural landmark that has hosted legendary performers and remains a music destination",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Noe Valley",
+      "founded": "1933",
+      "status": "active",
+      "story": "Established in 1933, Bimbo's 365 Club has been a cornerstone of the Potrero Hill community. Known for community hub, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Community hub",
+        "Historic atmosphere"
+      ],
+      "phone": "(415) 336-3997",
+      "email": "info@bimbos365club.com",
+      "website": "https://www.bimbos365club.com",
+      "address": "1775 Mission St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.6,
+      "reviews_count": 436,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Happy Hour",
+        "Live Music",
+        "Craft Beer",
+        "Jukebox"
+      ],
+      "social_media": {
+        "instagram": "@bimbos365clubsf",
+        "facebook": "facebook.com/Bimbos365ClubSF"
+      }
+    },
+    {
+      "id": 15,
+      "name": "Vesuvio Cafe",
+      "tagline": "Cultural landmark that has hosted legendary performers and remains a music destination",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Pacific Heights",
+      "founded": "1920",
+      "status": "active",
+      "story": "Established in 1920, Vesuvio Cafe has been a cornerstone of the Japantown community. Known for live music, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local musicians",
+        "Live music"
+      ],
+      "phone": "(415) 157-3963",
+      "email": "info@vesuviocafe.com",
+      "website": "https://www.vesuviocafe.com",
+      "address": "2646 Market St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 3.8,
+      "reviews_count": 394,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Craft Beer",
+        "Live Music",
+        "Pool Table",
+        "Jukebox"
+      ],
+      "social_media": {
+        "instagram": "@vesuviocafesf",
+        "facebook": "facebook.com/VesuvioCafeSF"
+      }
+    },
+    {
+      "id": 16,
+      "name": "Comstock Saloon",
+      "tagline": "Neighborhood bar with authentic atmosphere and loyal clientele",
+      "type": "Bar/Nightlife",
+      "neighborhood": "The Avenues",
+      "founded": "1942",
+      "status": "active",
+      "story": "Established in 1942, Comstock Saloon has been a cornerstone of the Castro community. Known for local musicians, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Live music",
+        "Historic atmosphere",
+        "Local musicians"
+      ],
+      "phone": "(415) 590-1558",
+      "email": "info@comstocksaloon.com",
+      "website": "https://www.comstocksaloon.com",
+      "address": "2111 Union St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 3.6,
+      "reviews_count": 114,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Happy Hour",
+        "Jukebox"
+      ],
+      "social_media": {
+        "instagram": "@comstocksaloonsf",
+        "facebook": "facebook.com/ComstockSaloonSF"
+      }
+    },
+    {
+      "id": 17,
+      "name": "Elbo Room",
+      "tagline": "Intimate venue known for supporting local musicians and artists",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Fisherman's Wharf",
+      "founded": "1940",
+      "status": "seasonal",
+      "story": "Established in 1940, Elbo Room has been a cornerstone of the Valencia Corridor community. Known for community hub, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local musicians",
+        "Community hub",
+        "Live music",
+        "Historic atmosphere"
+      ],
+      "phone": "(415) 521-5359",
+      "email": "info@elboroom.com",
+      "website": "https://www.elboroom.com",
+      "address": "3727 Market St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.6,
+      "reviews_count": 64,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Live Music",
+        "Pool Table"
+      ],
+      "social_media": {
+        "instagram": "@elboroomsf",
+        "facebook": "facebook.com/ElboRoomSF"
+      }
+    },
+    {
+      "id": 18,
+      "name": "The Fillmore",
+      "tagline": "Intimate venue known for supporting local musicians and artists",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Sunset District",
+      "founded": "1912",
+      "status": "active",
+      "story": "Established in 1912, The Fillmore has been a cornerstone of the Fisherman's Wharf community. Known for community hub, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Live music",
+        "Local musicians"
+      ],
+      "phone": "(415) 445-9835",
+      "email": "info@thefillmore.com",
+      "website": "https://www.thefillmore.com",
+      "address": "2668 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.3,
+      "reviews_count": 381,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Live Music",
+        "Craft Beer",
+        "Pool Table",
+        "Happy Hour"
+      ],
+      "social_media": {
+        "instagram": "@thefillmoresf",
+        "facebook": "facebook.com/TheFillmoreSF"
+      }
+    },
+    {
+      "id": 19,
+      "name": "Specs' Twelve Adler Museum Cafe",
+      "tagline": "Cultural landmark that has hosted legendary performers and remains a music destination",
+      "type": "Bar/Nightlife",
+      "neighborhood": "The Avenues",
+      "founded": "1940",
+      "status": "active",
+      "story": "Established in 1940, Specs' Twelve Adler Museum Cafe has been a cornerstone of the Tenderloin community. Known for live music, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local musicians",
+        "Historic atmosphere"
+      ],
+      "phone": "(415) 334-8848",
+      "email": "info@specstwelveadlermuseumcafe.com",
+      "website": "https://www.specstwelveadlermuseumcafe.com",
+      "address": "3485 Valencia St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.2,
+      "reviews_count": 64,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Pool Table",
+        "Jukebox",
+        "Live Music"
+      ],
+      "social_media": {
+        "instagram": "@specstwelveadlermuseumcafesf",
+        "facebook": "facebook.com/SpecsTwelveAdlerMuseumCafeSF"
+      }
+    },
+    {
+      "id": 20,
+      "name": "Specs' Twelve Adler Museum Cafe",
+      "tagline": "Historic watering hole that has been serving the community since the early 1900s",
+      "type": "Bar/Nightlife",
+      "neighborhood": "South Beach",
+      "founded": "1914",
+      "status": "active",
+      "story": "Established in 1914, Specs' Twelve Adler Museum Cafe has been a cornerstone of the South Beach community. Known for community hub, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Live music",
+        "Local musicians"
+      ],
+      "phone": "(415) 550-4312",
+      "email": "info@specstwelveadlermuseumcafe.com",
+      "website": "https://www.specstwelveadlermuseumcafe.com",
+      "address": "3547 Union St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 3.7,
+      "reviews_count": 486,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Live Music",
+        "Pool Table",
+        "Jukebox"
+      ],
+      "social_media": {
+        "instagram": "@specstwelveadlermuseumcafesf",
+        "facebook": "facebook.com/SpecsTwelveAdlerMuseumCafeSF"
+      }
+    },
+    {
+      "id": 21,
+      "name": "Vesuvio Cafe",
+      "tagline": "Cultural landmark that has hosted legendary performers and remains a music destination",
+      "type": "Bar/Nightlife",
+      "neighborhood": "South Beach",
+      "founded": "1965",
+      "status": "active",
+      "story": "Established in 1965, Vesuvio Cafe has been a cornerstone of the Fisherman's Wharf community. Known for local musicians, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic atmosphere",
+        "Live music",
+        "Community hub"
+      ],
+      "phone": "(415) 557-6792",
+      "email": "info@vesuviocafe.com",
+      "website": "https://www.vesuviocafe.com",
+      "address": "2428 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.4,
+      "reviews_count": 181,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Live Music",
+        "Happy Hour",
+        "Craft Beer",
+        "Pool Table"
+      ],
+      "social_media": {
+        "instagram": "@vesuviocafesf",
+        "facebook": "facebook.com/VesuvioCafeSF"
+      }
+    },
+    {
+      "id": 22,
+      "name": "The Saloon",
+      "tagline": "Cultural landmark that has hosted legendary performers and remains a music destination",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Visitacion Valley",
+      "founded": "1941",
+      "status": "active",
+      "story": "Established in 1941, The Saloon has been a cornerstone of the Potrero Hill community. Known for live music, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Community hub",
+        "Local musicians",
+        "Live music"
+      ],
+      "phone": "(415) 520-9559",
+      "email": "info@thesaloon.com",
+      "website": "https://www.thesaloon.com",
+      "address": "1268 Castro St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.4,
+      "reviews_count": 397,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Live Music",
+        "Jukebox",
+        "Craft Beer"
+      ],
+      "social_media": {
+        "instagram": "@thesaloonsf",
+        "facebook": "facebook.com/TheSaloonSF"
+      }
+    },
+    {
+      "id": 23,
+      "name": "The Saloon",
+      "tagline": "Cultural landmark that has hosted legendary performers and remains a music destination",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Potrero Hill",
+      "founded": "1945",
+      "status": "active",
+      "story": "Established in 1945, The Saloon has been a cornerstone of the Lower Haight community. Known for historic atmosphere, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Community hub",
+        "Historic atmosphere",
+        "Local musicians",
+        "Live music"
+      ],
+      "phone": "(415) 378-5910",
+      "email": "info@thesaloon.com",
+      "website": "https://www.thesaloon.com",
+      "address": "881 Union St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.5,
+      "reviews_count": 472,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Pool Table",
+        "Happy Hour",
+        "Craft Beer",
+        "Jukebox"
+      ],
+      "social_media": {
+        "instagram": "@thesaloonsf",
+        "facebook": "facebook.com/TheSaloonSF"
+      }
+    },
+    {
+      "id": 24,
+      "name": "Bimbo's 365 Club",
+      "tagline": "Neighborhood bar with authentic atmosphere and loyal clientele",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Marina District",
+      "founded": "1935",
+      "status": "seasonal",
+      "story": "Established in 1935, Bimbo's 365 Club has been a cornerstone of the Visitacion Valley community. Known for local musicians, this bar/nightlife continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic atmosphere",
+        "Live music",
+        "Local musicians"
+      ],
+      "phone": "(415) 589-7305",
+      "email": "info@bimbos365club.com",
+      "website": "https://www.bimbos365club.com",
+      "address": "1883 Market St",
+      "hours": "Monday-Sunday 8:00 AM - 10:00 PM",
+      "rating": 4.8,
+      "reviews_count": 423,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Pool Table",
+        "Craft Beer",
+        "Happy Hour",
+        "Live Music"
+      ],
+      "social_media": {
+        "instagram": "@bimbos365clubsf",
+        "facebook": "facebook.com/Bimbos365ClubSF"
+      }
+    },
+    {
+      "id": 25,
+      "name": "Unionmade",
+      "tagline": "Independent bookstore championing local authors and community literacy",
+      "type": "Retail",
+      "neighborhood": "Haight-Ashbury",
+      "founded": "1926",
+      "status": "active",
+      "story": "Established in 1926, Unionmade has been a cornerstone of the Potrero Hill community. Known for local artisans, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family business",
+        "Unique inventory",
+        "Local artisans"
+      ],
+      "phone": "(415) 238-5066",
+      "email": "info@unionmade.com",
+      "website": "https://www.unionmade.com",
+      "address": "2694 Divisadero St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.7,
+      "reviews_count": 446,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Layaway",
+        "Personal Shopping",
+        "Online Store"
+      ],
+      "social_media": {
+        "instagram": "@unionmadesf",
+        "facebook": "facebook.com/UnionmadeSF"
+      }
+    },
+    {
+      "id": 26,
+      "name": "Wasteland",
+      "tagline": "Independent bookstore championing local authors and community literacy",
+      "type": "Retail",
+      "neighborhood": "Mission District",
+      "founded": "1971",
+      "status": "active",
+      "story": "Established in 1971, Wasteland has been a cornerstone of the Haight-Ashbury community. Known for personal service, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local artisans",
+        "Family business"
+      ],
+      "phone": "(415) 170-1230",
+      "email": "info@wasteland.com",
+      "website": "https://www.wasteland.com",
+      "address": "3301 Divisadero St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.8,
+      "reviews_count": 128,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Online Store",
+        "Gift Wrapping",
+        "Local Delivery"
+      ],
+      "social_media": {
+        "instagram": "@wastelandsf",
+        "facebook": "facebook.com/WastelandSF"
+      }
+    },
+    {
+      "id": 27,
+      "name": "Mollusk Surf Shop",
+      "tagline": "Family-owned shop offering unique finds and personalized service",
+      "type": "Retail",
+      "neighborhood": "Sunset District",
+      "founded": "1951",
+      "status": "active",
+      "story": "Established in 1951, Mollusk Surf Shop has been a cornerstone of the Pacific Heights community. Known for family business, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Personal service",
+        "Family business",
+        "Local artisans",
+        "Unique inventory"
+      ],
+      "phone": "(415) 918-9500",
+      "email": "info@mollusksurfshop.com",
+      "website": "https://www.mollusksurfshop.com",
+      "address": "3798 Union St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.9,
+      "reviews_count": 99,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Layaway",
+        "Personal Shopping",
+        "Online Store",
+        "Gift Wrapping"
+      ],
+      "social_media": {
+        "instagram": "@mollusksurfshopsf",
+        "facebook": "facebook.com/MolluskSurfShopSF"
+      }
+    },
+    {
+      "id": 28,
+      "name": "City Lights Booksellers",
+      "tagline": "Family-owned shop offering unique finds and personalized service",
+      "type": "Retail",
+      "neighborhood": "Marina District",
+      "founded": "1915",
+      "status": "seasonal",
+      "story": "Established in 1915, City Lights Booksellers has been a cornerstone of the Haight-Ashbury community. Known for unique inventory, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local artisans",
+        "Personal service"
+      ],
+      "phone": "(415) 225-8788",
+      "email": "info@citylightsbooksellers.com",
+      "website": "https://www.citylightsbooksellers.com",
+      "address": "461 Union St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.4,
+      "reviews_count": 476,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Layaway",
+        "Online Store",
+        "Local Delivery",
+        "Personal Shopping"
+      ],
+      "social_media": {
+        "instagram": "@citylightsbooksellerssf",
+        "facebook": "facebook.com/CityLightsBooksellersSF"
+      }
+    },
+    {
+      "id": 29,
+      "name": "Wasteland",
+      "tagline": "Family-owned shop offering unique finds and personalized service",
+      "type": "Retail",
+      "neighborhood": "South Beach",
+      "founded": "1976",
+      "status": "closed",
+      "story": "Established in 1976, Wasteland has been a cornerstone of the The Avenues community. Known for personal service, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local artisans",
+        "Personal service"
+      ],
+      "phone": "(415) 727-7714",
+      "email": "info@wasteland.com",
+      "website": "https://www.wasteland.com",
+      "address": "3664 Mission St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.1,
+      "reviews_count": 489,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Personal Shopping",
+        "Online Store",
+        "Local Delivery"
+      ],
+      "social_media": {
+        "instagram": "@wastelandsf",
+        "facebook": "facebook.com/WastelandSF"
+      }
+    },
+    {
+      "id": 30,
+      "name": "Unionmade",
+      "tagline": "Vintage store curating authentic pieces with historical significance",
+      "type": "Retail",
+      "neighborhood": "South Beach",
+      "founded": "1948",
+      "status": "active",
+      "story": "Established in 1948, Unionmade has been a cornerstone of the Visitacion Valley community. Known for local artisans, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family business",
+        "Local artisans",
+        "Unique inventory"
+      ],
+      "phone": "(415) 268-2186",
+      "email": "info@unionmade.com",
+      "website": "https://www.unionmade.com",
+      "address": "1401 Fillmore St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.7,
+      "reviews_count": 288,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Layaway",
+        "Online Store"
+      ],
+      "social_media": {
+        "instagram": "@unionmadesf",
+        "facebook": "facebook.com/UnionmadeSF"
+      }
+    },
+    {
+      "id": 31,
+      "name": "Buffalo Exchange",
+      "tagline": "Vintage store curating authentic pieces with historical significance",
+      "type": "Retail",
+      "neighborhood": "Western Addition",
+      "founded": "1960",
+      "status": "active",
+      "story": "Established in 1960, Buffalo Exchange has been a cornerstone of the North Beach community. Known for personal service, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Personal service",
+        "Local artisans",
+        "Unique inventory"
+      ],
+      "phone": "(415) 239-5745",
+      "email": "info@buffaloexchange.com",
+      "website": "https://www.buffaloexchange.com",
+      "address": "1843 Union St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.3,
+      "reviews_count": 54,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Layaway",
+        "Local Delivery",
+        "Online Store"
+      ],
+      "social_media": {
+        "instagram": "@buffaloexchangesf",
+        "facebook": "facebook.com/BuffaloExchangeSF"
+      }
+    },
+    {
+      "id": 32,
+      "name": "Wasteland",
+      "tagline": "Vintage store curating authentic pieces with historical significance",
+      "type": "Retail",
+      "neighborhood": "Russian Hill",
+      "founded": "1955",
+      "status": "seasonal",
+      "story": "Established in 1955, Wasteland has been a cornerstone of the Potrero Hill community. Known for family business, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family business",
+        "Personal service",
+        "Unique inventory",
+        "Local artisans"
+      ],
+      "phone": "(415) 768-9426",
+      "email": "info@wasteland.com",
+      "website": "https://www.wasteland.com",
+      "address": "214 Hayes St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.5,
+      "reviews_count": 96,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Layaway",
+        "Personal Shopping"
+      ],
+      "social_media": {
+        "instagram": "@wastelandsf",
+        "facebook": "facebook.com/WastelandSF"
+      }
+    },
+    {
+      "id": 33,
+      "name": "Mollusk Surf Shop",
+      "tagline": "Family-owned shop offering unique finds and personalized service",
+      "type": "Retail",
+      "neighborhood": "Potrero Hill",
+      "founded": "1942",
+      "status": "active",
+      "story": "Established in 1942, Mollusk Surf Shop has been a cornerstone of the Noe Valley community. Known for personal service, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Unique inventory",
+        "Local artisans",
+        "Family business",
+        "Personal service"
+      ],
+      "phone": "(415) 773-8438",
+      "email": "info@mollusksurfshop.com",
+      "website": "https://www.mollusksurfshop.com",
+      "address": "2126 Market St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.2,
+      "reviews_count": 245,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Personal Shopping",
+        "Local Delivery",
+        "Layaway"
+      ],
+      "social_media": {
+        "instagram": "@mollusksurfshopsf",
+        "facebook": "facebook.com/MolluskSurfShopSF"
+      }
+    },
+    {
+      "id": 34,
+      "name": "Amoeba Music",
+      "tagline": "Specialty retailer supporting local artisans and sustainable practices",
+      "type": "Retail",
+      "neighborhood": "Financial District",
+      "founded": "1950",
+      "status": "active",
+      "story": "Established in 1950, Amoeba Music has been a cornerstone of the Mission District community. Known for family business, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Unique inventory",
+        "Family business"
+      ],
+      "phone": "(415) 772-3699",
+      "email": "info@amoebamusic.com",
+      "website": "https://www.amoebamusic.com",
+      "address": "1308 Mission St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.4,
+      "reviews_count": 328,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Online Store",
+        "Personal Shopping",
+        "Gift Wrapping"
+      ],
+      "social_media": {
+        "instagram": "@amoebamusicsf",
+        "facebook": "facebook.com/AmoebaMusicSF"
+      }
+    },
+    {
+      "id": 35,
+      "name": "Cliff's Variety",
+      "tagline": "Independent bookstore championing local authors and community literacy",
+      "type": "Retail",
+      "neighborhood": "Lower Haight",
+      "founded": "1954",
+      "status": "active",
+      "story": "Established in 1954, Cliff's Variety has been a cornerstone of the Mission District community. Known for unique inventory, this retail continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family business",
+        "Personal service",
+        "Local artisans"
+      ],
+      "phone": "(415) 432-9061",
+      "email": "info@cliffsvariety.com",
+      "website": "https://www.cliffsvariety.com",
+      "address": "2901 Union St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.8,
+      "reviews_count": 431,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Online Store",
+        "Layaway",
+        "Local Delivery",
+        "Personal Shopping"
+      ],
+      "social_media": {
+        "instagram": "@cliffsvarietysf",
+        "facebook": "facebook.com/CliffsVarietySF"
+      }
+    },
+    {
+      "id": 36,
+      "name": "Discount Fabrics",
+      "tagline": "Traditional barbershop providing classic cuts and old-school service",
+      "type": "Services",
+      "neighborhood": "Van Ness Corridor",
+      "founded": "1950",
+      "status": "active",
+      "story": "Established in 1950, Discount Fabrics has been a cornerstone of the Fisherman's Wharf community. Known for multi-generational, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Neighborhood staple",
+        "Traditional techniques",
+        "Multi-generational"
+      ],
+      "phone": "(415) 463-2539",
+      "email": "info@discountfabrics.com",
+      "website": "https://www.discountfabrics.com",
+      "address": "1655 Castro St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.7,
+      "reviews_count": 111,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Senior Discounts",
+        "Parking Available",
+        "Appointments"
+      ],
+      "social_media": {
+        "instagram": "@discountfabricssf",
+        "facebook": "facebook.com/DiscountFabricsSF"
+      }
+    },
+    {
+      "id": 37,
+      "name": "Park Presidio Barber Shop",
+      "tagline": "Neighborhood staple known for quality work and personal attention",
+      "type": "Services",
+      "neighborhood": "Noe Valley",
+      "founded": "1958",
+      "status": "active",
+      "story": "Established in 1958, Park Presidio Barber Shop has been a cornerstone of the Nob Hill community. Known for multi-generational, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Multi-generational",
+        "Traditional techniques"
+      ],
+      "phone": "(415) 604-6051",
+      "email": "info@parkpresidiobarbershop.com",
+      "website": "https://www.parkpresidiobarbershop.com",
+      "address": "1096 Castro St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.2,
+      "reviews_count": 365,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Appointments",
+        "Walk-ins Welcome",
+        "Senior Discounts",
+        "Parking Available"
+      ],
+      "social_media": {
+        "instagram": "@parkpresidiobarbershopsf",
+        "facebook": "facebook.com/ParkPresidioBarberShopSF"
+      }
+    },
+    {
+      "id": 38,
+      "name": "Mission Dry Cleaning",
+      "tagline": "Multi-generational business maintaining time-honored craftsmanship",
+      "type": "Services",
+      "neighborhood": "Russian Hill",
+      "founded": "1941",
+      "status": "active",
+      "story": "Established in 1941, Mission Dry Cleaning has been a cornerstone of the Union Square community. Known for neighborhood staple, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Traditional techniques",
+        "Multi-generational",
+        "Neighborhood staple"
+      ],
+      "phone": "(415) 458-3264",
+      "email": "info@missiondrycleaning.com",
+      "website": "https://www.missiondrycleaning.com",
+      "address": "859 Mission St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.6,
+      "reviews_count": 181,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Appointments",
+        "Parking Available"
+      ],
+      "social_media": {
+        "instagram": "@missiondrycleaningsf",
+        "facebook": "facebook.com/MissionDryCleaningSF"
+      }
+    },
+    {
+      "id": 39,
+      "name": "Figaro Hair Salon",
+      "tagline": "Neighborhood staple known for quality work and personal attention",
+      "type": "Services",
+      "neighborhood": "Japantown",
+      "founded": "1915",
+      "status": "active",
+      "story": "Established in 1915, Figaro Hair Salon has been a cornerstone of the Haight-Ashbury community. Known for traditional techniques, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Neighborhood staple",
+        "Traditional techniques"
+      ],
+      "phone": "(415) 148-6743",
+      "email": "info@figarohairsalon.com",
+      "website": "https://www.figarohairsalon.com",
+      "address": "3327 Valencia St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.7,
+      "reviews_count": 272,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Appointments",
+        "Walk-ins Welcome",
+        "Parking Available",
+        "Senior Discounts"
+      ],
+      "social_media": {
+        "instagram": "@figarohairsalonsf",
+        "facebook": "facebook.com/FigaroHairSalonSF"
+      }
+    },
+    {
+      "id": 40,
+      "name": "Cable Car Clothiers",
+      "tagline": "Traditional barbershop providing classic cuts and old-school service",
+      "type": "Services",
+      "neighborhood": "Upper Market",
+      "founded": "1917",
+      "status": "active",
+      "story": "Established in 1917, Cable Car Clothiers has been a cornerstone of the SOMA community. Known for neighborhood staple, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Traditional techniques",
+        "Multi-generational",
+        "Neighborhood staple"
+      ],
+      "phone": "(415) 313-4045",
+      "email": "info@cablecarclothiers.com",
+      "website": "https://www.cablecarclothiers.com",
+      "address": "2293 Divisadero St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.1,
+      "reviews_count": 427,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Senior Discounts",
+        "Parking Available",
+        "Appointments",
+        "Walk-ins Welcome"
+      ],
+      "social_media": {
+        "instagram": "@cablecarclothierssf",
+        "facebook": "facebook.com/CableCarClothiersSF"
+      }
+    },
+    {
+      "id": 41,
+      "name": "Mission Dry Cleaning",
+      "tagline": "Traditional barbershop providing classic cuts and old-school service",
+      "type": "Services",
+      "neighborhood": "Financial District",
+      "founded": "1948",
+      "status": "active",
+      "story": "Established in 1948, Mission Dry Cleaning has been a cornerstone of the Sunset District community. Known for multi-generational, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Multi-generational",
+        "Traditional techniques",
+        "Neighborhood staple"
+      ],
+      "phone": "(415) 918-6118",
+      "email": "info@missiondrycleaning.com",
+      "website": "https://www.missiondrycleaning.com",
+      "address": "1244 Market St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.5,
+      "reviews_count": 101,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Parking Available",
+        "Senior Discounts"
+      ],
+      "social_media": {
+        "instagram": "@missiondrycleaningsf",
+        "facebook": "facebook.com/MissionDryCleaningSF"
+      }
+    },
+    {
+      "id": 42,
+      "name": "Cable Car Clothiers",
+      "tagline": "Neighborhood staple known for quality work and personal attention",
+      "type": "Services",
+      "neighborhood": "North Beach",
+      "founded": "1926",
+      "status": "active",
+      "story": "Established in 1926, Cable Car Clothiers has been a cornerstone of the Financial District community. Known for multi-generational, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Multi-generational",
+        "Neighborhood staple",
+        "Traditional techniques"
+      ],
+      "phone": "(415) 615-6310",
+      "email": "info@cablecarclothiers.com",
+      "website": "https://www.cablecarclothiers.com",
+      "address": "3643 Castro St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.8,
+      "reviews_count": 304,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Parking Available",
+        "Appointments"
+      ],
+      "social_media": {
+        "instagram": "@cablecarclothierssf",
+        "facebook": "facebook.com/CableCarClothiersSF"
+      }
+    },
+    {
+      "id": 43,
+      "name": "Mission Dry Cleaning",
+      "tagline": "Traditional barbershop providing classic cuts and old-school service",
+      "type": "Services",
+      "neighborhood": "Union Square",
+      "founded": "1942",
+      "status": "active",
+      "story": "Established in 1942, Mission Dry Cleaning has been a cornerstone of the Tenderloin community. Known for neighborhood staple, this services continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Traditional techniques",
+        "Neighborhood staple",
+        "Multi-generational"
+      ],
+      "phone": "(415) 278-4707",
+      "email": "info@missiondrycleaning.com",
+      "website": "https://www.missiondrycleaning.com",
+      "address": "2309 Valencia St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.0,
+      "reviews_count": 405,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Walk-ins Welcome",
+        "Parking Available"
+      ],
+      "social_media": {
+        "instagram": "@missiondrycleaningsf",
+        "facebook": "facebook.com/MissionDryCleaningSF"
+      }
+    },
+    {
+      "id": 44,
+      "name": "Tartine Bakery",
+      "tagline": "Local roastery committed to ethical sourcing and community support",
+      "type": "Food & Beverage",
+      "neighborhood": "SOMA",
+      "founded": "1955",
+      "status": "active",
+      "story": "Established in 1955, Tartine Bakery has been a cornerstone of the Valencia Corridor community. Known for traditional methods, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local suppliers",
+        "Family recipes"
+      ],
+      "phone": "(415) 964-9388",
+      "email": "info@tartinebakery.com",
+      "website": "https://www.tartinebakery.com",
+      "address": "3871 Castro St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 5.0,
+      "reviews_count": 201,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Local Ingredients",
+        "Catering",
+        "Samples",
+        "Custom Orders"
+      ],
+      "social_media": {
+        "instagram": "@tartinebakerysf",
+        "facebook": "facebook.com/TartineBakerySF"
+      }
+    },
+    {
+      "id": 45,
+      "name": "Tartine Bakery",
+      "tagline": "Historic deli known for quality products and authentic flavors",
+      "type": "Food & Beverage",
+      "neighborhood": "Van Ness Corridor",
+      "founded": "1906",
+      "status": "active",
+      "story": "Established in 1906, Tartine Bakery has been a cornerstone of the Van Ness Corridor community. Known for fresh daily, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Traditional methods",
+        "Family recipes"
+      ],
+      "phone": "(415) 196-9315",
+      "email": "info@tartinebakery.com",
+      "website": "https://www.tartinebakery.com",
+      "address": "3145 Polk St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 5.0,
+      "reviews_count": 424,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Custom Orders",
+        "Local Ingredients",
+        "Catering"
+      ],
+      "social_media": {
+        "instagram": "@tartinebakerysf",
+        "facebook": "facebook.com/TartineBakerySF"
+      }
+    },
+    {
+      "id": 46,
+      "name": "Liguria Bakery",
+      "tagline": "Historic deli known for quality products and authentic flavors",
+      "type": "Food & Beverage",
+      "neighborhood": "Parkside",
+      "founded": "1904",
+      "status": "active",
+      "story": "Established in 1904, Liguria Bakery has been a cornerstone of the Potrero Hill community. Known for local suppliers, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Fresh daily",
+        "Traditional methods",
+        "Local suppliers",
+        "Family recipes"
+      ],
+      "phone": "(415) 252-3597",
+      "email": "info@liguriabakery.com",
+      "website": "https://www.liguriabakery.com",
+      "address": "1122 Mission St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.4,
+      "reviews_count": 68,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Local Ingredients",
+        "Custom Orders",
+        "Catering",
+        "Samples"
+      ],
+      "social_media": {
+        "instagram": "@liguriabakerysf",
+        "facebook": "facebook.com/LiguriaBakerySF"
+      }
+    },
+    {
+      "id": 47,
+      "name": "Bi-Rite Market",
+      "tagline": "Historic deli known for quality products and authentic flavors",
+      "type": "Food & Beverage",
+      "neighborhood": "Pacific Heights",
+      "founded": "1919",
+      "status": "closed",
+      "story": "Established in 1919, Bi-Rite Market has been a cornerstone of the Sunset District community. Known for fresh daily, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Fresh daily",
+        "Family recipes"
+      ],
+      "phone": "(415) 858-1190",
+      "email": "info@bi-ritemarket.com",
+      "website": "https://www.bi-ritemarket.com",
+      "address": "3387 Castro St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.5,
+      "reviews_count": 277,
+      "price_range": "$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Samples",
+        "Custom Orders"
+      ],
+      "social_media": {
+        "instagram": "@bi-ritemarketsf",
+        "facebook": "facebook.com/Bi-RiteMarketSF"
+      }
+    },
+    {
+      "id": 48,
+      "name": "Boudin Bakery",
+      "tagline": "Local roastery committed to ethical sourcing and community support",
+      "type": "Food & Beverage",
+      "neighborhood": "Lower Haight",
+      "founded": "1954",
+      "status": "active",
+      "story": "Established in 1954, Boudin Bakery has been a cornerstone of the Hayes Valley community. Known for family recipes, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local suppliers",
+        "Family recipes",
+        "Traditional methods",
+        "Fresh daily"
+      ],
+      "phone": "(415) 454-2795",
+      "email": "info@boudinbakery.com",
+      "website": "https://www.boudinbakery.com",
+      "address": "2008 Mission St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.5,
+      "reviews_count": 331,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Samples",
+        "Local Ingredients",
+        "Fresh Daily"
+      ],
+      "social_media": {
+        "instagram": "@boudinbakerysf",
+        "facebook": "facebook.com/BoudinBakerySF"
+      }
+    },
+    {
+      "id": 49,
+      "name": "Lucca Ravioli Company",
+      "tagline": "Local roastery committed to ethical sourcing and community support",
+      "type": "Food & Beverage",
+      "neighborhood": "Mission District",
+      "founded": "1941",
+      "status": "active",
+      "story": "Established in 1941, Lucca Ravioli Company has been a cornerstone of the Fisherman's Wharf community. Known for traditional methods, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Family recipes",
+        "Local suppliers",
+        "Fresh daily"
+      ],
+      "phone": "(415) 368-4286",
+      "email": "info@luccaraviolicompany.com",
+      "website": "https://www.luccaraviolicompany.com",
+      "address": "2199 Divisadero St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.1,
+      "reviews_count": 431,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Catering",
+        "Fresh Daily",
+        "Local Ingredients"
+      ],
+      "social_media": {
+        "instagram": "@luccaraviolicompanysf",
+        "facebook": "facebook.com/LuccaRavioliCompanySF"
+      }
+    },
+    {
+      "id": 50,
+      "name": "Philz Coffee",
+      "tagline": "Artisan bakery using traditional methods and locally-sourced ingredients",
+      "type": "Food & Beverage",
+      "neighborhood": "Inner Richmond",
+      "founded": "1923",
+      "status": "closed",
+      "story": "Established in 1923, Philz Coffee has been a cornerstone of the Parkside community. Known for traditional methods, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Traditional methods",
+        "Family recipes",
+        "Local suppliers"
+      ],
+      "phone": "(415) 898-5270",
+      "email": "info@philzcoffee.com",
+      "website": "https://www.philzcoffee.com",
+      "address": "3617 Mission St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.0,
+      "reviews_count": 477,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Catering",
+        "Local Ingredients"
+      ],
+      "social_media": {
+        "instagram": "@philzcoffeesf",
+        "facebook": "facebook.com/PhilzCoffeeSF"
+      }
+    },
+    {
+      "id": 51,
+      "name": "Bi-Rite Market",
+      "tagline": "Local roastery committed to ethical sourcing and community support",
+      "type": "Food & Beverage",
+      "neighborhood": "Parkside",
+      "founded": "1957",
+      "status": "seasonal",
+      "story": "Established in 1957, Bi-Rite Market has been a cornerstone of the Visitacion Valley community. Known for local suppliers, this food & beverage continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Fresh daily",
+        "Local suppliers"
+      ],
+      "phone": "(415) 843-2420",
+      "email": "info@bi-ritemarket.com",
+      "website": "https://www.bi-ritemarket.com",
+      "address": "3409 Market St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.4,
+      "reviews_count": 474,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Custom Orders",
+        "Fresh Daily",
+        "Samples",
+        "Catering"
+      ],
+      "social_media": {
+        "instagram": "@bi-ritemarketsf",
+        "facebook": "facebook.com/Bi-RiteMarketSF"
+      }
+    },
+    {
+      "id": 52,
+      "name": "The Warfield",
+      "tagline": "Landmark theater preserving the magic of live performance",
+      "type": "Arts & Entertainment",
+      "neighborhood": "South Beach",
+      "founded": "1945",
+      "status": "active",
+      "story": "Established in 1945, The Warfield has been a cornerstone of the Fisherman's Wharf community. Known for cultural landmark, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic venue",
+        "Community programs"
+      ],
+      "phone": "(415) 201-9660",
+      "email": "info@thewarfield.com",
+      "website": "https://www.thewarfield.com",
+      "address": "3300 Hayes St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.3,
+      "reviews_count": 151,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Group Discounts",
+        "All Ages"
+      ],
+      "social_media": {
+        "instagram": "@thewarfieldsf",
+        "facebook": "facebook.com/TheWarfieldSF"
+      }
+    },
+    {
+      "id": 53,
+      "name": "Gallery 16",
+      "tagline": "Historic venue that has been showcasing talent for generations",
+      "type": "Arts & Entertainment",
+      "neighborhood": "North Beach",
+      "founded": "1945",
+      "status": "active",
+      "story": "Established in 1945, Gallery 16 has been a cornerstone of the Upper Market community. Known for cultural landmark, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local artists",
+        "Community programs",
+        "Historic venue",
+        "Cultural landmark"
+      ],
+      "phone": "(415) 311-7454",
+      "email": "info@gallery16.com",
+      "website": "https://www.gallery16.com",
+      "address": "3352 Polk St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.6,
+      "reviews_count": 65,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "All Ages",
+        "Group Discounts",
+        "Tickets Online"
+      ],
+      "social_media": {
+        "instagram": "@gallery16sf",
+        "facebook": "facebook.com/Gallery16SF"
+      }
+    },
+    {
+      "id": 54,
+      "name": "Southern Exposure",
+      "tagline": "Historic venue that has been showcasing talent for generations",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Sunset District",
+      "founded": "1914",
+      "status": "active",
+      "story": "Established in 1914, Southern Exposure has been a cornerstone of the Hayes Valley community. Known for cultural landmark, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Cultural landmark",
+        "Community programs",
+        "Historic venue"
+      ],
+      "phone": "(415) 899-5473",
+      "email": "info@southernexposure.com",
+      "website": "https://www.southernexposure.com",
+      "address": "2917 Valencia St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.3,
+      "reviews_count": 249,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Tickets Online",
+        "Group Discounts",
+        "Season Passes"
+      ],
+      "social_media": {
+        "instagram": "@southernexposuresf",
+        "facebook": "facebook.com/SouthernExposureSF"
+      }
+    },
+    {
+      "id": 55,
+      "name": "The Castro Theatre",
+      "tagline": "Historic venue that has been showcasing talent for generations",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Pacific Heights",
+      "founded": "1942",
+      "status": "active",
+      "story": "Established in 1942, The Castro Theatre has been a cornerstone of the Noe Valley community. Known for local artists, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic venue",
+        "Local artists",
+        "Community programs",
+        "Cultural landmark"
+      ],
+      "phone": "(415) 452-3737",
+      "email": "info@thecastrotheatre.com",
+      "website": "https://www.thecastrotheatre.com",
+      "address": "3639 Polk St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.0,
+      "reviews_count": 466,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Group Discounts",
+        "Tickets Online"
+      ],
+      "social_media": {
+        "instagram": "@thecastrotheatresf",
+        "facebook": "facebook.com/TheCastroTheatreSF"
+      }
+    },
+    {
+      "id": 56,
+      "name": "Southern Exposure",
+      "tagline": "Artist collective fostering creativity and cultural exchange",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Russian Hill",
+      "founded": "1915",
+      "status": "seasonal",
+      "story": "Established in 1915, Southern Exposure has been a cornerstone of the Tenderloin community. Known for historic venue, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Cultural landmark",
+        "Local artists"
+      ],
+      "phone": "(415) 607-2773",
+      "email": "info@southernexposure.com",
+      "website": "https://www.southernexposure.com",
+      "address": "2481 Market St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.6,
+      "reviews_count": 285,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Workshops",
+        "Tickets Online",
+        "Group Discounts",
+        "Season Passes"
+      ],
+      "social_media": {
+        "instagram": "@southernexposuresf",
+        "facebook": "facebook.com/SouthernExposureSF"
+      }
+    },
+    {
+      "id": 57,
+      "name": "Intersection for the Arts",
+      "tagline": "Community arts space supporting local creators and cultural programs",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Union Square",
+      "founded": "1929",
+      "status": "active",
+      "story": "Established in 1929, Intersection for the Arts has been a cornerstone of the Sunset District community. Known for local artists, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic venue",
+        "Community programs",
+        "Cultural landmark"
+      ],
+      "phone": "(415) 112-7746",
+      "email": "info@intersectionforthearts.com",
+      "website": "https://www.intersectionforthearts.com",
+      "address": "339 Divisadero St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.8,
+      "reviews_count": 82,
+      "price_range": "$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Workshops",
+        "Tickets Online",
+        "Season Passes"
+      ],
+      "social_media": {
+        "instagram": "@intersectionfortheartssf",
+        "facebook": "facebook.com/IntersectionfortheArtsSF"
+      }
+    },
+    {
+      "id": 58,
+      "name": "The Warfield",
+      "tagline": "Historic venue that has been showcasing talent for generations",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Valencia Corridor",
+      "founded": "1934",
+      "status": "active",
+      "story": "Established in 1934, The Warfield has been a cornerstone of the Hayes Valley community. Known for local artists, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Historic venue",
+        "Cultural landmark",
+        "Community programs",
+        "Local artists"
+      ],
+      "phone": "(415) 181-3383",
+      "email": "info@thewarfield.com",
+      "website": "https://www.thewarfield.com",
+      "address": "2329 Hayes St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.6,
+      "reviews_count": 368,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Group Discounts",
+        "Tickets Online",
+        "Workshops",
+        "Season Passes"
+      ],
+      "social_media": {
+        "instagram": "@thewarfieldsf",
+        "facebook": "facebook.com/TheWarfieldSF"
+      }
+    },
+    {
+      "id": 59,
+      "name": "The Castro Theatre",
+      "tagline": "Historic venue that has been showcasing talent for generations",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Sunset District",
+      "founded": "1912",
+      "status": "active",
+      "story": "Established in 1912, The Castro Theatre has been a cornerstone of the Potrero Hill community. Known for local artists, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local artists",
+        "Historic venue",
+        "Community programs",
+        "Cultural landmark"
+      ],
+      "phone": "(415) 439-3892",
+      "email": "info@thecastrotheatre.com",
+      "website": "https://www.thecastrotheatre.com",
+      "address": "1445 Divisadero St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 4.3,
+      "reviews_count": 98,
+      "price_range": "$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Season Passes",
+        "Tickets Online",
+        "Workshops",
+        "All Ages"
+      ],
+      "social_media": {
+        "instagram": "@thecastrotheatresf",
+        "facebook": "facebook.com/TheCastroTheatreSF"
+      }
+    },
+    {
+      "id": 60,
+      "name": "The Independent",
+      "tagline": "Community arts space supporting local creators and cultural programs",
+      "type": "Arts & Entertainment",
+      "neighborhood": "Japantown",
+      "founded": "1972",
+      "status": "closed",
+      "story": "Established in 1972, The Independent has been a cornerstone of the Western Addition community. Known for community programs, this arts & entertainment continues to serve locals and visitors alike with the same dedication to quality that has defined it for generations.",
+      "features": [
+        "Local artists",
+        "Community programs",
+        "Cultural landmark"
+      ],
+      "phone": "(415) 426-8442",
+      "email": "info@theindependent.com",
+      "website": "https://www.theindependent.com",
+      "address": "1651 Hayes St",
+      "hours": "Monday-Saturday 9:00 AM - 6:00 PM",
+      "rating": 3.6,
+      "reviews_count": 316,
+      "price_range": "$$$$",
+      "amenities": [
+        "WiFi",
+        "Credit Cards Accepted",
+        "Accessible",
+        "Tickets Online",
+        "Group Discounts",
+        "Workshops"
+      ],
+      "social_media": {
+        "instagram": "@theindependentsf",
+        "facebook": "facebook.com/TheIndependentSF"
+      }
+    }
+  ]
+}

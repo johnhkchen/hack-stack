@@ -21,6 +21,16 @@ vendors = [
     "weaviate-client>=4.4.0",
 ]
 
+# LlamaIndex multi-modal processing
+llamaindex = [
+    "llama-index>=0.10.0",
+    "llama-index-llms-openai>=0.1.0",
+    "llama-index-embeddings-openai>=0.1.0",
+    "llama-parse>=0.4.0",
+    "pymupdf>=1.24.0",
+    "pillow>=10.0.0",
+]
+
 [tool.uv]
 dev-dependencies = [
     "pytest>=7.4.0",

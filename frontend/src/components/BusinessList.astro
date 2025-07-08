@@ -1,4 +1,15 @@
 ---
+import BusinessCard from './BusinessCard.astro';
+import NeighborhoodGrouping from './NeighborhoodGrouping.astro';
+
+export interface Props {
+  enableNeighborhoodGrouping?: boolean;
+  enableFiltering?: boolean;
+  limit?: number;
+}
+
+const { enableNeighborhoodGrouping = true, enableFiltering = true, limit = 10 } = Astro.props;
+
 // Fetch business data during SSR
 let businesses = [];
 let error = null;
@@ -6,7 +17,7 @@ let debugInfo = null;
 
 // Determine the correct API base URL based on environment
 const apiBaseUrl = import.meta.env.SSR ? 'http://backend:8000' : '';
-const apiUrl = `${apiBaseUrl}/api/businesses?limit=5`;
+const apiUrl = `${apiBaseUrl}/api/businesses?limit=${limit}`;
 
 try {
   console.log(`Attempting to fetch from: ${apiUrl}`);
@@ -61,106 +72,29 @@ try {
     <div class="empty-state">
       <p>No businesses found.</p>
     </div>
+  ) : enableNeighborhoodGrouping ? (
+    <NeighborhoodGrouping 
+      businesses={businesses} 
+      groupByNeighborhood={true}
+      enableFiltering={enableFiltering}
+    />
   ) : (
-    <div class="business-grid">
-      {businesses.map(business => (
-        <article class="business-card">
-          <header>
-            <h3>{business.name}</h3>
-            <p class="tagline">{business.tagline}</p>
-          </header>
-          <div class="business-details">
-            <p><strong>Type:</strong> {business.type}</p>
-            <p><strong>Neighborhood:</strong> {business.neighborhood}</p>
-            <p><strong>Founded:</strong> {business.founded}</p>
-            <p><strong>Status:</strong> {business.status}</p>
-          </div>
-          {business.story && (
-            <footer>
-              <p class="description">{business.story}</p>
-            </footer>
-          )}
-          {business.features && business.features.length > 0 && (
-            <div class="features">
-              <strong>Features:</strong>
-              <ul>
-                {business.features.map(feature => (
-                  <li>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </article>
+    <div class="business-list-simple">
+      {businesses.map((business, index) => (
+        <BusinessCard 
+          business={business}
+        />
       ))}
     </div>
   )}
 </div>
 
 <style>
-  .business-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-  }
-
-  .business-card {
-    border: 1px solid var(--pico-border-color);
-    border-radius: var(--pico-border-radius);
-    padding: 1.5rem;
-    background: var(--pico-card-background-color);
-  }
-
-  .business-card h3 {
-    margin: 0 0 0.5rem 0;
-    color: var(--pico-primary);
-  }
-
-  .tagline {
-    color: var(--pico-muted-color);
-    font-style: italic;
-    margin: 0 0 1rem 0;
-  }
-
-  .business-details {
-    margin: 1rem 0;
-  }
-
-  .business-details p {
-    margin: 0.25rem 0;
-    font-size: 0.9rem;
-  }
-
-  .description {
-    font-size: 0.9rem;
-    color: var(--pico-muted-color);
-    margin: 0;
-  }
-
-  .features {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--pico-border-color);
-  }
-
-  .features ul {
-    margin: 0.5rem 0 0 0;
-    padding-left: 1.5rem;
-  }
-
-  .features li {
-    font-size: 0.875rem;
-    color: var(--pico-muted-color);
-    margin-bottom: 0.25rem;
-  }
-
-  .error-state, .empty-state {
-    text-align: center;
-    padding: 2rem;
-    color: var(--pico-muted-color);
-  }
-
-  .error-state {
-    color: var(--pico-del-color);
+  .business-list-simple {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pico-spacing);
   }
 </style>
+
+

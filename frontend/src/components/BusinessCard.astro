@@ -1,0 +1,857 @@
+---
+import Card from './Card.astro';
+
+export interface Props {
+  business: {
+    id?: number;
+    name: string;
+    tagline?: string;
+    type: string;
+    neighborhood: string;
+    established: number;
+    founded?: string;
+    status: string;
+    heritage_score?: number;
+    // Rich narrative fields for RAG
+    founding_story?: string;
+    cultural_impact?: string;
+    unique_features?: string;
+    // Legacy field for compatibility
+    story?: string;
+    // Structured search fields
+    notable_features?: string[];
+    keywords?: string[];
+    features?: string[];
+    // Contact and metadata
+    phone?: string;
+    email?: string;
+    website?: string;
+    address?: string;
+    hours?: string;
+    rating?: number;
+    reviews_count?: number;
+    price_range?: string;
+    amenities?: string[];
+    social_media?: Record<string, string>;
+  };
+  class?: string;
+  expandable?: boolean;
+}
+
+const { business, class: className, expandable = true } = Astro.props;
+
+// Generate unique IDs for modal functionality
+const modalId = `business-modal-${business.id || business.name.toLowerCase().replace(/\s+/g, '-')}`;
+const cardId = `business-card-${business.id || business.name.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<Card class={`business-card ${className || ''}`} id={cardId}>
+  <!-- Progressive Disclosure: Summary View -->
+  <div class="business-summary">
+    <header>
+      <hgroup>
+        <h3>{business.name}</h3>
+        <p>{business.tagline || `Established ${business.founded || business.established}`}</p>
+      </hgroup>
+      <div class="business-meta">
+        <span class="neighborhood-tag">{business.neighborhood}</span>
+        <span class="type-tag">{business.type}</span>
+      </div>
+    </header>
+    
+    <div class="business-preview">
+      <div class="preview-info">
+        <p class="status-info">
+          <span class="status-indicator">
+            <ins>{business.status}</ins>
+          </span>
+          <small>Founded {business.founded || business.established}</small>
+        </p>
+        {business.rating && (
+          <p class="rating-preview">
+            <span class="rating-stars">{'★'.repeat(Math.floor(business.rating))}{'☆'.repeat(5 - Math.floor(business.rating))}</span>
+            <small>({business.reviews_count || 0} reviews)</small>
+          </p>
+        )}
+      </div>
+      
+      {expandable && (
+        <div class="action-buttons">
+          <button 
+            class="expand-btn secondary"
+            onclick={`document.getElementById('${cardId}').classList.toggle('expanded')`}
+          >
+            <span class="expand-text">View Details</span>
+            <span class="collapse-text">Show Less</span>
+          </button>
+          <button 
+            class="modal-btn primary"
+            onclick={`document.getElementById('${modalId}').showModal()`}
+          >
+            Full Info
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+  
+  <!-- Progressive Disclosure: Expanded View -->
+  {expandable && (
+    <div class="business-details">
+      <div class="business-details-content">
+        
+        <div class="business-info">
+          <h4>Cultural Impact</h4>
+          
+          {business.founding_story && (
+            <div class="narrative-section">
+              <h5>Origin Story</h5>
+              <blockquote>{business.founding_story}</blockquote>
+            </div>
+          )}
+          
+          {business.cultural_impact && (
+            <div class="narrative-section">
+              <h5>Cultural Significance</h5>
+              <blockquote>{business.cultural_impact}</blockquote>
+            </div>
+          )}
+          
+          {business.unique_features && (
+            <div class="narrative-section">
+              <h5>What Makes It Special</h5>
+              <blockquote>{business.unique_features}</blockquote>
+            </div>
+          )}
+          
+          {/* Fallback to story if no rich narratives */}
+          {!business.founding_story && business.story && (
+            <div class="narrative-section">
+              <h5>About</h5>
+              <blockquote>{business.story}</blockquote>
+            </div>
+          )}
+          
+          {business.notable_features && business.notable_features.length > 0 && (
+            <div class="features-list">
+              <strong>Notable Features:</strong>
+              <ul>
+                {business.notable_features.slice(0, 5).map(feature => (
+                  <li>{feature}</li>
+                ))}
+                {business.notable_features.length > 5 && (
+                  <li><small>+{business.notable_features.length - 5} more</small></li>
+                )}
+              </ul>
+            </div>
+          )}
+          
+          {business.keywords && business.keywords.length > 0 && (
+            <div class="keywords-section">
+              <strong>Keywords:</strong>
+              <div class="keywords-tags">
+                {business.keywords.slice(0, 6).map(keyword => (
+                  <span class="keyword-tag">{keyword}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {(business.phone || business.email || business.website || business.address || business.hours) && (
+          <div class="contact-info">
+            <h4>Contact</h4>
+            {business.phone && <p><strong>Phone:</strong> <a href={`tel:${business.phone}`}>{business.phone}</a></p>}
+            {business.email && <p><strong>Email:</strong> <a href={`mailto:${business.email}`}>{business.email}</a></p>}
+            {business.website && <p><strong>Website:</strong> <a href={business.website} target="_blank">{business.website}</a></p>}
+            {business.address && <p><strong>Address:</strong> {business.address}</p>}
+            {business.hours && <p><strong>Hours:</strong> <small>{business.hours}</small></p>}
+          </div>
+        )}
+      </div>
+      
+      {business.amenities && business.amenities.length > 0 && (
+        <div class="amenities-section">
+          <h4>Amenities</h4>
+          <div class="amenities-grid">
+            {business.amenities.slice(0, 6).map(amenity => (
+              <span class="amenity-tag">{amenity}</span>
+            ))}
+            {business.amenities.length > 6 && (
+              <span class="amenity-tag more">+{business.amenities.length - 6} more</span>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+</Card>
+
+<!-- Modal Overlay for Full Information -->
+{expandable && (
+  <dialog id={modalId} class="business-modal">
+    <article>
+      <header>
+        <hgroup>
+          <h2>{business.name}</h2>
+          <p>{business.tagline || `Established ${business.founded || business.established}`}</p>
+        </hgroup>
+        <button 
+          class="close-btn secondary"
+          onclick={`document.getElementById('${modalId}').close()`}
+          aria-label="Close"
+        >
+          ×
+        </button>
+      </header>
+      
+      <div class="modal-content">
+        <div class="modal-grid">
+          <div class="modal-primary">
+            <div class="business-header">
+              <div class="business-tags">
+                <span class="neighborhood-tag">{business.neighborhood}</span>
+                <span class="type-tag">{business.type}</span>
+                <span class="status-tag">
+                  <ins>{business.status}</ins>
+                </span>
+              </div>
+              
+              {business.rating && (
+                <div class="rating-display">
+                  <span class="rating-stars">{'★'.repeat(Math.floor(business.rating))}{'☆'.repeat(5 - Math.floor(business.rating))}</span>
+                  <span class="rating-text">{business.rating}/5</span>
+                  <small>({business.reviews_count || 0} reviews)</small>
+                </div>
+              )}
+            </div>
+            
+            
+            {business.founding_story && (
+              <div class="story-section">
+                <h3>Origin Story</h3>
+                <blockquote>{business.founding_story}</blockquote>
+              </div>
+            )}
+            
+            {business.cultural_impact && (
+              <div class="story-section">
+                <h3>Cultural Significance</h3>
+                <blockquote>{business.cultural_impact}</blockquote>
+              </div>
+            )}
+            
+            {business.unique_features && (
+              <div class="story-section">
+                <h3>What Makes It Special</h3>
+                <blockquote>{business.unique_features}</blockquote>
+              </div>
+            )}
+            
+            {/* Fallback to story if no rich narratives */}
+            {!business.founding_story && business.story && (
+              <div class="story-section">
+                <h3>Our Story</h3>
+                <blockquote>{business.story}</blockquote>
+              </div>
+            )}
+            
+            {business.notable_features && business.notable_features.length > 0 && (
+              <div class="features-section">
+                <h3>Notable Features</h3>
+                <div class="features-grid">
+                  {business.notable_features.map(feature => (
+                    <div class="feature-item">{feature}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {business.keywords && business.keywords.length > 0 && (
+              <div class="keywords-section">
+                <h3>Keywords</h3>
+                <div class="keywords-grid">
+                  {business.keywords.map(keyword => (
+                    <span class="keyword-tag">{keyword}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {business.amenities && business.amenities.length > 0 && (
+              <div class="amenities-section">
+                <h3>Amenities</h3>
+                <div class="amenities-grid">
+                  {business.amenities.map(amenity => (
+                    <span class="amenity-tag">{amenity}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div class="modal-sidebar">
+            <div class="contact-card">
+              <h3>Contact Information</h3>
+              {business.phone && (
+                <p class="contact-item">
+                  <strong>Phone:</strong>
+                  <a href={`tel:${business.phone}`} class="contact-link">{business.phone}</a>
+                </p>
+              )}
+              {business.email && (
+                <p class="contact-item">
+                  <strong>Email:</strong>
+                  <a href={`mailto:${business.email}`} class="contact-link">{business.email}</a>
+                </p>
+              )}
+              {business.website && (
+                <p class="contact-item">
+                  <strong>Website:</strong>
+                  <a href={business.website} target="_blank" class="contact-link">{business.website}</a>
+                </p>
+              )}
+              {business.address && (
+                <p class="contact-item">
+                  <strong>Address:</strong>
+                  <span>{business.address}</span>
+                </p>
+              )}
+              {business.hours && (
+                <p class="contact-item">
+                  <strong>Hours:</strong>
+                  <span>{business.hours}</span>
+                </p>
+              )}
+              {business.price_range && (
+                <p class="contact-item">
+                  <strong>Price Range:</strong>
+                  <span>{business.price_range}</span>
+                </p>
+              )}
+            </div>
+            
+            <div class="business-stats">
+              <h3>Details</h3>
+              <p><strong>Founded:</strong> {business.founded || business.established}</p>
+              <p><strong>Type:</strong> {business.type}</p>
+              <p><strong>Neighborhood:</strong> {business.neighborhood}</p>
+            </div>
+            
+            {business.social_media && Object.keys(business.social_media).length > 0 && (
+              <div class="social-links">
+                <h3>Social Media</h3>
+                <div class="social-grid">
+                  {Object.entries(business.social_media).map(([platform, url]) => (
+                    <a href={url} target="_blank" class="social-link">
+                      {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  </dialog>
+)}
+
+<style>
+  /* Progressive Disclosure Styles */
+  .business-card {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .business-summary {
+    position: relative;
+  }
+  
+  .business-summary header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  
+  .business-summary hgroup {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .business-summary h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+  
+  .business-summary p {
+    margin: 0;
+    color: var(--pico-muted-color);
+    font-size: 0.9rem;
+  }
+  
+  .business-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .neighborhood-tag, .type-tag {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .neighborhood-tag {
+    background: rgba(139, 69, 19, 0.1);
+    color: #8b4513;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+  }
+  
+  .type-tag {
+    background: rgba(75, 85, 99, 0.1);
+    color: #374151;
+    border: 1px solid rgba(75, 85, 99, 0.2);
+  }
+  
+  .business-preview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .preview-info {
+    flex: 1;
+  }
+  
+  .status-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .status-indicator {
+    font-weight: 500;
+  }
+  
+  .rating-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+  }
+  
+  .rating-stars {
+    color: #fbbf24;
+    font-size: 1rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .expand-btn, .modal-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    white-space: nowrap;
+  }
+  
+  .expand-btn {
+    background: var(--pico-secondary-background);
+    color: var(--pico-secondary-color);
+  }
+  
+  .expand-btn:hover {
+    background: var(--pico-secondary-hover-background);
+  }
+  
+  .modal-btn {
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+  }
+  
+  .modal-btn:hover {
+    background: var(--pico-primary-hover);
+  }
+  
+  /* Expanded State */
+  .business-details {
+    display: none;
+    margin-top: var(--pico-spacing);
+  }
+  
+  .business-card.expanded .business-details {
+    display: block;
+  }
+  
+  .business-card.expanded .expand-text {
+    display: none;
+  }
+  
+  .business-card.expanded .collapse-text {
+    display: inline;
+  }
+  
+  .business-card:not(.expanded) .collapse-text {
+    display: none;
+  }
+  
+  .business-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pico-spacing);
+  }
+  
+  .contact-info h4, .business-info h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+  
+  .contact-info p, .business-info p {
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+  }
+  
+  .features-list ul {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+  }
+  
+  .features-list li {
+    font-size: 0.875rem;
+    margin: 0.25rem 0;
+  }
+  
+  .amenities-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--pico-border-color);
+  }
+  
+  .amenities-section h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .amenities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .amenity-tag {
+    padding: 0.25rem 0.5rem;
+    background: rgba(107, 114, 128, 0.1);
+    color: #4b5563;
+    border: 1px solid rgba(107, 114, 128, 0.2);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .amenity-tag.more {
+    background: rgba(139, 92, 246, 0.1);
+    color: #7c3aed;
+    border-color: rgba(139, 92, 246, 0.2);
+  }
+  
+  /* Rich Narrative Sections */
+  .narrative-section {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--pico-card-background-color);
+    border-left: 3px solid var(--pico-primary);
+    border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+  }
+  
+  .narrative-section h5 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--pico-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .narrative-section blockquote {
+    margin: 0;
+    font-style: italic;
+    color: var(--pico-color);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  
+  .keywords-section {
+    margin-top: 1rem;
+  }
+  
+  .keywords-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  
+  .keyword-tag {
+    padding: 0.2rem 0.6rem;
+    background: rgba(139, 92, 246, 0.1);
+    color: #7c3aed;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  /* Modal keyword styles */
+  .keywords-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .heritage-section h3 {
+    color: var(--pico-primary);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Modal Styles */
+  .business-modal {
+    max-width: 800px;
+    width: 90vw;
+    margin: auto;
+    padding: 0;
+    border: none;
+    border-radius: var(--pico-border-radius);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .business-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .business-modal article {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .business-modal header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    border-bottom: 1px solid var(--pico-border-color);
+  }
+  
+  .business-modal h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  
+  .business-modal .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--pico-muted-color);
+  }
+  
+  .business-modal .close-btn:hover {
+    color: var(--pico-color);
+  }
+  
+  .modal-content {
+    padding: 1.5rem;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+  }
+  
+  .business-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .business-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .status-tag {
+    padding: 0.25rem 0.5rem;
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .rating-display {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .rating-text {
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+  
+  .story-section, .features-section {
+    margin-bottom: 2rem;
+  }
+  
+  .story-section h3, .features-section h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .feature-item {
+    padding: 0.75rem;
+    background: rgba(107, 114, 128, 0.05);
+    border: 1px solid rgba(107, 114, 128, 0.1);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--pico-color);
+  }
+  
+  .modal-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .contact-card, .business-stats, .social-links {
+    padding: 1.25rem;
+    background: rgba(249, 250, 251, 0.5);
+    border: 1px solid var(--pico-border-color);
+    border-radius: 0.5rem;
+  }
+  
+  .contact-card h3, .business-stats h3, .social-links h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .contact-item {
+    margin: 0.75rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .contact-link {
+    color: var(--pico-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .contact-link:hover {
+    text-decoration: underline;
+  }
+  
+  .social-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .social-link {
+    padding: 0.5rem 1rem;
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+    text-decoration: none;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .social-link:hover {
+    background: var(--pico-primary-hover);
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .business-summary header {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .business-meta {
+      flex-direction: row;
+      align-self: flex-start;
+    }
+    
+    .business-preview {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .action-buttons {
+      width: 100%;
+      justify-content: space-between;
+    }
+    
+    .expand-btn, .modal-btn {
+      flex: 1;
+    }
+    
+    
+    .modal-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .business-modal {
+      width: 95vw;
+      max-height: 90vh;
+    }
+    
+    .modal-content {
+      padding: 1rem;
+      max-height: 80vh;
+    }
+  }
+</style>

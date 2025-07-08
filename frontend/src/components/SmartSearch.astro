@@ -1,0 +1,693 @@
+---
+export interface Props {
+  placeholder?: string;
+  suggestions?: string[];
+  enableVoiceSearch?: boolean;
+  enableLocationSearch?: boolean;
+  class?: string;
+}
+
+const { 
+  placeholder = "Search businesses, neighborhoods, or services...", 
+  suggestions = [
+    "Coffee shops in downtown",
+    "Restaurants near me", 
+    "Book stores",
+    "Hair salons in Mission",
+    "24 hour diners",
+    "Dog-friendly cafes",
+    "Vintage clothing stores",
+    "Thai food",
+    "Art galleries",
+    "Auto repair shops"
+  ],
+  enableVoiceSearch = true,
+  enableLocationSearch = true,
+  class: className 
+} = Astro.props;
+
+// Generate unique ID for this search component
+const searchId = `smart-search-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class={`smart-search ${className || ''}`}>
+  <div class="search-container">
+    <div class="search-input-wrapper">
+      <input 
+        type="text" 
+        id={searchId}
+        class="search-input"
+        placeholder={placeholder}
+        autocomplete="off"
+        spellcheck="false"
+      />
+      
+      <div class="search-actions">
+        {enableLocationSearch && (
+          <button 
+            class="location-btn"
+            title="Search near me"
+            onclick="handleLocationSearch()"
+          >
+            📍
+          </button>
+        )}
+        
+        {enableVoiceSearch && (
+          <button 
+            class="voice-btn"
+            title="Voice search"
+            onclick="handleVoiceSearch()"
+          >
+            🎤
+          </button>
+        )}
+        
+        <button 
+          class="search-btn primary"
+          onclick="handleSearch()"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+    
+    <!-- Search Suggestions Dropdown -->
+    <div class="suggestions-dropdown" id={`${searchId}-suggestions`}>
+      <div class="suggestions-header">
+        <h4>Popular Searches</h4>
+      </div>
+      <ul class="suggestions-list">
+        {suggestions.map((suggestion, index) => (
+          <li 
+            class="suggestion-item"
+            onclick={`selectSuggestion('${suggestion}')`}
+            data-suggestion={suggestion}
+          >
+            <span class="suggestion-icon">🔍</span>
+            <span class="suggestion-text">{suggestion}</span>
+          </li>
+        ))}
+      </ul>
+      
+      <div class="suggestions-footer">
+        <button class="clear-history secondary">Clear search history</button>
+      </div>
+    </div>
+    
+    <!-- Search Results Preview -->
+    <div class="search-results-preview" id={`${searchId}-results`}>
+      <div class="results-header">
+        <h4>Search Results</h4>
+        <button class="close-results" onclick="closeSearchResults()">×</button>
+      </div>
+      <div class="results-content">
+        <!-- Results will be populated via JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ searchId, suggestions }}>
+  let currentSearchId = searchId;
+  let currentSuggestions = suggestions;
+  let searchTimeout = null;
+  let isVoiceSearching = false;
+  
+  // Initialize search functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById(currentSearchId);
+    const suggestionsDropdown = document.getElementById(`${currentSearchId}-suggestions`);
+    const resultsPreview = document.getElementById(`${currentSearchId}-results`);
+    
+    // Search input focus/blur handlers
+    searchInput.addEventListener('focus', function() {
+      suggestionsDropdown.classList.add('visible');
+      updateSuggestions(this.value);
+    });
+    
+    searchInput.addEventListener('blur', function(e) {
+      // Delay hiding to allow clicking on suggestions
+      setTimeout(() => {
+        if (!document.activeElement?.closest('.suggestions-dropdown')) {
+          suggestionsDropdown.classList.remove('visible');
+        }
+      }, 150);
+    });
+    
+    // Real-time search as user types
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      
+      clearTimeout(searchTimeout);
+      
+      if (query.length >= 2) {
+        searchTimeout = setTimeout(() => {
+          performSearch(query, true); // Preview mode
+        }, 300);
+        
+        updateSuggestions(query);
+      } else {
+        closeSearchResults();
+        updateSuggestions('');
+      }
+    });
+    
+    // Enter key handler
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSearch();
+      }
+    });
+    
+    // Click outside to close
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.smart-search')) {
+        suggestionsDropdown.classList.remove('visible');
+        closeSearchResults();
+      }
+    });
+  });
+  
+  // Global functions for button handlers
+  window.handleSearch = function() {
+    const searchInput = document.getElementById(currentSearchId);
+    const query = searchInput.value.trim();
+    
+    if (query) {
+      performSearch(query, false); // Full search mode
+      document.getElementById(`${currentSearchId}-suggestions`).classList.remove('visible');
+    }
+  };
+  
+  window.handleVoiceSearch = function() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Voice search is not supported in this browser');
+      return;
+    }
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+    
+    const voiceBtn = document.querySelector('.voice-btn');
+    const searchInput = document.getElementById(currentSearchId);
+    
+    recognition.onstart = function() {
+      isVoiceSearching = true;
+      voiceBtn.textContent = '🔴';
+      voiceBtn.title = 'Listening...';
+      searchInput.placeholder = 'Listening...';
+    };
+    
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      searchInput.value = transcript;
+      performSearch(transcript, false);
+    };
+    
+    recognition.onerror = function(event) {
+      console.error('Speech recognition error:', event.error);
+      alert('Voice search failed. Please try again.');
+    };
+    
+    recognition.onend = function() {
+      isVoiceSearching = false;
+      voiceBtn.textContent = '🎤';
+      voiceBtn.title = 'Voice search';
+      searchInput.placeholder = 'Search businesses, neighborhoods, or services...';
+    };
+    
+    recognition.start();
+  };
+  
+  window.handleLocationSearch = function() {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by this browser');
+      return;
+    }
+    
+    const locationBtn = document.querySelector('.location-btn');
+    const searchInput = document.getElementById(currentSearchId);
+    
+    locationBtn.textContent = '⌛';
+    locationBtn.title = 'Getting location...';
+    
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        
+        // Use reverse geocoding or just search for "businesses near me"
+        searchInput.value = 'businesses near me';
+        performSearch(`businesses near me (${lat}, ${lng})`, false);
+        
+        locationBtn.textContent = '📍';
+        locationBtn.title = 'Search near me';
+      },
+      function(error) {
+        console.error('Geolocation error:', error);
+        alert('Unable to get your location. Please try again.');
+        locationBtn.textContent = '📍';
+        locationBtn.title = 'Search near me';
+      }
+    );
+  };
+  
+  window.selectSuggestion = function(suggestion) {
+    const searchInput = document.getElementById(currentSearchId);
+    searchInput.value = suggestion;
+    performSearch(suggestion, false);
+    document.getElementById(`${currentSearchId}-suggestions`).classList.remove('visible');
+  };
+  
+  window.closeSearchResults = function() {
+    const resultsPreview = document.getElementById(`${currentSearchId}-results`);
+    resultsPreview.classList.remove('visible');
+  };
+  
+  function updateSuggestions(query) {
+    const suggestionsDropdown = document.getElementById(`${currentSearchId}-suggestions`);
+    const suggestionsList = suggestionsDropdown.querySelector('.suggestions-list');
+    
+    let filteredSuggestions = currentSuggestions;
+    
+    if (query.length >= 2) {
+      filteredSuggestions = currentSuggestions.filter(suggestion =>
+        suggestion.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+    
+    suggestionsList.innerHTML = filteredSuggestions.map(suggestion => `
+      <li class="suggestion-item" onclick="selectSuggestion('${suggestion}')" data-suggestion="${suggestion}">
+        <span class="suggestion-icon">🔍</span>
+        <span class="suggestion-text">${suggestion}</span>
+      </li>
+    `).join('');
+  }
+  
+  async function performSearch(query, isPreview = false) {
+    const resultsPreview = document.getElementById(`${currentSearchId}-results`);
+    const resultsContent = resultsPreview.querySelector('.results-content');
+    
+    // Show loading state
+    resultsContent.innerHTML = '<div class="loading">Searching...</div>';
+    resultsPreview.classList.add('visible');
+    
+    try {
+      // Make API call to search endpoint
+      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=${isPreview ? 3 : 10}`);
+      
+      if (response.ok) {
+        const results = await response.json();
+        displaySearchResults(results, isPreview);
+      } else {
+        resultsContent.innerHTML = '<div class="error">Search failed. Please try again.</div>';
+      }
+    } catch (error) {
+      console.error('Search error:', error);
+      resultsContent.innerHTML = '<div class="error">Search failed. Please try again.</div>';
+    }
+  }
+  
+  function displaySearchResults(results, isPreview) {
+    const resultsPreview = document.getElementById(`${currentSearchId}-results`);
+    const resultsContent = resultsPreview.querySelector('.results-content');
+    
+    if (!results || results.length === 0) {
+      resultsContent.innerHTML = '<div class="no-results">No businesses found for your search.</div>';
+      return;
+    }
+    
+    const resultsHtml = results.map(business => `
+      <div class="result-item" onclick="window.location.href='/business/${business.id}'">
+        <div class="result-header">
+          <h5>${business.name}</h5>
+          <span class="result-type">${business.type}</span>
+        </div>
+        <p class="result-tagline">${business.tagline || ''}</p>
+        <div class="result-meta">
+          <span class="result-neighborhood">${business.neighborhood}</span>
+          <span class="result-status">${business.status}</span>
+        </div>
+      </div>
+    `).join('');
+    
+    const footerHtml = isPreview ? 
+      `<div class="results-footer">
+        <button class="view-all-results primary" onclick="handleSearch()">View All Results</button>
+      </div>` : '';
+    
+    resultsContent.innerHTML = resultsHtml + footerHtml;
+  }
+</script>
+
+<style>
+  .smart-search {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .search-container {
+    position: relative;
+  }
+  
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 2px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 0.5rem;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .search-input-wrapper:focus-within {
+    border-color: var(--pico-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background: transparent;
+    color: var(--pico-color);
+  }
+  
+  .search-input::placeholder {
+    color: var(--pico-muted-color);
+  }
+  
+  .search-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .location-btn, .voice-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-size: 1.125rem;
+    transition: all 0.2s ease;
+  }
+  
+  .location-btn:hover, .voice-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .search-btn {
+    padding: 0.5rem 1rem;
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .search-btn:hover {
+    background: var(--pico-primary-hover);
+  }
+  
+  /* Suggestions Dropdown */
+  .suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+  }
+  
+  .suggestions-dropdown.visible {
+    display: block;
+  }
+  
+  .suggestions-header {
+    padding: 1rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid var(--pico-border-color);
+  }
+  
+  .suggestions-header h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pico-muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  
+  .suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    gap: 0.75rem;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .suggestion-item:hover {
+    background: rgba(59, 130, 246, 0.05);
+  }
+  
+  .suggestion-item:last-child {
+    border-bottom: none;
+  }
+  
+  .suggestion-icon {
+    color: var(--pico-muted-color);
+    font-size: 0.875rem;
+  }
+  
+  .suggestion-text {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--pico-color);
+  }
+  
+  .suggestions-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--pico-border-color);
+    background: rgba(0, 0, 0, 0.02);
+  }
+  
+  .clear-history {
+    background: none;
+    border: none;
+    color: var(--pico-muted-color);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .clear-history:hover {
+    color: var(--pico-color);
+  }
+  
+  /* Search Results Preview */
+  .search-results-preview {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
+  }
+  
+  .search-results-preview.visible {
+    display: block;
+  }
+  
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--pico-border-color);
+    background: rgba(0, 0, 0, 0.02);
+  }
+  
+  .results-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+  
+  .close-results {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--pico-muted-color);
+    padding: 0;
+    line-height: 1;
+  }
+  
+  .close-results:hover {
+    color: var(--pico-color);
+  }
+  
+  .results-content {
+    padding: 1rem;
+  }
+  
+  .result-item {
+    padding: 1rem;
+    border: 1px solid var(--pico-border-color);
+    border-radius: 0.375rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .result-item:hover {
+    border-color: var(--pico-primary);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  }
+  
+  .result-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+  }
+  
+  .result-header h5 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+  
+  .result-type {
+    padding: 0.25rem 0.5rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .result-tagline {
+    margin: 0 0 0.75rem 0;
+    color: var(--pico-muted-color);
+    font-size: 0.9rem;
+  }
+  
+  .result-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .result-neighborhood {
+    color: #2563eb;
+    font-weight: 500;
+  }
+  
+  .result-status {
+    color: var(--pico-ins-color);
+    font-weight: 500;
+  }
+  
+  .loading, .error, .no-results {
+    text-align: center;
+    padding: 2rem;
+    color: var(--pico-muted-color);
+  }
+  
+  .error {
+    color: var(--pico-del-color);
+  }
+  
+  .results-footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid var(--pico-border-color);
+    background: rgba(0, 0, 0, 0.02);
+  }
+  
+  .view-all-results {
+    padding: 0.5rem 1rem;
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .view-all-results:hover {
+    background: var(--pico-primary-hover);
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .search-input-wrapper {
+      flex-direction: column;
+      padding: 0.75rem;
+    }
+    
+    .search-input {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .search-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+    
+    .search-btn {
+      flex: 1;
+      max-width: 120px;
+    }
+    
+    .suggestions-dropdown,
+    .search-results-preview {
+      left: -0.5rem;
+      right: -0.5rem;
+    }
+  }
+</style>

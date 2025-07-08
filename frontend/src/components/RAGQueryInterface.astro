@@ -1,0 +1,655 @@
+---
+/**
+ * RAG Query Interface Component
+ * ============================
+ * 
+ * Interactive interface for demonstrating RAG system capabilities:
+ * - Natural language query input
+ * - Real-time search suggestions  
+ * - Context visualization
+ * - Source attribution
+ * - Semantic search simulation
+ */
+
+export interface Props {
+  apiBaseUrl?: string;
+  maxResults?: number;
+  showDebugInfo?: boolean;
+}
+
+const { 
+  apiBaseUrl = '',
+  maxResults = 5,
+  showDebugInfo = false 
+} = Astro.props;
+
+// Sample queries to demonstrate RAG capabilities
+const sampleQueries = [
+  "Tell me about traditional food businesses in San Francisco",
+  "Which businesses have survived major historical events?", 
+  "What makes these businesses culturally significant?",
+  "Show me family-owned businesses with multiple generations",
+  "Find businesses that preserve authentic cultural traditions",
+  "Which businesses have received awards or recognition?"
+];
+
+const queryInterfaceId = 'rag-query-interface';
+---
+
+<section class="rag-query-interface" id={queryInterfaceId}>
+  
+  <!-- Header -->
+  <header class="rag-header">
+    <h2>Legacy Business Knowledge Assistant</h2>
+    <p class="rag-description">
+      Ask natural language questions about San Francisco's legacy businesses. 
+      Our RAG system searches through rich historical narratives and cultural documentation.
+    </p>
+  </header>
+
+  <!-- Query Input -->
+  <div class="query-input-section">
+    <div class="query-input-wrapper">
+      <textarea 
+        id="rag-query-input"
+        class="query-input"
+        placeholder="Ask me anything about San Francisco's legacy businesses..."
+        rows="3"
+      ></textarea>
+      <div class="input-actions">
+        <button id="submit-query-btn" class="submit-query-btn">
+          <span class="btn-text">Ask Question</span>
+          <span class="btn-loading" style="display: none;">Searching...</span>
+        </button>
+        <button id="clear-query-btn" class="clear-query-btn">Clear</button>
+      </div>
+    </div>
+
+    <!-- Sample Queries -->
+    <div class="sample-queries">
+      <h4>Try these sample questions:</h4>
+      <div class="query-suggestions">
+        {sampleQueries.map((query, index) => (
+          <button 
+            class="sample-query-btn" 
+            data-query={query}
+            onclick={`setQueryText('${query.replace(/'/g, "\\'")}')`}
+          >
+            {query}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div id="rag-results" class="rag-results" style="display: none;">
+    
+    <!-- AI Response -->
+    <div class="ai-response-section">
+      <h3>Response</h3>
+      <div id="ai-response" class="ai-response">
+        <!-- AI response will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Source Contexts -->
+    <div class="source-contexts-section">
+      <h3>Sources & Context</h3>
+      <div id="source-contexts" class="source-contexts">
+        <!-- Source contexts will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Search Metadata -->
+    {showDebugInfo && (
+      <details class="debug-metadata">
+        <summary>Debug Information</summary>
+        <div id="debug-info" class="debug-content">
+          <!-- Debug info will be inserted here -->
+        </div>
+      </details>
+    )}
+
+  </div>
+
+  <!-- Loading State -->
+  <div id="rag-loading" class="rag-loading" style="display: none;">
+    <div class="loading-animation">
+      <div class="loading-spinner"></div>
+      <p>Searching through legacy business narratives...</p>
+      <div class="loading-steps">
+        <div class="loading-step active" data-step="1">🔍 Analyzing query</div>
+        <div class="loading-step" data-step="2">📚 Retrieving contexts</div>
+        <div class="loading-step" data-step="3">🧠 Generating response</div>
+        <div class="loading-step" data-step="4">✅ Complete</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div id="rag-error" class="rag-error" style="display: none;">
+    <div class="error-content">
+      <h3>Query Failed</h3>
+      <p id="error-message"><!-- Error message will be inserted here --></p>
+      <button onclick="clearResults()" class="retry-btn">Try Again</button>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .rag-query-interface {
+    background: var(--pico-card-background-color);
+    border: var(--pico-border-width) solid var(--pico-card-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  /* Header */
+  .rag-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .rag-header h2 {
+    color: var(--pico-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .rag-description {
+    color: var(--pico-muted-color);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Query Input */
+  .query-input-section {
+    margin-bottom: 2rem;
+  }
+
+  .query-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .query-input {
+    resize: vertical;
+    min-height: 80px;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 2px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .query-input:focus {
+    border-color: var(--pico-primary);
+    outline: none;
+  }
+
+  .input-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+
+  .submit-query-btn {
+    background: var(--pico-primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .submit-query-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .clear-query-btn {
+    background: var(--pico-secondary);
+    color: white;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Sample Queries */
+  .sample-queries h4 {
+    margin-bottom: 0.75rem;
+    color: var(--pico-color);
+    font-size: 1rem;
+  }
+
+  .query-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sample-query-btn {
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-border-color);
+    color: var(--pico-color);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    border-radius: var(--pico-border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .sample-query-btn:hover {
+    background: var(--pico-primary-background);
+    border-color: var(--pico-primary);
+    color: var(--pico-primary);
+  }
+
+  /* Results Section */
+  .rag-results {
+    margin-top: 2rem;
+  }
+
+  .ai-response-section,
+  .source-contexts-section {
+    margin-bottom: 2rem;
+  }
+
+  .ai-response-section h3,
+  .source-contexts-section h3 {
+    color: var(--pico-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ai-response-section h3::before {
+    content: "🤖";
+  }
+
+  .source-contexts-section h3::before {
+    content: "📚";
+  }
+
+  .ai-response {
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1.5rem;
+    line-height: 1.6;
+    font-size: 1.05rem;
+  }
+
+  .source-contexts {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .context-item {
+    background: var(--pico-card-background-color);
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1rem;
+  }
+
+  .context-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .context-business-name {
+    font-weight: 600;
+    color: var(--pico-primary);
+    font-size: 1.1rem;
+  }
+
+  .context-score {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+  }
+
+  .relevance-score {
+    background: var(--pico-code-background-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .context-content {
+    line-height: 1.5;
+    color: var(--pico-color);
+  }
+
+  /* Loading State */
+  .rag-loading {
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+
+  .loading-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--pico-border-color);
+    border-top: 3px solid var(--pico-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .loading-step {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .loading-step.active {
+    opacity: 1;
+    background: var(--pico-primary-background);
+    color: var(--pico-primary);
+  }
+
+  .loading-step.completed {
+    opacity: 0.8;
+    background: var(--pico-ins-color);
+    color: white;
+  }
+
+  /* Error State */
+  .rag-error {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .error-content {
+    background: var(--pico-del-background-color);
+    border: 1px solid var(--pico-del-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1.5rem;
+    color: var(--pico-del-color);
+  }
+
+  .retry-btn {
+    background: var(--pico-primary);
+    color: white;
+    margin-top: 1rem;
+  }
+
+  /* Debug Info */
+  .debug-metadata {
+    margin-top: 2rem;
+  }
+
+  .debug-content {
+    background: var(--pico-code-background-color);
+    padding: 1rem;
+    border-radius: var(--pico-border-radius);
+    font-family: var(--pico-font-family-monospace);
+    font-size: 0.85rem;
+    overflow-x: auto;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .rag-query-interface {
+      padding: 1rem;
+    }
+
+    .input-actions {
+      flex-direction: column;
+    }
+
+    .query-suggestions {
+      flex-direction: column;
+    }
+
+    .sample-query-btn {
+      text-align: left;
+    }
+
+    .context-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .loading-steps {
+      align-items: center;
+    }
+  }
+</style>
+
+<script define:vars={{ apiBaseUrl, maxResults, showDebugInfo }}>
+  // Global state for RAG interface
+  let currentQuery = '';
+  let isQuerying = false;
+
+  // DOM element references
+  const queryInput = document.getElementById('rag-query-input');
+  const submitBtn = document.getElementById('submit-query-btn');
+  const clearBtn = document.getElementById('clear-query-btn');
+  const resultsSection = document.getElementById('rag-results');
+  const loadingSection = document.getElementById('rag-loading');
+  const errorSection = document.getElementById('rag-error');
+  const aiResponseDiv = document.getElementById('ai-response');
+  const sourceContextsDiv = document.getElementById('source-contexts');
+  const debugInfoDiv = document.getElementById('debug-info');
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    submitBtn.addEventListener('click', submitQuery);
+    clearBtn.addEventListener('click', clearResults);
+    
+    queryInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        submitQuery();
+      }
+    });
+
+    queryInput.addEventListener('input', function() {
+      const hasText = queryInput.value.trim().length > 0;
+      submitBtn.disabled = !hasText || isQuerying;
+    });
+  });
+
+  // Set query text from sample buttons
+  function setQueryText(query) {
+    queryInput.value = query;
+    queryInput.dispatchEvent(new Event('input'));
+    queryInput.focus();
+  }
+
+  // Submit RAG query
+  async function submitQuery() {
+    const query = queryInput.value.trim();
+    if (!query || isQuerying) return;
+
+    currentQuery = query;
+    isQuerying = true;
+    
+    // Update UI state
+    showLoading();
+    updateSubmitButton(true);
+    
+    try {
+      // Simulate loading steps
+      await simulateLoadingSteps();
+      
+      // Make API request
+      const response = await fetch(`${apiBaseUrl}/api/v2/rag/query`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `query=${encodeURIComponent(query)}&max_results=${maxResults}`
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      displayResults(data);
+      
+    } catch (error) {
+      console.error('RAG query failed:', error);
+      displayError(error.message);
+    } finally {
+      isQuerying = false;
+      updateSubmitButton(false);
+      hideLoading();
+    }
+  }
+
+  // Display query results
+  function displayResults(data) {
+    hideAllSections();
+    resultsSection.style.display = 'block';
+
+    // Display AI response
+    aiResponseDiv.innerHTML = `<p>${data.response}</p>`;
+
+    // Display source contexts
+    sourceContextsDiv.innerHTML = '';
+    
+    if (data.source_contexts && data.source_contexts.length > 0) {
+      data.source_contexts.forEach(context => {
+        const contextElement = createContextElement(context);
+        sourceContextsDiv.appendChild(contextElement);
+      });
+    } else {
+      sourceContextsDiv.innerHTML = '<p><em>No specific source contexts found.</em></p>';
+    }
+
+    // Display debug info if enabled
+    if (showDebugInfo && debugInfoDiv) {
+      debugInfoDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+
+    // Scroll to results
+    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Create context element
+  function createContextElement(context) {
+    const contextDiv = document.createElement('div');
+    contextDiv.className = 'context-item';
+    
+    contextDiv.innerHTML = `
+      <div class="context-header">
+        <div class="context-business-name">${context.business_name}</div>
+        <div class="context-score">
+          ${context.relevance_score ? `<span class="relevance-score">Relevance: ${(context.relevance_score * 100).toFixed(0)}%</span>` : ''}
+        </div>
+      </div>
+      <div class="context-content">${context.context}</div>
+    `;
+    
+    return contextDiv;
+  }
+
+  // Display error
+  function displayError(message) {
+    hideAllSections();
+    errorSection.style.display = 'block';
+    document.getElementById('error-message').textContent = message;
+  }
+
+  // Show loading state
+  function showLoading() {
+    hideAllSections();
+    loadingSection.style.display = 'block';
+  }
+
+  // Hide loading state
+  function hideLoading() {
+    loadingSection.style.display = 'none';
+  }
+
+  // Simulate loading steps
+  async function simulateLoadingSteps() {
+    const steps = document.querySelectorAll('.loading-step');
+    
+    for (let i = 0; i < steps.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Remove active from previous steps
+      steps.forEach(step => step.classList.remove('active'));
+      
+      // Add active to current step
+      steps[i].classList.add('active');
+      
+      // Mark previous steps as completed
+      for (let j = 0; j < i; j++) {
+        steps[j].classList.add('completed');
+      }
+    }
+  }
+
+  // Update submit button state
+  function updateSubmitButton(loading) {
+    submitBtn.disabled = loading;
+    
+    if (loading) {
+      submitBtn.querySelector('.btn-text').style.display = 'none';
+      submitBtn.querySelector('.btn-loading').style.display = 'inline';
+    } else {
+      submitBtn.querySelector('.btn-text').style.display = 'inline';
+      submitBtn.querySelector('.btn-loading').style.display = 'none';
+    }
+  }
+
+  // Clear results and reset form
+  function clearResults() {
+    queryInput.value = '';
+    queryInput.dispatchEvent(new Event('input'));
+    hideAllSections();
+    
+    // Reset loading steps
+    const steps = document.querySelectorAll('.loading-step');
+    steps.forEach(step => {
+      step.classList.remove('active', 'completed');
+    });
+  }
+
+  // Hide all result sections
+  function hideAllSections() {
+    resultsSection.style.display = 'none';
+    loadingSection.style.display = 'none';
+    errorSection.style.display = 'none';
+  }
+
+  // Make functions globally available
+  window.setQueryText = setQueryText;
+  window.submitQuery = submitQuery;
+  window.clearResults = clearResults;
+</script>

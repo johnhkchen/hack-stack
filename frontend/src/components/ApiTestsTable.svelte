@@ -66,6 +66,27 @@
       endpoint: '/api/debug/test/weaviate',
       description: 'Weaviate sponsor integration (TBD implementation)',
       type: 'sponsor'
+    },
+    {
+      id: 'llamaindex_status',
+      name: 'LlamaIndex Status',
+      endpoint: '/api/llamaindex/status',
+      description: 'LlamaIndex multi-modal service capabilities',
+      type: 'sponsor'
+    },
+    {
+      id: 'llamaindex_demo',
+      name: 'LlamaIndex Demo',
+      endpoint: '/api/llamaindex/demo',
+      description: 'Multi-modal processing demo capabilities',
+      type: 'sponsor'
+    },
+    {
+      id: 'llamaindex_documents',
+      name: 'LlamaIndex Documents',
+      endpoint: '/api/llamaindex/documents',
+      description: 'List processed multi-modal documents',
+      type: 'sponsor'
     }
   ];
 
@@ -216,15 +237,17 @@
               <kbd class="type-{api.type}">{api.type}</kbd>
             </td>
             <td>
-              {#if isRunning[api.id]}
-                <span aria-busy="true">Testing...</span>
-              {:else if result}
-                <span class="status {getStatusClass(result)}">
-                  {getStatusIcon(result)} {result.statusCode}
-                </span>
-              {:else}
-                <span class="status">◯ Not tested</span>
-              {/if}
+              <div class="status-container">
+                {#if isRunning[api.id]}
+                  <span aria-busy="true">Testing...</span>
+                {:else if result}
+                  <span class="status {getStatusClass(result)}">
+                    {getStatusIcon(result)} {result.statusCode}
+                  </span>
+                {:else}
+                  <span class="status">◯ Not tested</span>
+                {/if}
+              </div>
             </td>
             <td>
               {#if result}
@@ -247,7 +270,12 @@
             <tr class="result-row">
               <td colspan="5">
                 <details>
-                  <summary>Response Data</summary>
+                  <summary>
+                    {result.status === 'success' ? '✓ Response Data' : '✗ Error Details'}
+                    <span class="response-size">
+                      {result.data ? `${Math.ceil(result.data.length / 100)}KB` : 'Error'}
+                    </span>
+                  </summary>
                   <pre><code>{result.data || result.error}</code></pre>
                 </details>
               </td>
@@ -308,7 +336,12 @@
         {#if result && (result.data || result.error)}
           <div class="card-result">
             <details>
-              <summary>Response Data</summary>
+              <summary>
+                {result.status === 'success' ? '✓ Response Data' : '✗ Error Details'}
+                <span class="response-size">
+                  {result.data ? `${Math.ceil(result.data.length / 100)}KB` : 'Error'}
+                </span>
+              </summary>
               <pre><code>{result.data || result.error}</code></pre>
             </details>
           </div>
@@ -400,11 +433,6 @@
     position: relative;
   }
 
-  .type-sponsor::after {
-    content: "★";
-    margin-left: 0.25rem;
-    font-size: 0.75em;
-  }
 
   .card-body {
     display: flex;
@@ -442,6 +470,13 @@
 
   .status.error {
     color: var(--pico-del-color);
+  }
+
+  .status-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 1.5rem;
   }
 
   .card-actions {
@@ -483,11 +518,25 @@
     margin: 0;
   }
 
-  .card-result summary {
+  .card-result summary, .result-row summary {
     cursor: pointer;
     font-weight: 500;
     color: var(--pico-muted-color);
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .response-size {
+    font-size: 0.75rem;
+    color: var(--pico-muted-color);
+    background: var(--pico-background-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--pico-border-color);
+    white-space: nowrap;
+    margin-left: auto;
   }
 
   .card-result pre {
@@ -519,8 +568,8 @@
     font-weight: 500;
   }
 
-  /* Tablet and desktop styles */
-  @media (min-width: 768px) {
+  /* Desktop: Switch to table layout */
+  @media (min-width: 769px) {
     .mobile-cards {
       display: none;
     }
@@ -534,11 +583,11 @@
       table-layout: fixed;
     }
 
-    .api-table th:nth-child(1) { width: 40%; }
-    .api-table th:nth-child(2) { width: 15%; }
-    .api-table th:nth-child(3) { width: 20%; }
+    .api-table th:nth-child(1) { width: 35%; }
+    .api-table th:nth-child(2) { width: 18%; }
+    .api-table th:nth-child(3) { width: 18%; }
     .api-table th:nth-child(4) { width: 15%; }
-    .api-table th:nth-child(5) { width: 10%; }
+    .api-table th:nth-child(5) { width: 14%; }
 
     .duration {
       font-family: var(--pico-font-family-monospace);
@@ -578,14 +627,8 @@
     }
   }
 
-  /* Large desktop optimizations */
+  /* Large desktop optimizations - table only */
   @media (min-width: 1024px) {
-    .mobile-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
     .endpoint-card {
       height: fit-content;
     }

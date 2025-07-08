@@ -1,0 +1,575 @@
+---
+/**
+ * Enhanced Business Card with Schema-Driven Content
+ * =================================================
+ * 
+ * Demonstrates rich data rendering using the new Pydantic schema:
+ * - Narrative content highlighting for RAG
+ * - Recognition and awards display
+ * - Schema-driven feature extraction
+ * - Cultural significance documentation
+ */
+
+export interface Props {
+  business: any;
+  showFullNarrative?: boolean;
+  highlightRAGContent?: boolean;
+  expandable?: boolean;
+  className?: string;
+}
+
+const { 
+  business, 
+  showFullNarrative = false, 
+  highlightRAGContent = true,
+  expandable = true,
+  className = '' 
+} = Astro.props;
+
+// Generate unique IDs for interactive elements
+const cardId = `business-card-${business.business_name?.replace(/\s+/g, '-').toLowerCase()}`;
+const modalId = `business-modal-${business.business_name?.replace(/\s+/g, '-').toLowerCase()}`;
+
+// Extract key narrative content for RAG highlighting
+const ragContent = {
+  founding_story: business.founding_story,
+  cultural_significance: business.cultural_significance,
+  community_impact: business.community_impact,
+  historical_significance: business.historical_significance
+};
+
+// Calculate content richness score
+const contentRichness = Object.values(ragContent).filter(content => content && content.length > 50).length;
+
+
+// Truncate text for preview
+const truncateText = (text: string, maxLength: number = 150) => {
+  if (!text || text.length <= maxLength) return text;
+  return text.substring(0, maxLength).trim() + '...';
+};
+
+// Format year range
+const formatYearRange = (foundingYear: number) => {
+  if (!foundingYear) return 'Unknown';
+  const currentYear = new Date().getFullYear();
+  const yearsInOperation = currentYear - foundingYear;
+  return `${foundingYear} (${yearsInOperation} years)`;
+};
+---
+
+<article class={`enhanced-business-card ${className}`} id={cardId}>
+
+  <!-- Main Content -->
+  <header class="business-header">
+    <div class="business-identity">
+      <h3 class="business-name">{business.business_name}</h3>
+      <p class="business-meta">
+        <span class="business-type">{business.business_type}</span>
+        {business.neighborhood && <span class="neighborhood">• {business.neighborhood}</span>}
+      </p>
+      <p class="founding-info">
+        <time class="founding-year">{formatYearRange(business.founding_year)}</time>
+        {business.current_address && <span class="address">• {business.current_address}</span>}
+      </p>
+    </div>
+    
+    {expandable && (
+      <div class="action-buttons">
+        <button class="expand-btn" onclick={`toggleBusinessCard('${cardId}')`}>
+          <span class="expand-text">Details</span>
+          <span class="collapse-text">Less</span>
+        </button>
+        <button class="modal-btn" onclick={`openBusinessModal('${modalId}')`}>
+          Full Story
+        </button>
+      </div>
+    )}
+  </header>
+
+  <!-- Summary Content -->
+  <div class="business-summary">
+    {business.demo_highlights && business.demo_highlights.length > 0 && (
+      <div class="demo-highlights">
+        {business.demo_highlights.slice(0, 3).map((highlight: string) => (
+          <span class="highlight-tag">{highlight}</span>
+        ))}
+      </div>
+    )}
+
+    {business.unique_features && business.unique_features.length > 0 && (
+      <div class="unique-features">
+        <strong>Notable Features:</strong>
+        <ul>
+          {business.unique_features.slice(0, 3).map((feature: string) => (
+            <li>{feature}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  <!-- Expandable RAG Content -->
+  {expandable && (
+    <div class="expanded-content" style="display: none;">
+      
+      {/* RAG Content Sections */}
+      <div class="rag-content-sections">
+        
+        {business.founding_story && (
+          <section class="narrative-section" data-rag-weight="high">
+            <h4>Origin Story</h4>
+            <p class="narrative-text">
+              {showFullNarrative ? business.founding_story : truncateText(business.founding_story, 200)}
+            </p>
+          </section>
+        )}
+
+        {business.cultural_significance && (
+          <section class="narrative-section" data-rag-weight="high">
+            <h4>Cultural Significance</h4>
+            <p class="narrative-text">
+              {showFullNarrative ? business.cultural_significance : truncateText(business.cultural_significance, 200)}
+            </p>
+          </section>
+        )}
+
+        {business.physical_traditions && (
+          <section class="narrative-section" data-rag-weight="medium">
+            <h4>Physical Features & Traditions</h4>
+            <p class="narrative-text">
+              {showFullNarrative ? business.physical_traditions : truncateText(business.physical_traditions, 150)}
+            </p>
+          </section>
+        )}
+
+      </div>
+
+      {/* Recognition & Awards */}
+      {business.recognition && business.recognition.length > 0 && (
+        <section class="recognition-section">
+          <h4>Recognition & Awards</h4>
+          <div class="recognition-list">
+            {business.recognition.slice(0, 3).map((award: any) => (
+              <div class="recognition-item">
+                <strong>{award.title}</strong>
+                {award.year && <span class="award-year">({award.year})</span>}
+                <div class="award-issuer">{award.issuer}</div>
+                {award.description && <p class="award-description">{award.description}</p>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Content Metadata */}
+      <footer class="content-metadata">
+        <div class="metadata-tags">
+          <span class="rag-richness" title="RAG Content Richness">
+            📖 {contentRichness}/4 Rich Narratives
+          </span>
+          {business.extraction_confidence && (
+            <span class="extraction-confidence" title="Data Extraction Confidence">
+              🎯 {Math.round(business.extraction_confidence * 100)}% Confidence
+            </span>
+          )}
+          {business.application_id && (
+            <span class="application-id" title="Registry Application ID">
+              📋 {business.application_id}
+            </span>
+          )}
+        </div>
+      </footer>
+
+    </div>
+  )}
+
+  <!-- Modal for Full Business Story -->
+  <dialog class="business-modal" id={modalId}>
+    <article class="modal-content">
+      <header class="modal-header">
+        <h2>{business.business_name}</h2>
+        <button class="close-modal" onclick={`closeBusinessModal('${modalId}')`}>✕</button>
+      </header>
+      
+      <div class="modal-body">
+        
+        <!-- Complete Narrative Sections -->
+        {Object.entries(ragContent).map(([key, content]) => {
+          if (!content) return null;
+          
+          const sectionTitles = {
+            founding_story: 'Origin Story',
+            cultural_significance: 'Cultural Significance', 
+            community_impact: 'Community Impact',
+            historical_significance: 'Historical Significance'
+          };
+          
+          return (
+            <section class="modal-narrative-section">
+              <h3>{sectionTitles[key as keyof typeof sectionTitles]}</h3>
+              <p class="full-narrative">{content}</p>
+            </section>
+          );
+        })}
+
+        <!-- Complete Recognition List -->
+        {business.recognition && business.recognition.length > 0 && (
+          <section class="modal-recognition">
+            <h3>Recognition & Awards</h3>
+            <div class="full-recognition-list">
+              {business.recognition.map((award: any) => (
+                <div class="full-recognition-item">
+                  <div class="award-header">
+                    <strong>{award.title}</strong>
+                    {award.year && <span class="award-year">{award.year}</span>}
+                  </div>
+                  <div class="award-details">
+                    <div class="award-issuer">{award.issuer}</div>
+                    {award.description && <p class="award-description">{award.description}</p>}
+                    {award.media_type && <span class="media-type">{award.media_type}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Ownership History -->
+        {business.ownership_history && business.ownership_history.length > 0 && (
+          <section class="modal-ownership">
+            <h3>Ownership History</h3>
+            <div class="ownership-timeline">
+              {business.ownership_history.map((owner: any, index: number) => (
+                <div class="ownership-period">
+                  <div class="ownership-years">
+                    {owner.start_year}{owner.end_year ? `-${owner.end_year}` : '-present'}
+                  </div>
+                  <div class="ownership-details">
+                    <strong>{owner.owner_name}</strong>
+                    {owner.generation && <span class="generation">Generation {owner.generation}</span>}
+                    {owner.relationship && <span class="relationship">({owner.relationship})</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+      </div>
+    </article>
+  </dialog>
+
+</article>
+
+<style>
+  .enhanced-business-card {
+    position: relative;
+    background: var(--pico-card-background-color);
+    border: var(--pico-border-width) solid var(--pico-card-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: var(--pico-spacing);
+    margin-bottom: var(--pico-spacing);
+    transition: all 0.2s ease;
+  }
+
+  .enhanced-business-card:hover {
+    box-shadow: var(--pico-card-box-shadow);
+    transform: translateY(-2px);
+  }
+
+
+  /* Business Header */
+  .business-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .business-identity {
+    flex: 1;
+  }
+
+  .business-name {
+    margin: 0 0 0.25rem 0;
+    color: var(--pico-primary);
+    font-size: 1.25rem;
+  }
+
+  .business-meta, .founding-info {
+    margin: 0.25rem 0;
+    color: var(--pico-muted-color);
+    font-size: 0.9rem;
+  }
+
+  .business-type {
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+
+  .founding-year {
+    color: var(--pico-primary);
+    font-weight: 500;
+  }
+
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .expand-btn, .modal-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .modal-btn {
+    background: var(--pico-primary);
+    color: white;
+  }
+
+  /* Content Sections */
+  .demo-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .highlight-tag {
+    background: var(--pico-primary-background);
+    color: var(--pico-primary);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .unique-features ul {
+    margin: 0.25rem 0 0 0;
+    padding-left: 1rem;
+  }
+
+  .unique-features li {
+    font-size: 0.9rem;
+    margin-bottom: 0.125rem;
+  }
+
+  /* RAG Content Sections */
+  .rag-content-sections {
+    margin: 1rem 0;
+  }
+
+  .narrative-section {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+  }
+
+  .narrative-section[data-rag-weight="high"] {
+    background: var(--pico-primary-background);
+    border-left: 3px solid var(--pico-primary);
+  }
+
+  .narrative-section[data-rag-weight="medium"] {
+    background: var(--pico-secondary-background);
+    border-left: 3px solid var(--pico-secondary);
+  }
+
+  .narrative-section h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    color: var(--pico-primary);
+  }
+
+  .narrative-text {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--pico-color);
+  }
+
+  /* Recognition Section */
+  .recognition-section {
+    margin: 1rem 0;
+  }
+
+  .recognition-item {
+    padding: 0.5rem;
+    border: 1px solid var(--pico-border-color);
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .recognition-item strong {
+    color: var(--pico-primary);
+  }
+
+  .award-year {
+    color: var(--pico-muted-color);
+    font-size: 0.9rem;
+  }
+
+  .award-issuer {
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+    font-style: italic;
+  }
+
+  .award-description {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.9rem;
+  }
+
+  /* Content Metadata */
+  .content-metadata {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--pico-border-color);
+  }
+
+  .metadata-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .metadata-tags span {
+    background: var(--pico-code-background-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    color: var(--pico-code-color);
+  }
+
+  /* Modal Styles */
+  .business-modal {
+    max-width: 800px;
+    width: 90vw;
+    padding: 0;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--pico-border-color);
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    color: var(--pico-primary);
+  }
+
+  .close-modal {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: var(--pico-muted-color);
+  }
+
+  .modal-narrative-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-narrative-section h3 {
+    color: var(--pico-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .full-narrative {
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ownership-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ownership-period {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    border-left: 3px solid var(--pico-primary);
+    background: var(--pico-background-color);
+  }
+
+  .ownership-years {
+    font-weight: bold;
+    color: var(--pico-primary);
+    min-width: 100px;
+  }
+
+  .generation, .relationship {
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .business-header {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .business-identity {
+      padding-right: 0;
+    }
+
+    .action-buttons {
+      flex-direction: row;
+      align-self: stretch;
+    }
+
+    .action-buttons button {
+      flex: 1;
+    }
+  }
+</style>
+
+<script>
+  // Business Card Interactions
+  function toggleBusinessCard(cardId) {
+    const card = document.getElementById(cardId);
+    const expandedContent = card.querySelector('.expanded-content');
+    const expandBtn = card.querySelector('.expand-btn');
+    
+    if (expandedContent.style.display === 'none') {
+      expandedContent.style.display = 'block';
+      card.classList.add('expanded');
+      expandBtn.querySelector('.expand-text').style.display = 'none';
+      expandBtn.querySelector('.collapse-text').style.display = 'inline';
+    } else {
+      expandedContent.style.display = 'none';
+      card.classList.remove('expanded');
+      expandBtn.querySelector('.expand-text').style.display = 'inline';
+      expandBtn.querySelector('.collapse-text').style.display = 'none';
+    }
+  }
+
+  function openBusinessModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.showModal();
+  }
+
+  function closeBusinessModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.close();
+  }
+
+  // Make functions globally available
+  window.toggleBusinessCard = toggleBusinessCard;
+  window.openBusinessModal = openBusinessModal;
+  window.closeBusinessModal = closeBusinessModal;
+</script>

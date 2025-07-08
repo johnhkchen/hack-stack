@@ -93,14 +93,41 @@ vendors:
     name: "Weaviate"
     type: "vector_db"
     enabled: true
+    sponsor: true
     env_var: "WEAVIATE_API_KEY"
     mock_endpoint: "/api/vendor/weaviate"
     live_endpoint: "${WEAVIATE_URL}/v1/.well-known/ready"
+    sponsor_info:
+      category: "Vector Database"
+      description: "Semantic search & data ingestion capabilities"
     features:
       - name: "Vector Search"
         description: "Semantic search capabilities"
       - name: "Data Ingestion"
         description: "Document processing"
+        
+  llamaindex:
+    name: "LlamaIndex"
+    type: "document_processing"
+    enabled: true
+    sponsor: true
+    env_var: "LLAMA_CLOUD_API_KEY"
+    mock_endpoint: "/api/llamaindex/status"
+    live_endpoint: "/api/llamaindex/status"
+    sponsor_info:
+      category: "Document Processing"
+      description: "Multi-modal document processing with text and image extraction"
+    features:
+      - name: "Multi-Modal Processing"
+        description: "Text and image extraction from PDFs"
+      - name: "LlamaParse Integration"
+        description: "Advanced PDF parsing capabilities"
+      - name: "Image Extraction"
+        description: "PyMuPDF-based image processing"
+      - name: "Relationship Mapping"
+        description: "Cross-modal content relationships"
+      - name: "Semantic Search"
+        description: "Vector-based text and image search"
 
 environment:
   detection:
@@ -110,6 +137,7 @@ environment:
       - ANTHROPIC_API_KEY
       - WEAVIATE_API_KEY
       - WEAVIATE_URL
+      - LLAMA_CLOUD_API_KEY
   modes:
     mock:
       description: "Demo mode with realistic sample data"
@@ -135,13 +163,16 @@ demo_readiness:
   criteria:
     - name: "All Services Running"
       check: "services_healthy"
-      weight: 40
+      weight: 30
     - name: "API Endpoints Responsive"
       check: "api_responsive"
-      weight: 30
+      weight: 25
     - name: "Frontend Loading"
       check: "frontend_healthy"
       weight: 20
+    - name: "LlamaIndex Multi-Modal Ready"
+      check: "llamaindex_available"
+      weight: 15
     - name: "At Least One Vendor"
       check: "vendor_available"
       weight: 10

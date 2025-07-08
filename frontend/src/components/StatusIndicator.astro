@@ -88,7 +88,10 @@ try {
         <span class="label">Integrations</span>
         <span class="value">
           {Object.keys(debugInfo.vendors).length} configured
-          {debugInfo.vendors.weaviate ? ' • Weaviate sponsor' : ''}
+          {(() => {
+            const sponsors = Object.values(debugInfo.vendors).filter(v => v.sponsor);
+            return sponsors.length > 0 ? ` • ${sponsors.length} sponsor${sponsors.length > 1 ? 's' : ''}` : '';
+          })()}
         </span>
       </div>
     )}

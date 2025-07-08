@@ -3,27 +3,281 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import StatusIndicator from '../components/StatusIndicator.astro';
 import BusinessList from '../components/BusinessList.astro';
+import SmartSearch from '../components/SmartSearch.astro';
+
+// Enhanced system stats with rich data
+const systemMetrics = {
+  total_businesses: 15,
+  active_businesses: 14,
+  total_neighborhoods: 9,
+  average_rating: 4.5 // Average customer rating
+};
 ---
 
-<Layout title="Technical Demo">
+<Layout title="SF Legacy Business Registry">
+  <Navigation currentPage="home" />
+  
   <main class="container">
-    <Navigation 
-      title="Technical Demo" 
-      subtitle="FastAPI backend with Astro frontend" 
-      currentPage="home" 
-    />
-    
-    <article>
-      <h2>Sample Data</h2>
-      <p>Business directory with sample entries</p>
-      <BusinessList />
-    </article>
+    <!-- Enhanced Header with Metrics -->
+    <section class="hero-section">
+      <hgroup>
+        <h1>SF Legacy Business Registry</h1>
+        <p>AI-powered exploration of San Francisco's cultural heritage through historic business narratives</p>
+      </hgroup>
+      
+      {systemMetrics && (
+        <div class="heritage-metrics">
+          <div class="metric-card">
+            <div class="metric-number">{systemMetrics.total_businesses}</div>
+            <div class="metric-label">Legacy Businesses</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-number">{systemMetrics.total_neighborhoods}</div>
+            <div class="metric-label">Neighborhoods</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-number">{systemMetrics.average_rating || '4.5'}</div>
+            <div class="metric-label">Avg Rating</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-number">175+</div>
+            <div class="metric-label">Years of History</div>
+          </div>
+        </div>
+      )}
+    </section>
 
-    <!-- Demo Credentials / Tech Receipt -->
-    <StatusIndicator />
+    <!-- Enhanced Knowledge Assistant -->
+    <section class="rag-section">
+      <div class="knowledge-assistant">
+        <h2>🤖 Legacy Business Knowledge Assistant</h2>
+        <p>Ask natural language questions about San Francisco's historic businesses and cultural heritage.</p>
+        
+        <div class="demo-queries">
+          <h4>Try asking:</h4>
+          <div class="query-examples">
+            <span class="query-example">"Tell me about traditional food businesses"</span>
+            <span class="query-example">"Which businesses survived historical events?"</span>
+            <span class="query-example">"Show me family-owned businesses"</span>
+          </div>
+        </div>
+        
+        <div class="rag-demo-note">
+          <strong>🚧 RAG System Demo</strong> - Interactive query interface coming soon!<br>
+          <small>Features: Semantic search • Context retrieval • Source attribution • Natural language responses</small>
+        </div>
+      </div>
+    </section>
 
-    <footer style="text-align: center; margin-top: 2rem; padding: 2rem; border-top: 1px solid var(--pico-border-color);">
-      <p><small>FastAPI • Astro • Svelte • PicoCSS</small></p>
-    </footer>
+    <!-- Traditional Search -->
+    <section class="search-section">
+      <details>
+        <summary><strong>Advanced Search & Filters</strong></summary>
+        <SmartSearch />
+      </details>
+    </section>
+
+    <!-- Business Showcase -->
+    <section class="business-showcase">
+      <article>
+        <header>
+          <h2>Historic Business Registry</h2>
+          <p>Documented heritage applications with cultural significance, community impact, and narrative preservation spanning generations of San Francisco history</p>
+        </header>
+        <BusinessList 
+          enableNeighborhoodGrouping={true}
+          enableFiltering={true}
+          limit={15}
+        />
+      </article>
+    </section>
+
+    <!-- System Information -->
+    <section class="system-info">
+      <StatusIndicator />
+    </section>
   </main>
+
+  <footer class="container">
+    <p><small><strong>SF Legacy Business Registry</strong> • Pydantic Schema • LlamaIndex RAG • FastAPI • Astro</small></p>
+  </footer>
 </Layout>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    text-align: center;
+    margin-bottom: var(--pico-spacing);
+  }
+
+  .hero-section h1 {
+    color: var(--pico-primary);
+  }
+
+  .hero-section p {
+    color: var(--pico-muted-color);
+  }
+
+  /* Heritage Metrics */
+  .heritage-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--pico-spacing);
+    margin-bottom: var(--pico-spacing);
+  }
+
+  .metric-card {
+    text-align: center;
+  }
+
+  .metric-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--pico-primary);
+  }
+
+  .metric-label {
+    color: var(--pico-muted-color);
+    font-size: 0.9rem;
+  }
+
+  /* Section Spacing */
+  .rag-section {
+    margin: var(--pico-spacing) 0;
+  }
+
+  .knowledge-assistant {
+    text-align: center;
+  }
+
+  .knowledge-assistant h2 {
+    color: var(--pico-primary);
+  }
+
+  .query-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .query-example {
+    background: var(--pico-code-background-color);
+    color: var(--pico-code-color);
+    border: 1px solid var(--pico-border-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--pico-border-radius);
+    font-style: italic;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .query-example:hover {
+    background: var(--pico-background-color);
+    border-color: var(--pico-primary);
+    color: var(--pico-primary);
+  }
+
+  .rag-demo-note {
+    background: var(--pico-ins-background-color);
+    border: 1px solid var(--pico-ins-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1rem;
+    color: var(--pico-ins-color);
+  }
+
+  .search-section {
+    margin: 2rem 0;
+  }
+
+  .search-section details {
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1rem;
+  }
+
+  .search-section summary {
+    cursor: pointer;
+    color: var(--pico-primary);
+    margin-bottom: 0;
+  }
+
+  .search-section details[open] summary {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--pico-border-color);
+  }
+
+  .business-showcase {
+    margin: 3rem 0;
+  }
+
+  .business-showcase header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .business-showcase h2 {
+    color: var(--pico-primary);
+    margin-bottom: 1rem;
+  }
+
+  .business-showcase p {
+    color: var(--pico-muted-color);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .system-info {
+    margin: 2rem 0;
+  }
+
+  /* Enhanced Footer */
+  footer {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--pico-border-color);
+  }
+
+  footer small {
+    color: var(--pico-muted-color);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-section h1 {
+      font-size: 2rem;
+    }
+
+    .hero-section p {
+      font-size: 1rem;
+    }
+
+    .heritage-metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .metric-card {
+      padding: 1rem 0.75rem;
+    }
+
+    .metric-number {
+      font-size: 1.5rem;
+    }
+
+    .rag-section {
+      margin: 2rem 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .heritage-metrics {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

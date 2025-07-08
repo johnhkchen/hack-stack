@@ -1,0 +1,39 @@
+---
+import Card from './Card.astro';
+
+export interface Props {
+  title: string;
+  items: Record<string, any>;
+  class?: string;
+}
+
+const { title, items, class: className } = Astro.props;
+---
+
+<Card class={className}>
+  <header>
+    <h2>{title}</h2>
+  </header>
+  
+  {Object.entries(items).map(([key, value]) => (
+    <p>
+      <strong>{key}:</strong>
+      {typeof value === 'boolean' ? (
+        <ins>{value ? 'Yes' : 'No'}</ins>
+      ) : typeof value === 'object' && value.status ? (
+        <>
+          <span class={`status-dot ${value.status}`}></span>
+          <span class="status-text">{value.status}</span>
+          {value.response_time && (
+            <small>({Math.round(value.response_time * 1000)}ms)</small>
+          )}
+          {value.error && (
+            <mark>Error: {value.error}</mark>
+          )}
+        </>
+      ) : (
+        <code>{value}</code>
+      )}
+    </p>
+  ))}
+</Card>

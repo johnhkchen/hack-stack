@@ -1,0 +1,683 @@
+---
+import BusinessCard from './BusinessCard.astro';
+
+export interface Props {
+  businesses: Array<{
+    id?: number;
+    name: string;
+    tagline: string;
+    type: string;
+    neighborhood: string;
+    founded: string;
+    status: string;
+    story?: string;
+    features?: string[];
+    phone?: string;
+    email?: string;
+    website?: string;
+    address?: string;
+    hours?: string;
+    rating?: number;
+    reviews_count?: number;
+    price_range?: string;
+    amenities?: string[];
+    social_media?: Record<string, string>;
+  }>;
+  groupByNeighborhood?: boolean;
+  enableFiltering?: boolean;
+  class?: string;
+}
+
+const { businesses, groupByNeighborhood = true, enableFiltering = true, class: className } = Astro.props;
+
+// Group businesses by neighborhood
+const neighborhoodGroups = businesses.reduce((groups, business) => {
+  const neighborhood = business.neighborhood;
+  if (!groups[neighborhood]) {
+    groups[neighborhood] = [];
+  }
+  groups[neighborhood].push(business);
+  return groups;
+}, {} as Record<string, typeof businesses>);
+
+// Get neighborhood statistics
+const neighborhoodStats = Object.entries(neighborhoodGroups).map(([neighborhood, businesses]) => {
+  const types = [...new Set(businesses.map(b => b.type))];
+  const avgRating = businesses.reduce((sum, b) => sum + (b.rating || 0), 0) / businesses.length;
+  const activeCount = businesses.filter(b => b.status === 'active').length;
+  
+  return {
+    neighborhood,
+    businessCount: businesses.length,
+    types,
+    avgRating: avgRating > 0 ? avgRating : null,
+    activeCount,
+    businesses
+  };
+}).sort((a, b) => b.businessCount - a.businessCount);
+
+// Get unique categories for filtering
+const allCategories = [...new Set(businesses.map(b => b.type))].sort();
+const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort();
+---
+
+<div class={`neighborhood-grouping ${className || ''}`}>
+  {enableFiltering && (
+    <div class="filter-controls">
+      <div class="filter-section">
+        <h3>Explore by Area</h3>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label for="neighborhood-filter">Neighborhood:</label>
+            <select id="neighborhood-filter" class="filter-select">
+              <option value="">All Neighborhoods</option>
+              {allNeighborhoods.map(neighborhood => (
+                <option value={neighborhood}>{neighborhood}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="category-filter">Business Type:</label>
+            <select id="category-filter" class="filter-select">
+              <option value="">All Categories</option>
+              {allCategories.map(category => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="status-filter">Status:</label>
+            <select id="status-filter" class="filter-select">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="closed">Closed</option>
+              <option value="seasonal">Seasonal</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="filter-actions">
+          <button class="clear-filters secondary">Clear Filters</button>
+          <button class="apply-filters primary">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+  )}
+  
+  <div class="results-summary">
+    <p class="summary-text">
+      <strong id="visible-count">{businesses.length}</strong> businesses across 
+      <strong>{neighborhoodStats.length}</strong> neighborhoods
+      {businesses.length > 30 && (
+        <span class="data-note">
+          • <small>Data from San Francisco Legacy Business Registry</small>
+        </span>
+      )}
+    </p>
+  </div>
+  
+  {groupByNeighborhood ? (
+    <div class="neighborhood-sections">
+      {neighborhoodStats.map(({ neighborhood, businessCount, types, avgRating, activeCount, businesses: neighborhoodBusinesses }) => (
+        <section class="neighborhood-section" data-neighborhood={neighborhood}>
+          <header class="neighborhood-header">
+            <div class="neighborhood-info">
+              <h2>{neighborhood}</h2>
+              <div class="neighborhood-meta">
+                <span class="business-count">{businessCount} businesses</span>
+                <span class="active-count">{activeCount} active</span>
+                {avgRating && (
+                  <span class="neighborhood-rating">
+                    <span class="rating-stars">{'★'.repeat(Math.floor(avgRating))}{'☆'.repeat(5 - Math.floor(avgRating))}</span>
+                    <span class="rating-value">{avgRating.toFixed(1)}</span>
+                  </span>
+                )}
+              </div>
+              <div class="neighborhood-types">
+                {types.slice(0, 3).map(type => (
+                  <span class="type-badge">{type}</span>
+                ))}
+                {types.length > 3 && (
+                  <span class="type-badge more">+{types.length - 3} more</span>
+                )}
+              </div>
+            </div>
+            
+            <div class="neighborhood-actions">
+              <button 
+                class="expand-neighborhood"
+                onclick={`toggleNeighborhood('${neighborhood}')`}
+              >
+                <span class="expand-text">Explore Area</span>
+                <span class="collapse-text">Show Less</span>
+              </button>
+            </div>
+          </header>
+          
+          <div class="neighborhood-content">
+            <div class="business-list-neighborhood">
+              {neighborhoodBusinesses.slice(0, 6).map((business, index) => (
+                <BusinessCard 
+                  business={business}
+                  class="neighborhood-business"
+                />
+              ))}
+            </div>
+            
+            {neighborhoodBusinesses.length > 6 && (
+              <div class="load-more-section">
+                <div class="hidden-businesses" style="display: none;">
+                  <div class="business-list-neighborhood">
+                    {neighborhoodBusinesses.slice(6).map((business, index) => (
+                      <BusinessCard 
+                        business={business}
+                        class="neighborhood-business"
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div class="load-more-controls">
+                  <button 
+                    class="load-more-btn secondary"
+                    onclick={`toggleMoreBusinesses('${neighborhood}')`}
+                  >
+                    <span class="show-more-text">Show {neighborhoodBusinesses.length - 6} More Businesses</span>
+                    <span class="show-less-text" style="display: none;">Show Less</span>
+                  </button>
+                  <p class="business-summary">
+                    <small>Showing 6 of {neighborhoodBusinesses.length} businesses in {neighborhood}</small>
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      ))}
+    </div>
+  ) : (
+    <div class="business-list-filtered">
+      {businesses.map((business, index) => (
+        <BusinessCard 
+          business={business}
+          class="filtered-business"
+        />
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  // Progressive disclosure for neighborhoods
+  function toggleNeighborhood(neighborhood) {
+    const section = document.querySelector(`[data-neighborhood="${neighborhood}"]`);
+    const content = section.querySelector('.neighborhood-content');
+    const button = section.querySelector('.expand-neighborhood');
+    
+    section.classList.toggle('expanded');
+    
+    if (section.classList.contains('expanded')) {
+      content.style.display = 'block';
+      button.querySelector('.expand-text').style.display = 'none';
+      button.querySelector('.collapse-text').style.display = 'inline';
+    } else {
+      content.style.display = 'none';
+      button.querySelector('.expand-text').style.display = 'inline';
+      button.querySelector('.collapse-text').style.display = 'none';
+    }
+  }
+  
+  // Make function globally available
+  window.toggleNeighborhood = toggleNeighborhood;
+  
+  // Progressive disclosure for individual neighborhood businesses
+  function toggleMoreBusinesses(neighborhood) {
+    const section = document.querySelector(`[data-neighborhood="${neighborhood}"]`);
+    const hiddenBusinesses = section.querySelector('.hidden-businesses');
+    const showMoreText = section.querySelector('.show-more-text');
+    const showLessText = section.querySelector('.show-less-text');
+    const loadMoreBtn = section.querySelector('.load-more-btn');
+    
+    if (hiddenBusinesses.style.display === 'none') {
+      // Show more businesses
+      hiddenBusinesses.style.display = 'block';
+      showMoreText.style.display = 'none';
+      showLessText.style.display = 'inline';
+      loadMoreBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      // Show less businesses
+      hiddenBusinesses.style.display = 'none';
+      showMoreText.style.display = 'inline';
+      showLessText.style.display = 'none';
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  
+  // Make function globally available
+  window.toggleMoreBusinesses = toggleMoreBusinesses;
+  
+  // Filtering functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const neighborhoodFilter = document.getElementById('neighborhood-filter');
+    const categoryFilter = document.getElementById('category-filter');
+    const statusFilter = document.getElementById('status-filter');
+    const clearFiltersBtn = document.querySelector('.clear-filters');
+    const applyFiltersBtn = document.querySelector('.apply-filters');
+    const visibleCount = document.getElementById('visible-count');
+    
+    let allBusinesses = Array.from(document.querySelectorAll('.neighborhood-business, .filtered-business'));
+    let allSections = Array.from(document.querySelectorAll('.neighborhood-section'));
+    
+    function applyFilters() {
+      const selectedNeighborhood = neighborhoodFilter?.value || '';
+      const selectedCategory = categoryFilter?.value || '';
+      const selectedStatus = statusFilter?.value || '';
+      
+      let visibleBusinessCount = 0;
+      let visibleSections = 0;
+      
+      // Filter neighborhood sections
+      allSections.forEach(section => {
+        const sectionNeighborhood = section.getAttribute('data-neighborhood');
+        const sectionBusinesses = section.querySelectorAll('.neighborhood-business');
+        let sectionVisibleCount = 0;
+        
+        sectionBusinesses.forEach(businessElement => {
+          const businessData = getBusinessData(businessElement);
+          const isVisible = matchesFilters(businessData, selectedNeighborhood, selectedCategory, selectedStatus);
+          
+          businessElement.style.display = isVisible ? 'block' : 'none';
+          if (isVisible) {
+            sectionVisibleCount++;
+            visibleBusinessCount++;
+          }
+        });
+        
+        // Show/hide section based on whether it has visible businesses
+        if (sectionVisibleCount > 0 && (!selectedNeighborhood || sectionNeighborhood === selectedNeighborhood)) {
+          section.style.display = 'block';
+          visibleSections++;
+        } else {
+          section.style.display = 'none';
+        }
+      });
+      
+      // Filter individual businesses (if not grouped)
+      allBusinesses.forEach(businessElement => {
+        if (!businessElement.classList.contains('neighborhood-business')) {
+          const businessData = getBusinessData(businessElement);
+          const isVisible = matchesFilters(businessData, selectedNeighborhood, selectedCategory, selectedStatus);
+          
+          businessElement.style.display = isVisible ? 'block' : 'none';
+          if (isVisible) {
+            visibleBusinessCount++;
+          }
+        }
+      });
+      
+      // Update visible count
+      if (visibleCount) {
+        visibleCount.textContent = visibleBusinessCount.toString();
+      }
+    }
+    
+    function getBusinessData(businessElement) {
+      // Extract business data from DOM element
+      const nameElement = businessElement.querySelector('h3');
+      const typeElement = businessElement.querySelector('.type-tag');
+      const neighborhoodElement = businessElement.querySelector('.neighborhood-tag');
+      const statusElement = businessElement.querySelector('.status-indicator ins');
+      
+      return {
+        name: nameElement?.textContent || '',
+        type: typeElement?.textContent || '',
+        neighborhood: neighborhoodElement?.textContent || '',
+        status: statusElement?.textContent.toLowerCase() || ''
+      };
+    }
+    
+    function matchesFilters(business, neighborhood, category, status) {
+      const matchesNeighborhood = !neighborhood || business.neighborhood === neighborhood;
+      const matchesCategory = !category || business.type === category;
+      const matchesStatus = !status || business.status === status;
+      
+      return matchesNeighborhood && matchesCategory && matchesStatus;
+    }
+    
+    function clearFilters() {
+      if (neighborhoodFilter) neighborhoodFilter.value = '';
+      if (categoryFilter) categoryFilter.value = '';
+      if (statusFilter) statusFilter.value = '';
+      
+      // Show all businesses and sections
+      allBusinesses.forEach(business => {
+        business.style.display = 'block';
+      });
+      
+      allSections.forEach(section => {
+        section.style.display = 'block';
+      });
+      
+      // Reset visible count
+      if (visibleCount) {
+        visibleCount.textContent = allBusinesses.length.toString();
+      }
+    }
+    
+    // Event listeners
+    clearFiltersBtn?.addEventListener('click', clearFilters);
+    applyFiltersBtn?.addEventListener('click', applyFilters);
+    
+    // Auto-apply filters on change
+    [neighborhoodFilter, categoryFilter, statusFilter].forEach(filter => {
+      filter?.addEventListener('change', applyFilters);
+    });
+  });
+</script>
+
+<style>
+  .neighborhood-grouping {
+    width: 100%;
+  }
+  
+  /* Filter Controls */
+  .filter-controls {
+    background: rgba(59, 130, 246, 0.02);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    border-radius: var(--pico-border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .filter-section h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--pico-primary);
+  }
+  
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .filter-group label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--pico-color);
+  }
+  
+  .filter-select {
+    padding: 0.5rem;
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    background: var(--pico-background-color);
+    color: var(--pico-color);
+    font-size: 0.875rem;
+  }
+  
+  .filter-select:focus {
+    outline: 2px solid var(--pico-primary);
+    outline-offset: 2px;
+  }
+  
+  .filter-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+  
+  .clear-filters, .apply-filters {
+    padding: 0.5rem 1rem;
+    border-radius: var(--pico-border-radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+  }
+  
+  .clear-filters {
+    background: var(--pico-secondary-background);
+    color: var(--pico-secondary-color);
+  }
+  
+  .clear-filters:hover {
+    background: var(--pico-secondary-hover-background);
+  }
+  
+  .apply-filters {
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+  }
+  
+  .apply-filters:hover {
+    background: var(--pico-primary-hover);
+  }
+  
+  /* Results Summary */
+  .results-summary {
+    margin-bottom: 1.5rem;
+  }
+  
+  .summary-text {
+    font-size: 1rem;
+    color: var(--pico-muted-color);
+    margin: 0;
+  }
+  
+  .data-note {
+    display: block;
+    margin-top: 0.25rem;
+    font-style: italic;
+    color: var(--pico-primary);
+  }
+  
+  /* Neighborhood Sections */
+  .neighborhood-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .neighborhood-section {
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .neighborhood-section:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+  }
+  
+  .neighborhood-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: rgba(59, 130, 246, 0.02);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    gap: 1rem;
+  }
+  
+  .neighborhood-info {
+    flex: 1;
+  }
+  
+  .neighborhood-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--pico-primary);
+  }
+  
+  .neighborhood-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .business-count, .active-count {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--pico-muted-color);
+  }
+  
+  .business-count {
+    color: var(--pico-color);
+  }
+  
+  .neighborhood-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .rating-stars {
+    color: #fbbf24;
+    font-size: 0.875rem;
+  }
+  
+  .rating-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pico-color);
+  }
+  
+  .neighborhood-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .type-badge {
+    padding: 0.25rem 0.5rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .type-badge.more {
+    background: rgba(139, 92, 246, 0.1);
+    color: #7c3aed;
+    border-color: rgba(139, 92, 246, 0.2);
+  }
+  
+  .neighborhood-actions {
+    flex-shrink: 0;
+  }
+  
+  .expand-neighborhood {
+    /* Use Pico's default button styling */
+  }
+  
+  .neighborhood-content {
+    display: none;
+    padding: 1.5rem;
+    background: var(--pico-background-color);
+  }
+  
+  .neighborhood-section.expanded .neighborhood-content {
+    display: block;
+  }
+  
+  .neighborhood-section.expanded .expand-text {
+    display: none;
+  }
+  
+  .neighborhood-section.expanded .collapse-text {
+    display: inline;
+  }
+  
+  .neighborhood-section:not(.expanded) .collapse-text {
+    display: none;
+  }
+  
+  /* Business Lists */
+  .business-list-neighborhood,
+  .business-list-filtered {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pico-spacing);
+  }
+  
+  /* Load More Controls */
+  .load-more-section {
+    margin-top: 1.5rem;
+  }
+  
+  .load-more-controls {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(249, 250, 251, 0.5);
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    margin-top: 1rem;
+  }
+  
+  .load-more-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--pico-border-radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background: var(--pico-secondary-background);
+    color: var(--pico-secondary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .load-more-btn:hover {
+    background: var(--pico-secondary-hover-background);
+    transform: translateY(-1px);
+  }
+  
+  .business-summary {
+    margin: 0;
+    color: var(--pico-muted-color);
+    font-size: 0.875rem;
+  }
+  
+  .hidden-businesses {
+    margin-top: 1rem;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .filter-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .filter-actions {
+      flex-direction: column;
+    }
+    
+    .neighborhood-header {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .neighborhood-actions {
+      align-self: flex-start;
+    }
+    
+  }
+</style>

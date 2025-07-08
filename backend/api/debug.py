@@ -193,7 +193,9 @@ class DebugService:
                 "enabled": vendor_config.get("enabled", False),
                 "has_credentials": has_key,
                 "mode": "mock",  # All vendors use mock implementations
-                "features": vendor_config.get("features", [])
+                "features": vendor_config.get("features", []),
+                "sponsor": vendor_config.get("sponsor", False),
+                "sponsor_info": vendor_config.get("sponsor_info", {})
             }
             
             # Add security information if available
@@ -318,6 +320,15 @@ class DebugService:
                 passed = frontend_healthy
             elif check_name == "vendor_available":
                 passed = len(vendor_status) > 0
+            elif check_name == "llamaindex_available":
+                # Check if LlamaIndex service is available
+                try:
+                    from .llamaindex_service import get_llamaindex_service
+                    llamaindex_service = get_llamaindex_service()
+                    status = llamaindex_service.get_service_status()
+                    passed = status.get("capabilities", {}).get("text_extraction", False)
+                except Exception:
+                    passed = False
             
             if passed:
                 score += weight

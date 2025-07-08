@@ -1,0 +1,153 @@
+---
+export interface Props {
+  title: string;
+  headers: string[];
+  rows: Array<Record<string, any>>;
+  class?: string;
+}
+
+const { title, headers, rows, class: className } = Astro.props;
+---
+
+<article class={className}>
+  <header>
+    <h2>{title}</h2>
+  </header>
+
+  <!-- Desktop Table View -->
+  <figure class="desktop-table">
+    <table role="table">
+      <thead>
+        <tr>
+          {headers.map(header => <th>{header}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(row => (
+          <tr>
+            {headers.map(header => (
+              <td>
+                {typeof row[header] === 'boolean' ? (
+                  <ins>{row[header] ? 'Yes' : 'No'}</ins>
+                ) : typeof row[header] === 'object' && row[header]?.status ? (
+                  <>
+                    <span class={`status-dot ${row[header].status}`}></span>
+                    <span>{row[header].status}</span>
+                    {row[header].response_time && (
+                      <small>({Math.round(row[header].response_time * 1000)}ms)</small>
+                    )}
+                  </>
+                ) : (
+                  <Fragment set:html={row[header]} />
+                )}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </figure>
+
+  <!-- Mobile Card View -->
+  <div class="mobile-cards">
+    {rows.map(row => (
+      <div class="data-card">
+        {headers.map(header => (
+          <div class="data-row">
+            <div class="data-label">{header}</div>
+            <div class="data-value">
+              {typeof row[header] === 'boolean' ? (
+                <ins>{row[header] ? 'Yes' : 'No'}</ins>
+              ) : typeof row[header] === 'object' && row[header]?.status ? (
+                <>
+                  <span class={`status-dot ${row[header].status}`}></span>
+                  <span>{row[header].status}</span>
+                  {row[header].response_time && (
+                    <small>({Math.round(row[header].response_time * 1000)}ms)</small>
+                  )}
+                </>
+              ) : (
+                <Fragment set:html={row[header]} />
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</article>
+
+<style>
+  /* Mobile-first: Card layout by default */
+  .desktop-table {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .data-card {
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1rem;
+  }
+
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--pico-border-color);
+  }
+
+  .data-row:last-child {
+    border-bottom: none;
+  }
+
+  .data-label {
+    font-weight: 500;
+    color: var(--pico-muted-color);
+    font-size: 0.875rem;
+  }
+
+  .data-value {
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pico-primary);
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  .status-dot.healthy { 
+    background: var(--pico-ins-color);
+  }
+  
+  .status-dot.unhealthy { 
+    background: var(--pico-del-color);
+  }
+  
+  .status-dot.degraded { 
+    background: #f59e0b;
+  }
+
+  /* Desktop: Switch to table layout */
+  @media (min-width: 769px) {
+    .mobile-cards {
+      display: none;
+    }
+
+    .desktop-table {
+      display: block;
+    }
+  }
+</style>

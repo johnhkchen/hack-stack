@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import ApiTestsTable from '../components/ApiTestsTable.svelte';
+import TableCard from '../components/TableCard.astro';
+import StatusCard from '../components/StatusCard.astro';
+import SponsorCard from '../components/SponsorCard.astro';
 
 // Fetch live backend data during SSR
 let backendData = null;
@@ -27,314 +30,384 @@ const timestamp = new Date().toISOString();
 ---
 
 <Layout title="Debug Dashboard">
+  <Navigation currentPage="debug" />
+  
   <main class="container">
-    <Navigation 
-      title="Debug Dashboard" 
-      subtitle={`Updated: ${new Date(timestamp).toLocaleTimeString()}`}
-      currentPage="debug" 
-    />
+    <section>
+      <hgroup>
+        <h1>Debug Dashboard</h1>
+        <p>Updated: {new Date(timestamp).toLocaleTimeString()}</p>
+      </hgroup>
+    </section>
 
     {backendError ? (
-      <article>
-        <h2>Backend Connection Failed</h2>
-        <p>Cannot connect to backend API: <code>{backendError}</code></p>
-        <p>This indicates a service connectivity issue.</p>
-      </article>
+      <section>
+        <article>
+          <h2>Backend Connection Failed</h2>
+          <p>Cannot connect to backend API: <code>{backendError}</code></p>
+          <p>This indicates a service connectivity issue.</p>
+        </article>
+      </section>
     ) : (
-      <div class="grid">
-        <!-- Overall Health -->
+      <section class="debug-grid">
+        <!-- Overall Status - Simple card for key metrics -->
         <article>
-          <h2>Overall Status</h2>
-          <div class="grid">
-            <div>
-              <strong>Health:</strong>
-              <kbd>{backendData.overall_health}</kbd>
-            </div>
-            <div>
-              <strong>Mode:</strong>
-              <kbd>{backendData.environment_mode}</kbd>
-            </div>
-            <div>
-              <strong>Demo Ready:</strong>
-              <kbd>{backendData.demo_ready ? 'Yes' : 'No'}</kbd>
-            </div>
-          </div>
+          <header>
+            <h2>Overall Status</h2>
+          </header>
+          <p><strong>Health:</strong> <code>{backendData.overall_health}</code></p>
+          <p><strong>Mode:</strong> <code>{backendData.environment_mode}</code></p>
+          <p><strong>Demo Ready:</strong> <ins>{backendData.demo_ready ? 'Yes' : 'No'}</ins></p>
         </article>
 
-        <!-- Services Status -->
+        <!-- Services - Card with better status indicators -->
         <article>
-          <h2>Services</h2>
+          <header>
+            <h2>Services</h2>
+          </header>
           {backendData.services && Object.entries(backendData.services).map(([name, service]) => (
-            <div class="grid">
-              <div>
-                <strong>{service.name}</strong>
-              </div>
-              <div>
-                <span class={`status-dot ${service.status}`}></span>
-                <span>{service.status}</span>
-                {service.response_time && (
-                  <small class="muted">
-                    {Math.round(service.response_time * 1000)}ms
-                  </small>
-                )}
-              </div>
-              {service.error && (
-                <div style="color: var(--pico-del-color);">Error: {service.error}</div>
+            <p>
+              <span class={`status-dot ${service.status}`}></span>
+              <strong>{service.name}</strong>
+              <small>({service.status})</small>
+              {service.response_time && (
+                <small> • {Math.round(service.response_time * 1000)}ms</small>
               )}
-            </div>
+              {service.error && (
+                <br><mark>Error: {service.error}</mark>
+              )}
+            </p>
           ))}
         </article>
 
-        <!-- Vendors Status -->
-        <article>
-          <h2>Integration Partners</h2>
-          {backendData.vendors && Object.entries(backendData.vendors).map(([name, vendor]) => (
-            <div class={`grid vendor-card ${vendor.security_warning ? 'has-warning' : ''} ${name === 'weaviate' ? 'sponsor-integration' : ''}`}>
-              <div>
+        <!-- Credential Status - List style to match sections above -->
+        <article class="full-width">
+          <header>
+            <h2>Credential Status</h2>
+          </header>
+          {backendData.vendors && Object.entries(backendData.vendors)
+            .filter(([name, vendor]) => !vendor.sponsor)
+            .map(([name, vendor]) => (
+              <p>
+                <span class={`status-dot ${vendor.has_credentials ? 'healthy' : 'unhealthy'}`}></span>
                 <strong>{vendor.name}</strong>
-                {name === 'weaviate' && <span class="sponsor-badge">★ Sponsor</span>}
-                <div class="vendor-type">{vendor.type.replace('_', ' ')}</div>
-              </div>
-              <div>
-                <kbd>{vendor.mode}</kbd>
-                <span>
-                  {vendor.has_credentials ? 'Credentials Ready' : 
-                   name === 'weaviate' ? 'Ready for Integration' : 'No Credentials'}
-                </span>
+                <small>({vendor.type.replace('_', ' ')})</small>
+                {vendor.has_credentials ? <ins> • Ready</ins> : <del> • No Credentials</del>}
                 {vendor.credential_source && vendor.credential_source !== 'none' && (
-                  <small class={vendor.is_secure ? '' : 'text-danger'}>
-                    {vendor.credential_source === 'host_env' ? 'Host Environment' : 
-                     vendor.credential_source === 'env_file' ? 'Environment File' : vendor.credential_source}
-                  </small>
+                  <small> • {vendor.credential_source === 'host_env' ? 'Host Environment' : 
+                            vendor.credential_source === 'env_file' ? 'Environment File' : vendor.credential_source}</small>
                 )}
-              </div>
-              {vendor.security_warning && (
-                <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
-                  <small><mark>{vendor.security_warning}</mark></small>
-                </div>
-              )}
-              {name === 'weaviate' && (
-                <div class="sponsor-info">
-                  <div class="sponsor-status">Vector Database • Sponsor Partnership</div>
-                  <div class="sponsor-detail">Semantic search & data ingestion capabilities</div>
-                </div>
-              )}
-            </div>
-          ))}
+                {vendor.security_warning && (
+                  <br><mark>⚠️ {vendor.security_warning}</mark>
+                )}
+              </p>
+            ))}
         </article>
-      </div>
+      </section>
     )}
 
+    <!-- Sponsor Partnerships - Full-width showcase -->
+    {backendData && backendData.vendors && Object.entries(backendData.vendors).filter(([name, vendor]) => vendor.sponsor).length > 0 && (
+      <section class="sponsor-section">
+        <header>
+          <h2>Sponsor Partnerships</h2>
+          <p><small>Trusted integrations and strategic technology partnerships</small></p>
+        </header>
+        <div class="sponsor-showcase">
+          {Object.entries(backendData.vendors)
+            .filter(([name, vendor]) => vendor.sponsor)
+            .map(([name, vendor]) => (
+              <SponsorCard vendor={vendor} />
+            ))}
+        </div>
+      </section>
+    )}
+
+    <!-- API Tests -->
+    <section>
+      <ApiTestsTable client:load />
+    </section>
+
+    <!-- Raw Data -->
+    <section>
+      <details>
+        <summary>Raw Backend Data</summary>
+        <pre><code>{backendData ? JSON.stringify(backendData, null, 2) : `Error: ${backendError}`}</code></pre>
+      </details>
+    </section>
   </main>
 
-  <!-- Interactive Components (Svelte Islands) - Full Width -->
-  <div class="full-width-section">
-    <ApiTestsTable client:load />
-  </div>
-
-  <!-- Raw Data -->
-  <div class="container">
-    <details>
-      <summary>Raw Backend Data</summary>
-      <pre><code>{backendData ? JSON.stringify(backendData, null, 2) : `Error: ${backendError}`}</code></pre>
-    </details>
-  </div>
-
   <style>
-    /* Mobile-first responsive design */
-    .full-width-section {
-      width: 100%;
-      max-width: none;
-      padding: 1rem;
-      margin: 1rem 0;
-    }
-
-    /* Mobile-friendly grid layouts */
-    .grid {
+    .debug-grid {
       display: grid;
-      gap: 1rem;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--pico-grid-column-gap);
     }
 
-    .has-warning {
-      border-left: 4px solid var(--pico-del-color);
-      padding-left: 1rem;
-      margin: 1rem 0;
-    }
-
-    /* Improve readability on mobile */
-    article {
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    article h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-    }
-
-    /* Status sections */
-    .status-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--pico-border-color);
-    }
-
-    .status-item:last-child {
-      border-bottom: none;
-    }
-
-    .status-label {
-      font-weight: 500;
-      color: var(--pico-muted-color);
-      font-size: 0.875rem;
-    }
-
-    .status-value {
-      font-weight: 600;
-    }
-
-    /* Improve kbd styling */
-    kbd {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.75rem;
-      border-radius: 0.25rem;
-      background: #6b7280;
-      color: white;
-      font-weight: 500;
-    }
-
-    /* Service and vendor cards */
-    .service-card, .vendor-card {
-      background: var(--pico-background-color);
-      border: 1px solid var(--pico-border-color);
-      border-radius: var(--pico-border-radius);
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .service-header, .vendor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .service-name, .vendor-name {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .service-status, .vendor-status {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .service-error, .vendor-warning {
-      margin-top: 0.5rem;
-      padding: 0.5rem;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid var(--pico-del-color);
-      border-radius: var(--pico-border-radius);
-      color: var(--pico-del-color);
-      font-size: 0.875rem;
-    }
-
-    .vendor-warning {
-      background: rgba(245, 158, 11, 0.1);
-      border-color: #f59e0b;
-      color: #f59e0b;
-    }
-
-    .sponsor-integration {
-      border-left: 4px solid #8b5cf6;
-      background: rgba(139, 92, 246, 0.02);
-    }
-
-    .sponsor-badge {
-      background: #8b5cf6;
-      color: white;
-      padding: 0.125rem 0.5rem;
-      border-radius: 1rem;
-      font-size: 0.75rem;
-      margin-left: 0.5rem;
-      font-weight: 500;
-    }
-
-    .vendor-type {
-      font-size: 0.75rem;
-      color: var(--pico-muted-color);
-      text-transform: capitalize;
-      margin-top: 0.25rem;
-    }
-
-    .sponsor-info {
+    .debug-grid .full-width {
       grid-column: 1 / -1;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(139, 92, 246, 0.2);
     }
 
-    .sponsor-status {
-      font-weight: 600;
-      color: #8b5cf6;
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
+    /* Sponsor Partnerships Section */
+    .sponsor-section {
+      background: rgba(139, 92, 246, 0.02);
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      border-radius: var(--pico-border-radius);
+      padding: calc(var(--pico-spacing) * 2);
+      margin: calc(var(--pico-spacing) * 3) 0;
     }
-
-    .sponsor-detail {
+    
+    .sponsor-section header {
+      margin-bottom: calc(var(--pico-spacing) * 2);
+      text-align: center;
+    }
+    
+    .sponsor-section header h2 {
+      margin-bottom: calc(var(--pico-spacing) * 0.5);
+      color: #6d28d9;
+      font-size: 1.75rem;
+    }
+    
+    .sponsor-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--pico-spacing) * 2);
+    }
+    
+    /* Full-width Sponsor Cards */
+    .sponsor-card {
+      background: white;
+      border: 2px solid rgba(139, 92, 246, 0.15);
+      border-radius: var(--pico-border-radius);
+      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.08);
+      transition: all 0.2s ease;
+    }
+    
+    .sponsor-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+    }
+    
+    .sponsor-card-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: calc(var(--pico-spacing) * 2);
+      padding: calc(var(--pico-spacing) * 2);
+    }
+    
+    /* Left: Identity & Status */
+    .sponsor-identity {
+      border-right: 1px solid rgba(139, 92, 246, 0.1);
+      padding-right: calc(var(--pico-spacing) * 2);
+    }
+    
+    .sponsor-identity header {
+      margin-bottom: calc(var(--pico-spacing) * 1.5);
+    }
+    
+    .sponsor-identity h3 {
+      margin: 0 0 calc(var(--pico-spacing) * 0.5) 0;
+      font-size: 1.5rem;
+      color: #6d28d9;
+      font-weight: 700;
+    }
+    
+    .sponsor-identity hgroup p {
+      margin: 0;
       font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .sponsor-category {
+      margin-top: calc(var(--pico-spacing) * 0.75);
+      padding: calc(var(--pico-spacing) * 0.5) 0;
+      border-top: 1px solid rgba(139, 92, 246, 0.1);
+    }
+    
+    .sponsor-status p {
+      margin: calc(var(--pico-spacing) * 0.5) 0;
+      font-size: 0.875rem;
+    }
+    
+    .integration-status {
+      font-weight: 600;
+      color: var(--pico-ins-color);
+    }
+    
+    /* Right: Content & Capabilities */
+    .sponsor-content {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--pico-spacing) * 1.5);
+    }
+    
+    .sponsor-description p {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--pico-color);
+    }
+    
+    .sponsor-capabilities h4 {
+      margin: 0 0 calc(var(--pico-spacing) * 1) 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #6d28d9;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .capabilities-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: calc(var(--pico-spacing) * 1);
+    }
+    
+    .capability-item {
+      padding: calc(var(--pico-spacing) * 0.75);
+      background: rgba(139, 92, 246, 0.05);
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      border-radius: calc(var(--pico-border-radius) * 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--pico-spacing) * 0.25);
+    }
+    
+    .capability-item strong {
+      font-size: 0.875rem;
+      color: #6d28d9;
+      font-weight: 600;
+    }
+    
+    .capability-item span {
+      font-size: 0.825rem;
       color: var(--pico-muted-color);
       line-height: 1.4;
     }
 
-    /* Tablet and desktop styles */
-    @media (min-width: 768px) {
-      .full-width-section {
-        padding: 2rem 1rem;
-        margin: 2rem 0;
-      }
-
-      .grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-      }
-
-      article {
-        padding: 1.5rem;
-      }
-
-      article h2 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-      }
-    }
-
-    /* Large desktop styles */
-    @media (min-width: 1024px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background: var(--pico-primary);
       display: inline-block;
-      margin-right: 0.5rem;
+      margin-right: 0.75rem;
+      margin-top: 0.125rem;
+      vertical-align: top;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
     }
 
-    .status-dot.healthy { background: var(--pico-ins-color); }
-    .status-dot.unhealthy { background: var(--pico-del-color); }
-    .status-dot.degraded { background: #f59e0b; }
+    .status-dot.healthy { 
+      background: var(--pico-ins-color);
+    }
+    
+    .status-dot.unhealthy { 
+      background: var(--pico-del-color);
+    }
+    
+    .status-dot.degraded { 
+      background: #f59e0b;
+    }
 
-    .text-danger {
+    .status-text {
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .secure {
+      color: var(--pico-ins-color);
+    }
+
+    .insecure {
       color: var(--pico-del-color);
+    }
+
+    /* Consistent section spacing */
+    main > section {
+      margin-bottom: calc(var(--pico-spacing) * 2);
+    }
+    
+    main > section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .debug-grid {
+      margin-bottom: calc(var(--pico-spacing) * 1.5);
+    }
+    
+    .debug-grid article {
+      background: var(--pico-card-background-color);
+      border: 1px solid var(--pico-border-color);
+      padding: calc(var(--pico-spacing) * 1.25);
+    }
+    
+    /* Typography hierarchy */
+    .debug-grid article h2 {
+      margin-bottom: calc(var(--pico-spacing) * 0.75);
+      font-size: 1.25rem;
+    }
+    
+    main h2 {
+      margin-bottom: calc(var(--pico-spacing) * 1);
+      font-size: 1.5rem;
+    }
+
+    /* Mobile and tablet: single column */
+    @media (max-width: 768px) {
+      .debug-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .debug-grid .full-width {
+        grid-column: 1;
+      }
+      
+      main > section {
+        margin-bottom: calc(var(--pico-spacing) * 1.5);
+      }
+      
+      /* Mobile sponsor cards */
+      .sponsor-section {
+        padding: calc(var(--pico-spacing) * 1.5);
+        margin: calc(var(--pico-spacing) * 2) 0;
+      }
+      
+      .sponsor-card-layout {
+        grid-template-columns: 1fr;
+        gap: calc(var(--pico-spacing) * 1.5);
+        padding: calc(var(--pico-spacing) * 1.5);
+      }
+      
+      .sponsor-identity {
+        border-right: none;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        padding-right: 0;
+        padding-bottom: calc(var(--pico-spacing) * 1.5);
+      }
+      
+      .sponsor-identity h3 {
+        font-size: 1.25rem;
+      }
+      
+      .sponsor-description p {
+        font-size: 1rem;
+      }
+      
+      .capabilities-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Desktop: multi-column layouts */
+    @media (min-width: 769px) {
+      .debug-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .debug-grid .full-width {
+        grid-column: 1 / -1;
+      }
     }
   </style>
 

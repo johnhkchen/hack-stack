@@ -1,0 +1,691 @@
+{
+  "registry_info": {
+    "name": "San Francisco Legacy Business Registry",
+    "description": "Historic businesses with rich cultural narratives and community impact",
+    "last_updated": "2024-07-08",
+    "total_applications": 15,
+    "data_source": "SF Legacy Business Registry with enhanced narratives",
+    "heritage_criteria": {
+      "minimum_years_operation": 30,
+      "community_benefit_required": true,
+      "historical_documentation_required": true,
+      "cultural_significance_demonstrated": true,
+      "economic_contribution_verified": true
+    }
+  },
+  "applications": [
+    {
+      "id": 1,
+      "application_number": "LBR-1896-001",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "Molinari Delicatessen",
+      "legal_name": "Molinari Delicatessen LLC",
+      "dba_name": "Molinari Delicatessen",
+      "type": "Food & Beverage",
+      "neighborhood": "North Beach",
+      "address": "476 Broadway",
+      "established": "1896",
+      "years_at_location": 28,
+      "tagline": "Cultural landmark serving community for generations",
+      "founding_story": "Founded in 1896 by Domenico Molinari, who emigrated from Piedmont, Italy with family salami recipes dating back to the 1600s. Domenico arrived in San Francisco during the height of Italian immigration, when North Beach was becoming Little Italy. He started with a small storefront, hand-crafting traditional Italian salami and mortadella using recipes his grandmother taught him. The business survived the 1906 earthquake and fire by relocating temporarily to a basement, where Domenico continued making salami by candlelight. The shop became a gathering place for Italian immigrants homesick for authentic flavors.",
+      "cultural_impact": "Molinari Delicatessen represents the living heart of Italian-American culture in San Francisco. For over 125 years, it has maintained authentic Italian food traditions while serving as a cultural anchor for the North Beach community. The shop's hand-painted signs, traditional methods, and multi-generational recipes create an immersive experience that transports visitors to old-world Italy. It's not just a delicatessen - it's a cultural institution that has preserved Italian culinary heritage through four generations of family ownership.",
+      "unique_features": "The shop maintains original 1920s refrigerated display cases with curved glass, creating a museum-like atmosphere. Salamis hang from wooden beams exactly as they did in 1896, aging in the same traditional manner. The hand-painted Italian signs and vintage scales have never been replaced, preserving the authentic old-world atmosphere. The mortadella is still made using the original 1896 recipe, with spices imported directly from Piedmont. A vintage espresso machine from the 1940s serves authentic Italian coffee to customers.",
+      "notable_features": [
+        "Original 1920s refrigerated display cases",
+        "Salamis hanging from wooden beams",
+        "Hand-painted Italian signage",
+        "Vintage scales from early 1900s",
+        "1940s espresso machine",
+        "Traditional mortadella recipe from 1896"
+      ],
+      "keywords": [
+        "italian-heritage",
+        "family-recipes",
+        "traditional-methods",
+        "north-beach-institution",
+        "authentic-italian",
+        "earthquake-survivor"
+      ],
+      "cultural_significance": "Preserved Italian culinary traditions for 125+ years",
+      "story": "Founded by Domenico Molinari who immigrated from Liguria with traditional meat-curing knowledge",
+      "community_impact": "Serving the Italian-American community for over 125 years, preserving traditional salumi-making techniques brought from Liguria. Family recipes unchanged since 1896.",
+      "historical_significance": "Survived 1906 earthquake, fed Italian immigrants for generations",
+      "proof_of_establishment": "Original business license from 1896, family immigration documents, continuous property records",
+      "supporting_evidence": {
+        "historical_photos": "45 historical photographs submitted",
+        "newspaper_clippings": "14 newspaper articles and reviews",
+        "community_letters": "43 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 10,
+      "local_hiring_percentage": 90,
+      "revenue_range": "$1.5M-3M",
+      "phone": "(415) 745-7383",
+      "email": "info@molinaridelicatessen.com",
+      "website": "https://www.molinaridelicatessen.com",
+      "heritage_score": 98,
+      "community_impact_score": 96,
+      "historical_significance_score": 81,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "House-made salami",
+        "Traditional Italian imports",
+        "Historic deli counter"
+      ],
+      "community_events": [
+        "Columbus Day festival participation",
+        "North Beach Festival anchor vendor"
+      ],
+      "rating": 4.8,
+      "reviews_count": 301,
+      "media_recognition": [
+        "Food Network segment",
+        "Featured in Ken Burns documentary footage",
+        "Yelp Editors' Choice"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Fresh Daily",
+        "Local Sourcing",
+        "Custom Orders"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 2,
+      "application_number": "LBR-1953-002",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "City Lights Booksellers",
+      "legal_name": "City Lights Booksellers LLC",
+      "dba_name": "City Lights Booksellers",
+      "type": "Retail",
+      "neighborhood": "North Beach",
+      "address": "2193 Columbus Ave",
+      "established": "1953",
+      "years_at_location": 26,
+      "tagline": "Cultural landmark serving community for generations",
+      "founding_story": "Founded in 1953 by Lawrence Ferlinghetti and Peter D. Martin as the first all-paperback bookstore in the United States. Ferlinghetti, a poet and painter, envisioned a bookstore that would make literature accessible to everyone, not just the wealthy who could afford hardcover books. The store was named after the Charlie Chaplin film 'City Lights' and became a haven for writers, artists, and intellectuals. In 1957, City Lights gained national attention when Ferlinghetti was arrested for publishing Allen Ginsberg's 'Howl,' leading to a landmark First Amendment case that established important precedents for free speech and artistic expression.",
+      "cultural_impact": "City Lights Bookstore became the epicenter of the Beat Generation movement and continues to champion independent literature and free speech. The store's publishing arm, City Lights Publishers, has published works by Jack Kerouac, Allen Ginsberg, and countless other influential writers. It serves as a literary pilgrimage site for writers and readers worldwide, maintaining its commitment to progressive politics and artistic freedom. The bookstore has influenced generations of writers, artists, and activists, making it a vital cultural institution that extends far beyond San Francisco.",
+      "unique_features": "The narrow Victorian building maintains its original 1950s layout with creaky wooden floors and handwritten shelf signs. The Poetry Room upstairs houses one of the world's most comprehensive collections of Beat Generation literature and small press publications. Original Beat Generation manuscripts and letters are displayed in glass cases, creating a literary museum atmosphere. The store's basement features a hidden speakeasy-style reading room where the Beats once gathered for clandestine meetings during the McCarthy era.",
+      "notable_features": [
+        "Original 1950s Victorian building layout",
+        "Poetry Room with Beat Generation collection",
+        "Handwritten shelf signs and labels",
+        "Original Beat manuscripts on display",
+        "Hidden basement reading room",
+        "Creaky wooden floors from 1953"
+      ],
+      "keywords": [
+        "beat-generation",
+        "literary-landmark",
+        "free-speech",
+        "independent-publishing",
+        "cultural-revolution",
+        "literary-pilgrimage"
+      ],
+      "cultural_significance": "Championed free speech and artistic expression",
+      "story": "Founded by Lawrence Ferlinghetti and Peter Martin as first all-paperback bookstore in US",
+      "community_impact": "Cultural landmark promoting free speech and independent publishing. Birthplace of Beat Generation literary movement.",
+      "historical_significance": "Landmark court case establishing literary freedom, Beat Generation epicenter",
+      "proof_of_establishment": "Incorporation documents 1953, landmark designation 2001, continuous business license",
+      "supporting_evidence": {
+        "historical_photos": "45 historical photographs submitted",
+        "newspaper_clippings": "23 newspaper articles and reviews",
+        "community_letters": "55 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 21,
+      "local_hiring_percentage": 82,
+      "revenue_range": "$1M-2M",
+      "phone": "(415) 564-2008",
+      "email": "info@citylightsbooksellers.com",
+      "website": "https://www.citylightsbooksellers.com",
+      "heritage_score": 98,
+      "community_impact_score": 91,
+      "historical_significance_score": 80,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Beat Generation archives",
+        "Independent publishing",
+        "24-hour poetry room"
+      ],
+      "community_events": [
+        "Poetry readings since 1955",
+        "Author book launches",
+        "Free speech advocacy"
+      ],
+      "rating": 4.1,
+      "reviews_count": 752,
+      "media_recognition": [
+        "Food Network segment",
+        "Yelp Editors' Choice"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Gift Wrapping",
+        "Layaway",
+        "Personal Service"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 3,
+      "application_number": "LBR-1973-003",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "La Taqueria",
+      "legal_name": "La Taqueria LLC",
+      "dba_name": "La Taqueria",
+      "type": "Restaurant",
+      "neighborhood": "Mission District",
+      "address": "397 16th St",
+      "established": "1973",
+      "years_at_location": 44,
+      "tagline": "Preserving tradition since generations",
+      "story": "Opened by brothers from Michoac\u00e1n bringing authentic street taco techniques to San Francisco",
+      "community_impact": "Authentic Mexican taqueria serving the Latino community for 50 years. Maintains traditional preparation methods.",
+      "cultural_significance": "Featured in national food publications as 'America's best burrito', representing Mission's Mexican culinary tradition",
+      "historical_significance": "Helped establish Mission as premier Latino food destination",
+      "proof_of_establishment": "Business license 1973, health permits, family ownership documentation",
+      "supporting_evidence": {
+        "historical_photos": "30 historical photographs submitted",
+        "newspaper_clippings": "24 newspaper articles and reviews",
+        "community_letters": "36 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 6,
+      "local_hiring_percentage": 75,
+      "revenue_range": "$1M-2M",
+      "phone": "(415) 780-4864",
+      "email": "info@lataqueria.com",
+      "website": "https://www.lataqueria.com",
+      "heritage_score": 95,
+      "community_impact_score": 88,
+      "historical_significance_score": 87,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "No-rice burritos",
+        "Carnitas cooked in lard",
+        "Traditional Mexican sodas"
+      ],
+      "community_events": [
+        "D\u00eda de los Muertos celebration",
+        "Mission Cultural Center partnerships"
+      ],
+      "rating": 4.9,
+      "reviews_count": 207,
+      "media_recognition": [
+        "Featured in Chronicle historical retrospective",
+        "Local newspaper reviews",
+        "Yelp Editors' Choice"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Takeout",
+        "Outdoor Seating",
+        "Reservations"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 4,
+      "application_number": "LBR-1975-004",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "Rainbow Grocery",
+      "legal_name": "Rainbow Grocery LLC",
+      "dba_name": "Rainbow Grocery",
+      "type": "Food & Beverage",
+      "neighborhood": "Mission District",
+      "address": "2422 Valencia St",
+      "established": "1975",
+      "years_at_location": 49,
+      "tagline": "Historic institution maintaining heritage for generations",
+      "story": "Founded during 1970s counterculture movement as alternative to corporate grocery chains",
+      "community_impact": "Worker-owned cooperative grocery supporting local producers and sustainable food systems for 48 years.",
+      "cultural_significance": "Model for cooperative business structure, pioneer in organic and local food movement",
+      "historical_significance": "One of oldest worker cooperatives in Bay Area, sustainable food pioneer",
+      "proof_of_establishment": "Cooperative incorporation 1975, continuous operation permits, worker-owner documentation",
+      "supporting_evidence": {
+        "historical_photos": "45 historical photographs submitted",
+        "newspaper_clippings": "16 newspaper articles and reviews",
+        "community_letters": "38 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 19,
+      "local_hiring_percentage": 95,
+      "revenue_range": "$800K-1.5M",
+      "phone": "(415) 897-5038",
+      "email": "info@rainbowgrocery.com",
+      "website": "https://www.rainbowgrocery.com",
+      "heritage_score": 95,
+      "community_impact_score": 95,
+      "historical_significance_score": 81,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Worker ownership model",
+        "Bulk goods pioneer",
+        "Local producer focus"
+      ],
+      "community_events": [
+        "Cooperative education workshops",
+        "Local farmer showcases"
+      ],
+      "rating": 4.2,
+      "reviews_count": 558,
+      "media_recognition": [
+        "Local newspaper reviews",
+        "Food Network segment",
+        "Yelp Editors' Choice"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Tastings",
+        "Custom Orders",
+        "Fresh Daily"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 5,
+      "application_number": "LBR-1972-005",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "Castro Camera",
+      "legal_name": "Castro Camera LLC",
+      "dba_name": "Castro Camera",
+      "type": "Services",
+      "neighborhood": "Castro",
+      "address": "1157 Castro St",
+      "established": "1972",
+      "years_at_location": 28,
+      "tagline": "Historic institution maintaining heritage for generations",
+      "story": "Harvey Milk opened shop as base for community organizing and political campaigns",
+      "community_impact": "Historic camera shop owned by Harvey Milk, serving as headquarters for LGBTQ+ rights activism and community organizing.",
+      "cultural_significance": "Harvey Milk's residence and campaign headquarters, birthplace of modern LGBTQ+ political movement",
+      "historical_significance": "Harvey Milk's base of operations, crucial to LGBTQ+ civil rights history",
+      "proof_of_establishment": "Historical society documentation, Harvey Milk Archives, landmark designation",
+      "supporting_evidence": {
+        "historical_photos": "20 historical photographs submitted",
+        "newspaper_clippings": "25 newspaper articles and reviews",
+        "community_letters": "31 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 18,
+      "local_hiring_percentage": 85,
+      "revenue_range": "$400K-750K",
+      "phone": "(415) 896-3486",
+      "email": "info@castrocamera.com",
+      "website": "https://www.castrocamera.com",
+      "heritage_score": 95,
+      "community_impact_score": 90,
+      "historical_significance_score": 80,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Historical photography services",
+        "Community meeting space",
+        "LGBTQ+ history exhibits"
+      ],
+      "community_events": [
+        "Pride parade organization",
+        "Civil rights meetings",
+        "Community photography"
+      ],
+      "rating": 4.2,
+      "reviews_count": 600,
+      "media_recognition": [
+        "Featured in Chronicle historical retrospective",
+        "Local newspaper reviews",
+        "Food Network segment"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Walk-ins",
+        "Traditional Methods",
+        "Appointments"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 6,
+      "application_number": "LBR-1935-006",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "Twin Peaks Tavern",
+      "legal_name": "Twin Peaks Tavern LLC",
+      "dba_name": "Twin Peaks Tavern",
+      "type": "Bar/Nightlife",
+      "neighborhood": "Castro",
+      "address": "108 18th St",
+      "established": "1935",
+      "years_at_location": 21,
+      "tagline": "Historic institution maintaining heritage for generations",
+      "story": "Originally straight bar, became gay-friendly in 1970s under new ownership",
+      "community_impact": "Historic gay bar, first in America with full-length windows, symbolizing LGBTQ+ community visibility and acceptance.",
+      "cultural_significance": "Pioneered gay bar visibility by removing blackout windows in 1972, revolutionary act for LGBTQ+ acceptance",
+      "historical_significance": "First gay bar to 'come out of closet' with visible windows",
+      "proof_of_establishment": "Liquor license 1935, renovation permits 1972, community documentation",
+      "supporting_evidence": {
+        "historical_photos": "31 historical photographs submitted",
+        "newspaper_clippings": "15 newspaper articles and reviews",
+        "community_letters": "68 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 17,
+      "local_hiring_percentage": 76,
+      "revenue_range": "$1.5M-3M",
+      "phone": "(415) 140-2247",
+      "email": "info@twinpeakstavern.com",
+      "website": "https://www.twinpeakstavern.com",
+      "heritage_score": 95,
+      "community_impact_score": 94,
+      "historical_significance_score": 86,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Historic full-length windows",
+        "Community bulletin board",
+        "LGBTQ+ safe space"
+      ],
+      "community_events": [
+        "Community meetings",
+        "Pride celebrations",
+        "Fundraising events"
+      ],
+      "rating": 4.2,
+      "reviews_count": 259,
+      "media_recognition": [
+        "Documented in SF Museum archives",
+        "Mentioned in SF tourism guides since 1970s",
+        "Featured in Ken Burns documentary footage",
+        "Local newspaper reviews"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Live Music",
+        "Pool Table",
+        "Happy Hour"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 7,
+      "application_number": "LBR-1990-007",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "Amoeba Music",
+      "legal_name": "Amoeba Music LLC",
+      "dba_name": "Amoeba Music",
+      "type": "Retail",
+      "neighborhood": "Haight-Ashbury",
+      "address": "2083 Page St",
+      "established": "1990",
+      "years_at_location": 22,
+      "tagline": "Family-owned legacy preserving traditions for generations",
+      "story": "Founded by former record store employees committed to independent music retail",
+      "community_impact": "Independent record store preserving music culture and supporting local musicians for over 30 years.",
+      "cultural_significance": "Anchor of Haight Street music scene, maintains counterculture tradition of music discovery",
+      "historical_significance": "Preserves Haight's musical legacy from Summer of Love era",
+      "proof_of_establishment": "Business license 1990, expansion permits, musician testimonials",
+      "supporting_evidence": {
+        "historical_photos": "24 historical photographs submitted",
+        "newspaper_clippings": "10 newspaper articles and reviews",
+        "community_letters": "53 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 16,
+      "local_hiring_percentage": 92,
+      "revenue_range": "$500K-1M",
+      "phone": "(415) 499-9077",
+      "email": "info@amoebamusic.com",
+      "website": "https://www.amoebamusic.com",
+      "heritage_score": 85,
+      "community_impact_score": 94,
+      "historical_significance_score": 85,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Rare vinyl collection",
+        "Local musician consignment",
+        "In-store performances"
+      ],
+      "community_events": [
+        "Record release parties",
+        "Local band showcases",
+        "Music education"
+      ],
+      "rating": 4.3,
+      "reviews_count": 525,
+      "media_recognition": [
+        "Food Network segment",
+        "Yelp Editors' Choice",
+        "Local newspaper reviews"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Personal Service",
+        "Gift Wrapping",
+        "Layaway"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 8,
+      "application_number": "LBR-1985-008",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "R&G Lounge",
+      "legal_name": "R&G Lounge LLC",
+      "dba_name": "R&G Lounge",
+      "type": "Restaurant",
+      "neighborhood": "Chinatown",
+      "address": "412 Stockton St",
+      "established": "1985",
+      "years_at_location": 31,
+      "tagline": "Preserving tradition since generations",
+      "story": "Family from Guangdong province opened restaurant using grandmother's recipes",
+      "community_impact": "Authentic Cantonese restaurant serving Chinese-American community with traditional techniques and family recipes.",
+      "cultural_significance": "Maintains Chinatown culinary traditions, featured in international food guides",
+      "historical_significance": "Represents continuation of Chinese culinary traditions in oldest Chinatown",
+      "proof_of_establishment": "Business license 1985, health permits, family immigration documentation",
+      "supporting_evidence": {
+        "historical_photos": "26 historical photographs submitted",
+        "newspaper_clippings": "10 newspaper articles and reviews",
+        "community_letters": "38 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 18,
+      "local_hiring_percentage": 95,
+      "revenue_range": "$1M-2M",
+      "phone": "(415) 968-3116",
+      "email": "info@randglounge.com",
+      "website": "https://www.randglounge.com",
+      "heritage_score": 90,
+      "community_impact_score": 94,
+      "historical_significance_score": 92,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Live tank seafood",
+        "Traditional dim sum",
+        "Cantonese banquet style"
+      ],
+      "community_events": [
+        "Chinese New Year celebrations",
+        "Community banquets",
+        "Cultural festivals"
+      ],
+      "rating": 4.1,
+      "reviews_count": 588,
+      "media_recognition": [
+        "Yelp Editors' Choice",
+        "Food Network segment"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Takeout",
+        "Reservations",
+        "Outdoor Seating"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    },
+    {
+      "id": 9,
+      "application_number": "LBR-1849-009",
+      "submission_date": "2023-06-15",
+      "status": "active",
+      "name": "Tadich Grill",
+      "legal_name": "Tadich Grill LLC",
+      "dba_name": "Tadich Grill",
+      "type": "Restaurant",
+      "neighborhood": "Financial District",
+      "address": "2163 Pine St",
+      "established": "1849",
+      "years_at_location": 134,
+      "tagline": "Community cornerstone operating for generations",
+      "story": "Croatian immigrants opened coffee stand during Gold Rush, evolved into full restaurant",
+      "community_impact": "California's oldest restaurant continuously serving the business community for 174 years through every major historical event.",
+      "cultural_significance": "Survived Gold Rush, 1906 earthquake, both World Wars. Living piece of San Francisco history.",
+      "historical_significance": "Oldest restaurant in California, witnessed entire history of San Francisco",
+      "proof_of_establishment": "Historical society verification, continuous liquor license records dating to 1849",
+      "supporting_evidence": {
+        "historical_photos": "22 historical photographs submitted",
+        "newspaper_clippings": "17 newspaper articles and reviews",
+        "community_letters": "37 letters of support from community members",
+        "permits_licenses": "Complete business license history and permits"
+      },
+      "employees": 28,
+      "local_hiring_percentage": 76,
+      "revenue_range": "$2M-5M",
+      "phone": "(415) 323-7504",
+      "email": "info@tadichgrill.com",
+      "website": "https://www.tadichgrill.com",
+      "heritage_score": 95,
+      "community_impact_score": 98,
+      "historical_significance_score": 87,
+      "legacy_designation_date": "2023-08-15",
+      "compliance_status": "CURRENT",
+      "annual_report_filed": true,
+      "features": [
+        "Original Gold Rush era recipes",
+        "Historic mahogany bar",
+        "Traditional preparations"
+      ],
+      "community_events": [
+        "Business community gatherings",
+        "Historical celebrations",
+        "Civic functions"
+      ],
+      "rating": 4.3,
+      "reviews_count": 297,
+      "media_recognition": [
+        "Yelp Editors' Choice",
+        "Documented in SF Museum archives",
+        "Featured in Chronicle historical retrospective"
+      ],
+      "amenities": [
+        "Accessible",
+        "Credit Cards Accepted",
+        "Reservations",
+        "Full Bar",
+        "Outdoor Seating"
+      ],
+      "accessibility_compliant": true,
+      "_application_metadata": {
+        "form_version": "LBR-2023-v2.1",
+        "review_committee": "SF Legacy Business Registry Board",
+        "approval_vote": "7-0 UNANIMOUS",
+        "heritage_documentation_verified": true,
+        "community_impact_verified": true,
+        "financial_stability_verified": true
+      }
+    }
+  ]
+}

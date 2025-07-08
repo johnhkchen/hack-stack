@@ -1,0 +1,77 @@
+---
+export interface Props {
+  vendor: {
+    name: string;
+    type: string;
+    sponsor_info?: {
+      description?: string;
+      category?: string;
+    };
+    features?: Array<{name: string; description: string}>;
+    has_credentials: boolean;
+    credential_source?: string;
+    is_secure?: boolean;
+    security_warning?: string;
+  };
+  class?: string;
+}
+
+const { vendor, class: className } = Astro.props;
+---
+
+<article class={`sponsor-card ${className || ''}`}>
+  <div class="sponsor-card-layout">
+    <!-- Left: Sponsor Identity & Status -->
+    <div class="sponsor-identity">
+      <header>
+        <hgroup>
+          <h3>{vendor.name}</h3>
+          <p><ins>Sponsor Partnership</ins></p>
+        </hgroup>
+        <p class="sponsor-category">
+          <small>{vendor.sponsor_info?.category || vendor.type.replace('_', ' ')}</small>
+        </p>
+      </header>
+      
+      <div class="sponsor-status">
+        <p class="integration-status">
+          {vendor.has_credentials ? '✓ Credentials Ready' : '◉ Ready for Integration'}
+        </p>
+        {vendor.credential_source && vendor.credential_source !== 'none' && (
+          <p class="credential-source">
+            <small>
+              {vendor.credential_source === 'host_env' ? 'Host Environment' : 
+               vendor.credential_source === 'env_file' ? 'Environment File' : vendor.credential_source}
+            </small>
+          </p>
+        )}
+        {vendor.security_warning && (
+          <p class="security-warning">
+            <mark>⚠️ {vendor.security_warning}</mark>
+          </p>
+        )}
+      </div>
+    </div>
+
+    <!-- Right: Content & Capabilities -->
+    <div class="sponsor-content">
+      <div class="sponsor-description">
+        <p>{vendor.sponsor_info?.description || 'Advanced integration capabilities'}</p>
+      </div>
+      
+      {vendor.features && vendor.features.length > 0 && (
+        <div class="sponsor-capabilities">
+          <h4>Key Capabilities</h4>
+          <div class="capabilities-list">
+            {vendor.features.slice(0, 6).map(feature => (
+              <div class="capability-item">
+                <strong>{feature.name}</strong>
+                <span>{feature.description}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</article>
