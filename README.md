@@ -48,6 +48,11 @@ hack-stack/
 
 ```
 
+Here is how you rebuild:
+```
+just build
+```
+
 ## Quick Commands
 
 ```bash
