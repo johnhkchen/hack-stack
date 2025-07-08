@@ -6,8 +6,10 @@ export interface Props {
     sponsor_info?: {
       description?: string;
       category?: string;
+      integration_level?: string;
     };
-    features?: Array<{name: string; description: string}>;
+    integration_status?: string;
+    features?: Array<{name: string; description: string; status?: string}>;
     has_credentials: boolean;
     credential_source?: string;
     is_secure?: boolean;
@@ -35,7 +37,19 @@ const { vendor, class: className } = Astro.props;
       
       <div class="sponsor-status">
         <p class="integration-status">
-          {vendor.has_credentials ? '✓ Credentials Ready' : '◉ Ready for Integration'}
+          {vendor.integration_status === 'fully_integrated' ? '✅ Fully Integrated' :
+           vendor.integration_status === 'partial_live' ? '🟡 Partially Integrated (Live)' :
+           vendor.integration_status === 'partial_mock_missing_keys' ? '🟠 Partial Integration (Missing API Keys)' :
+           vendor.integration_status === 'partial_mock_dependencies' ? '🟠 Partial Integration (Mock Mode)' :
+           vendor.integration_status === 'credentials_ready_untested' ? '🔑 Credentials Ready (Untested)' :
+           vendor.integration_status === 'partial_mock_missing_url' ? '🟡 Missing Weaviate URL' :
+           vendor.integration_status === 'partial_mock_missing_key' ? '🟡 Missing API Key' :
+           vendor.integration_status === 'mock_missing_all' ? '🎭 Mock Mode (No Credentials)' :
+           vendor.integration_status === 'credentials_only' ? '🔑 Credentials Only' :
+           vendor.integration_status === 'mock_only' ? '🎭 Mock Mode Only' :
+           vendor.integration_status === 'integration_unknown' ? '❓ Status Unknown' :
+           vendor.sponsor_info?.integration_level === 'production_ready' ? '🚀 Production Ready' :
+           vendor.has_credentials ? '✓ Credentials Ready' : '◉ Ready for Integration'}
         </p>
         {vendor.credential_source && vendor.credential_source !== 'none' && (
           <p class="credential-source">
@@ -48,6 +62,34 @@ const { vendor, class: className } = Astro.props;
         {vendor.security_warning && (
           <p class="security-warning">
             <mark>⚠️ {vendor.security_warning}</mark>
+          </p>
+        )}
+        {vendor.status_details && vendor.status_details.mode === 'mock' && (
+          <p class="status-details">
+            <small>🎭 Running in mock mode with sample data</small>
+          </p>
+        )}
+        {vendor.status_details?.api_keys_detected && (
+          <p class="api-status">
+            <small>
+              API Keys: 
+              {vendor.status_details.api_keys_detected.llama_cloud ? '✓ LlamaCloud' : '✗ LlamaCloud'} • 
+              {vendor.status_details.api_keys_detected.openai ? '✓ OpenAI' : '✗ OpenAI'}
+            </small>
+          </p>
+        )}
+        {vendor.status_details?.credentials_detected && (
+          <p class="credentials-status">
+            <small>
+              Weaviate: 
+              {vendor.status_details.credentials_detected.weaviate_url ? '✓ URL' : '✗ URL'} • 
+              {vendor.status_details.credentials_detected.weaviate_api_key ? '✓ API Key' : '✗ API Key'}
+            </small>
+          </p>
+        )}
+        {vendor.status_details?.integration_notes && (
+          <p class="integration-notes">
+            <small>💡 {vendor.status_details.integration_notes}</small>
           </p>
         )}
       </div>

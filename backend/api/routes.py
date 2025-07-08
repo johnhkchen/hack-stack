@@ -12,6 +12,8 @@ import time
 from .services import VendorService, BusinessService, get_config
 from .debug import debug_service
 from .llamaindex_service import get_llamaindex_service
+from services.pdf_processing_service import get_pdf_service
+from .weaviate_routes import router as weaviate_router
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -38,6 +40,7 @@ config = get_config()
 vendor_service = VendorService()
 business_service = BusinessService()
 llamaindex_service = get_llamaindex_service()
+pdf_service = get_pdf_service()
 
 # Request models
 class VendorRequest(BaseModel):
@@ -51,6 +54,14 @@ class DocumentProcessRequest(BaseModel):
 class MultiModalQueryRequest(BaseModel):
     query: str
     document_id: str = None
+
+class PDFProcessRequest(BaseModel):
+    pdf_url: str
+    store_metadata: bool = True
+
+class BatchPDFProcessRequest(BaseModel):
+    pdf_urls: list[str]
+    max_concurrent: int = 3
 
 # =============================================================================
 # API Routes
@@ -359,6 +370,11 @@ async def get_debug_status():
     """Comprehensive debug and health check information"""
     return await debug_service.run_all_health_checks()
 
+@app.get("/api/debug/endpoints")
+async def get_api_endpoints_status():
+    """Get organized API endpoints with auto-discovery and YAML config"""
+    return debug_service.get_api_endpoints_status(app)
+
 @app.get("/api/debug/test/{vendor_name}")
 async def test_vendor_endpoint(vendor_name: str):
     """Test a specific vendor endpoint for debugging"""
@@ -516,6 +532,145 @@ async def get_demo_capabilities():
         ],
         "service_status": llamaindex_service.get_service_status()
     }
+
+# =============================================================================
+# PDF Processing API Routes (LlamaParse Integration)
+# =============================================================================
+
+@app.get("/api/pdf/status")
+async def get_pdf_service_status():
+    """Get PDF processing service status and capabilities"""
+    return pdf_service.get_service_status()
+
+@app.post("/api/pdf/process")
+async def process_pdf(request: PDFProcessRequest):
+    """
+    Process a single PDF and extract legacy business data
+    
+    Features:
+    - LlamaParse PDF extraction
+    - OpenAI structured extraction
+    - Quality scoring and validation
+    - Mock mode for development/demo
+    """
+    try:
+        result = await pdf_service.process_pdf_url(
+            pdf_url=request.pdf_url,
+            store_metadata=request.store_metadata
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/pdf/process-batch")
+async def process_pdf_batch(request: BatchPDFProcessRequest):
+    """
+    Process multiple PDFs in batch
+    
+    Features:
+    - Concurrent processing (controlled by max_concurrent)
+    - Progress tracking per PDF
+    - Detailed error reporting
+    - Summary statistics
+    """
+    try:
+        result = await pdf_service.batch_process_pdfs(
+            pdf_urls=request.pdf_urls
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/pdf/samples/{filename}")
+async def serve_sample_pdf(filename: str):
+    """Serve sample PDF files for testing"""
+    from fastapi.responses import FileResponse
+    import os
+    
+    # Security: only allow specific filenames
+    allowed_files = ["el_faro.pdf", "original_joes.pdf"]
+    if filename not in allowed_files:
+        raise HTTPException(status_code=404, detail="Sample PDF not found")
+    
+    file_path = f"/app/sample_pdfs/{filename}"
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="PDF file not found")
+    
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        filename=filename
+    )
+
+@app.get("/api/pdf/demo")
+async def get_pdf_demo_capabilities():
+    """
+    Demonstrate PDF processing capabilities
+    
+    Shows:
+    - Available mock PDFs for testing
+    - Processing pipeline visualization
+    - Sample extraction results
+    - Quality scoring examples
+    """
+    service_status = pdf_service.get_service_status()
+    
+    demo_pdfs = []
+    if service_status["mode"] == "mock":
+        demo_pdfs = [
+            {
+                "name": "El Faro Restaurant",
+                "url": "http://localhost:2872/api/pdf/samples/el_faro.pdf",
+                "local_path": "/app/sample_pdfs/el_faro.pdf",
+                "description": "Traditional Mexican restaurant in Mission District since 1961",
+                "expected_highlights": ["60+ years in Mission District", "Family-owned since 1961", "Traditional Mexican cooking", "Community cultural center"]
+            },
+            {
+                "name": "Original Joe's", 
+                "url": "http://localhost:2872/api/pdf/samples/original_joes.pdf",
+                "local_path": "/app/sample_pdfs/original_joes.pdf",
+                "description": "Classic American diner with open kitchen in North Beach since 1937",
+                "expected_highlights": ["SF institution since 1937", "Famous open kitchen", "Celebrity dining history", "Classic American cuisine"]
+            }
+        ]
+    
+    return {
+        "success": True,
+        "service_status": service_status,
+        "capabilities": {
+            "pdf_processing": {
+                "supported_formats": ["PDF documents", "Legacy business applications"],
+                "text_extraction": "LlamaParse integration" if not service_status["mode"] == "mock" else "Mock extraction",
+                "structured_extraction": "OpenAI GPT-4o" if not service_status["mode"] == "mock" else "Mock structured data",
+                "quality_scoring": "Comprehensive validation",
+                "data_model": "LegacyBusiness Pydantic model"
+            },
+            "extraction_features": {
+                "core_identity": "Business name, founding year, type, location",
+                "rich_narratives": "Founding story, cultural significance, community impact",
+                "structured_data": "Ownership history, recognition, unique features",
+                "metadata": "Quality scores, extraction timestamps, source tracking"
+            }
+        },
+        "demo_scenarios": [
+            {
+                "name": "SF Legacy Business Applications",
+                "description": "Process official legacy business registry PDFs",
+                "sample_data": demo_pdfs
+            }
+        ],
+        "sample_processing_flow": [
+            "1. Upload PDF URL",
+            "2. LlamaParse extracts text content",
+            "3. OpenAI structures data using LegacyBusiness model",
+            "4. Quality scoring and validation",
+            "5. Return structured business profile"
+        ]
+    }
+
+# Mount Weaviate routes
+app.include_router(weaviate_router)
+print("✅ Weaviate routes mounted at /api/weaviate")
 
 # Mount enhanced API routes
 try:

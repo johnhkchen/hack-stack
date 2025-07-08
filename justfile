@@ -1,11 +1,11 @@
 # Hack Stack - Simple Docker Compose Management
 
 # Start all services
-start:
+up:
 	docker compose up -d
 
 # Stop all services
-stop:
+down:
 	docker compose down
 
 # Restart services
@@ -14,7 +14,7 @@ restart:
 
 # View logs
 logs:
-	docker compose logs -f
+	docker compose logs --tail=50
 
 # Check service status
 status:
@@ -28,16 +28,3 @@ build:
 clean:
 	docker compose down -v --remove-orphans
 	docker system prune -f
-
-# Quick development setup
-dev:
-	docker compose up --build
-
-# Open the app in browser (after starting)
-open:
-	@echo "Opening app..."
-	@sleep 2
-	@which xdg-open >/dev/null && xdg-open http://localhost:2872 || echo "Open http://localhost:2872 in your browser"
-
-# Complete setup: build, start, and open
-demo: build open

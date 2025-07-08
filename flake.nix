@@ -14,21 +14,23 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            # Python ecosystem
-            python313
+            # Python ecosystem (backend)
+            python311  # Match backend requirements (>=3.11)
             uv
             
-            # Node.js ecosystem for Astro
+            # Node.js ecosystem (frontend)
             nodejs_22
-            pnpm
+            npm  # Frontend uses npm, not pnpm
             
             # Development tools
+            just        # For justfile commands
             curl
             jq
+            git
             
-            # Optional: Docker for deployment
+            # Docker for containerized deployment
             docker
-            docker-compose
+            docker-buildx  # Modern docker compose plugin
           ];
 
           shellHook = ''
@@ -38,15 +40,23 @@
             echo "  • python: $(python --version)"
             echo "  • uv: $(uv --version)"
             echo "  • node: $(node --version)"
-            echo "  • pnpm: $(pnpm --version)"
+            echo "  • npm: $(npm --version)"
+            echo "  • just: $(just --version)"
+            echo "  • docker: $(docker --version)"
             echo ""
             echo "🏃 Quick commands:"
-            echo "  • uv run python main.py     # Start backend"
-            echo "  • cd frontend && pnpm dev   # Start frontend"
-            echo "  • uv run --with fastapi fastapi dev main.py  # Dev mode"
+            echo "  • just demo           # Build and start all services"
+            echo "  • just start          # Start services (Docker)"
+            echo "  • just logs           # View service logs"
+            echo "  • just clean          # Clean up containers"
             echo ""
-            echo "🌐 URLs:"
-            echo "  • Backend: http://localhost:8000"
+            echo "🛠️  Development workflow:"
+            echo "  • cd backend && uv run fastapi dev api/routes.py"
+            echo "  • cd frontend && npm run dev"
+            echo ""
+            echo "🌐 URLs (when running):"
+            echo "  • App: http://localhost:2872"
+            echo "  • Backend API: http://localhost:8000"
             echo "  • Frontend: http://localhost:4321"
             echo "  • API docs: http://localhost:8000/docs"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

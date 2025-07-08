@@ -89,6 +89,16 @@ api_endpoints:
     timeout: 10000
     critical: false
 
+  pdf_processing:
+    name: "PDF Processing (LlamaIndex)"
+    type: "api"
+    url: "/api/pdf/status"
+    method: "GET"
+    expected_status: 200
+    timeout: 5000
+    critical: false
+    sponsor: "llamaindex"
+
 browser_checks:
   javascript:
     name: "JavaScript Enabled"
@@ -153,11 +163,24 @@ demo_scenarios:
     steps:
       - "Fetch business data"
       - "Test vendor endpoints"
+      - "Test PDF processing (LlamaIndex)"
       - "Handle loading states"
     success_criteria:
       - "Data loads successfully"
+      - "PDF processing responds"
       - "Loading indicators work"
       - "Error handling works"
+
+  pdf_processing_demo:
+    name: "PDF Processing Demo (LlamaIndex Sponsor)"
+    steps:
+      - "Load sample PDFs"
+      - "Test structured extraction"
+      - "Verify quality scoring"
+    success_criteria:
+      - "PDFs process successfully"
+      - "Legacy business data extracted"
+      - "Quality scores calculated"
 
   responsive_design:
     name: "Responsive Design"

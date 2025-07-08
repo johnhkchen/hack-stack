@@ -50,14 +50,83 @@ const timestamp = new Date().toISOString();
       </section>
     ) : (
       <section class="debug-grid">
-        <!-- Overall Status - Simple card for key metrics -->
+        <!-- Overall Status - Numbers-driven metrics -->
         <article>
           <header>
-            <h2>Overall Status</h2>
+            <h2>System Status</h2>
           </header>
           <p><strong>Health:</strong> <code>{backendData.overall_health}</code></p>
-          <p><strong>Mode:</strong> <code>{backendData.environment_mode}</code></p>
-          <p><strong>Demo Ready:</strong> <ins>{backendData.demo_ready ? 'Yes' : 'No'}</ins></p>
+          <p><strong>Integration:</strong> <code>{backendData.integration_metrics?.integration_score || 0}%</code></p>
+          <p><strong>Credentials:</strong> <code>{backendData.integration_metrics?.credential_score || 0}%</code></p>
+          <p><strong>Status:</strong> <code>{backendData.integration_metrics?.overall_status || 'unknown'}</code></p>
+          <p><strong>Demo Ready:</strong> <ins>{backendData.demo_ready?.ready ? 'Yes' : 'No'}</ins></p>
+        </article>
+
+        <!-- Integration Metrics - Detailed breakdown -->
+        <article>
+          <header>
+            <h2>Integration Metrics</h2>
+          </header>
+          {backendData.integration_metrics && (
+            <>
+              <p><strong>Vendors:</strong> 
+                {backendData.integration_metrics.vendor_breakdown.fully_integrated} fully integrated, 
+                {backendData.integration_metrics.vendor_breakdown.partially_integrated} partial, 
+                {backendData.integration_metrics.vendor_breakdown.mock_only} mock only
+              </p>
+              <p><strong>Credentials:</strong> 
+                {backendData.integration_metrics.credential_breakdown.available}/{backendData.integration_metrics.credential_breakdown.total_required} available
+                {backendData.integration_metrics.credential_breakdown.missing > 0 && (
+                  <small> ({backendData.integration_metrics.credential_breakdown.missing} missing)</small>
+                )}
+              </p>
+              <p><strong>Overall Score:</strong> 
+                <code>{Math.round((backendData.integration_metrics.integration_score + backendData.integration_metrics.credential_score) / 2)}%</code>
+                <small> (avg of integration + credentials)</small>
+              </p>
+              
+              {/* Display specific missing details */}
+              {backendData.integration_metrics.missing_details && (
+                <details>
+                  <summary><strong>What's Missing?</strong></summary>
+                  <div style="margin-top: 0.75rem;">
+                    {backendData.integration_metrics.missing_details.missing_credentials?.length > 0 && (
+                      <div style="margin-bottom: 1rem;">
+                        <strong>Missing Credentials:</strong>
+                        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                          {backendData.integration_metrics.missing_details.missing_credentials.map(cred => (
+                            <li><code>{cred.env_var}</code> - {cred.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {backendData.integration_metrics.missing_details.partially_integrated?.length > 0 && (
+                      <div style="margin-bottom: 1rem;">
+                        <strong>Partially Integrated:</strong>
+                        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                          {backendData.integration_metrics.missing_details.partially_integrated.map(vendor => (
+                            <li><strong>{vendor.vendor}</strong>: {vendor.reason}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {backendData.integration_metrics.missing_details.mock_only_vendors?.length > 0 && (
+                      <div>
+                        <strong>Mock Only:</strong>
+                        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                          {backendData.integration_metrics.missing_details.mock_only_vendors.map(vendor => (
+                            <li><strong>{vendor.vendor}</strong>: {vendor.reason}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              )}
+            </>
+          )}
         </article>
 
         <!-- Services - Card with better status indicators -->

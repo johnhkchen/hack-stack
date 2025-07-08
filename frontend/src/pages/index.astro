@@ -2,16 +2,31 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import StatusIndicator from '../components/StatusIndicator.astro';
-import BusinessList from '../components/BusinessList.astro';
-import SmartSearch from '../components/SmartSearch.astro';
+import RagAssistant from '../components/RagAssistant.svelte';
+import BusinessSearchAndList from '../components/BusinessSearchAndList.svelte';
 
-// Enhanced system stats with rich data
-const systemMetrics = {
+// Fetch real metrics from the API
+let systemMetrics = {
   total_businesses: 15,
   active_businesses: 14,
   total_neighborhoods: 9,
-  average_rating: 4.5 // Average customer rating
+  average_rating: 4.5
 };
+
+try {
+  const response = await fetch('http://backend:8000/api/metrics');
+  if (response.ok) {
+    const data = await response.json();
+    systemMetrics = {
+      total_businesses: data.total_businesses || 15,
+      active_businesses: data.active_businesses || 14,
+      total_neighborhoods: data.total_neighborhoods || 9,
+      average_rating: data.average_rating || 4.5
+    };
+  }
+} catch (error) {
+  console.log('Using fallback metrics');
+}
 ---
 
 <Layout title="SF Legacy Business Registry">
@@ -47,50 +62,11 @@ const systemMetrics = {
       )}
     </section>
 
-    <!-- Enhanced Knowledge Assistant -->
-    <section class="rag-section">
-      <div class="knowledge-assistant">
-        <h2>🤖 Legacy Business Knowledge Assistant</h2>
-        <p>Ask natural language questions about San Francisco's historic businesses and cultural heritage.</p>
-        
-        <div class="demo-queries">
-          <h4>Try asking:</h4>
-          <div class="query-examples">
-            <span class="query-example">"Tell me about traditional food businesses"</span>
-            <span class="query-example">"Which businesses survived historical events?"</span>
-            <span class="query-example">"Show me family-owned businesses"</span>
-          </div>
-        </div>
-        
-        <div class="rag-demo-note">
-          <strong>🚧 RAG System Demo</strong> - Interactive query interface coming soon!<br>
-          <small>Features: Semantic search • Context retrieval • Source attribution • Natural language responses</small>
-        </div>
-      </div>
-    </section>
+    <!-- RAG Knowledge Assistant -->
+    <RagAssistant client:load />
 
-    <!-- Traditional Search -->
-    <section class="search-section">
-      <details>
-        <summary><strong>Advanced Search & Filters</strong></summary>
-        <SmartSearch />
-      </details>
-    </section>
-
-    <!-- Business Showcase -->
-    <section class="business-showcase">
-      <article>
-        <header>
-          <h2>Historic Business Registry</h2>
-          <p>Documented heritage applications with cultural significance, community impact, and narrative preservation spanning generations of San Francisco history</p>
-        </header>
-        <BusinessList 
-          enableNeighborhoodGrouping={true}
-          enableFiltering={true}
-          limit={15}
-        />
-      </article>
-    </section>
+    <!-- Unified Business Search and List -->
+    <BusinessSearchAndList client:load />
 
     <!-- System Information -->
     <section class="system-info">
@@ -103,6 +79,7 @@ const systemMetrics = {
   </footer>
 </Layout>
 
+
 <style>
   /* Hero Section */
   .hero-section {
@@ -112,124 +89,43 @@ const systemMetrics = {
 
   .hero-section h1 {
     color: var(--pico-primary);
+    font-size: 2.5rem;
+    line-height: 1.2;
   }
 
   .hero-section p {
     color: var(--pico-muted-color);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.4;
+    font-size: 1.1rem;
   }
 
   /* Heritage Metrics */
   .heritage-metrics {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--pico-spacing);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
     margin-bottom: var(--pico-spacing);
   }
 
   .metric-card {
     text-align: center;
+    padding: 1rem 0.5rem;
   }
 
   .metric-number {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
     color: var(--pico-primary);
   }
 
   .metric-label {
     color: var(--pico-muted-color);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
-  /* Section Spacing */
-  .rag-section {
-    margin: var(--pico-spacing) 0;
-  }
 
-  .knowledge-assistant {
-    text-align: center;
-  }
-
-  .knowledge-assistant h2 {
-    color: var(--pico-primary);
-  }
-
-  .query-examples {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-  }
-
-  .query-example {
-    background: var(--pico-code-background-color);
-    color: var(--pico-code-color);
-    border: 1px solid var(--pico-border-color);
-    padding: 0.5rem 1rem;
-    border-radius: var(--pico-border-radius);
-    font-style: italic;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-  }
-
-  .query-example:hover {
-    background: var(--pico-background-color);
-    border-color: var(--pico-primary);
-    color: var(--pico-primary);
-  }
-
-  .rag-demo-note {
-    background: var(--pico-ins-background-color);
-    border: 1px solid var(--pico-ins-color);
-    border-radius: var(--pico-border-radius);
-    padding: 1rem;
-    color: var(--pico-ins-color);
-  }
-
-  .search-section {
-    margin: 2rem 0;
-  }
-
-  .search-section details {
-    background: var(--pico-background-color);
-    border: 1px solid var(--pico-border-color);
-    border-radius: var(--pico-border-radius);
-    padding: 1rem;
-  }
-
-  .search-section summary {
-    cursor: pointer;
-    color: var(--pico-primary);
-    margin-bottom: 0;
-  }
-
-  .search-section details[open] summary {
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--pico-border-color);
-  }
-
-  .business-showcase {
-    margin: 3rem 0;
-  }
-
-  .business-showcase header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .business-showcase h2 {
-    color: var(--pico-primary);
-    margin-bottom: 1rem;
-  }
-
-  .business-showcase p {
-    color: var(--pico-muted-color);
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
-  }
 
   .system-info {
     margin: 2rem 0;
@@ -248,36 +144,94 @@ const systemMetrics = {
   }
 
   /* Responsive Design */
+  @media (min-width: 768px) {
+    .heritage-metrics {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
     .hero-section h1 {
-      font-size: 2rem;
+      font-size: 1.75rem;
+      line-height: 1.3;
     }
 
     .hero-section p {
-      font-size: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
     }
 
     .heritage-metrics {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .metric-card {
-      padding: 1rem 0.75rem;
     }
 
     .metric-number {
       font-size: 1.5rem;
     }
 
-    .rag-section {
-      margin: 2rem 0;
-    }
   }
 
+  /* Micro-mobile optimizations for small phones */
   @media (max-width: 480px) {
-    .heritage-metrics {
-      grid-template-columns: 1fr;
+    /* Container adjustments */
+    .container {
+      padding: 0 0.5rem;
+      max-width: 100%;
     }
+
+    /* Hero section optimizations */
+    .hero-section {
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 0;
+    }
+
+    .hero-section h1 {
+      font-size: 1.5rem;
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-section p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      padding: 0;
+    }
+
+    .heritage-metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .metric-card {
+      padding: 0.5rem 0.25rem;
+      border-radius: 0.25rem;
+    }
+
+    .metric-number {
+      font-size: 1.1rem;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+    }
+
+    /* Section optimizations */
+    .system-info {
+      margin: 1.5rem 0;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 2rem;
+      padding: 1rem 0;
+    }
+
+    footer small {
+      font-size: 0.75rem;
+    }
+
   }
 </style>

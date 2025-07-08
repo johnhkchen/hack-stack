@@ -114,20 +114,31 @@ vendors:
     env_var: "LLAMA_CLOUD_API_KEY"
     mock_endpoint: "/api/llamaindex/status"
     live_endpoint: "/api/llamaindex/status"
+    pdf_processing_endpoint: "/api/pdf/process"
     sponsor_info:
-      category: "Document Processing"
-      description: "Multi-modal document processing with text and image extraction"
+      category: "Document Processing & AI Infrastructure"
+      description: "Multi-modal PDF processing with LlamaParse and structured data extraction. Integration status detected automatically based on API key availability."
+      integration_level: "production_ready"
+      capabilities: "PDF parsing, structured extraction, legacy business data modeling"
     features:
+      - name: "LlamaParse PDF Processing"
+        description: "Production-ready PDF text extraction with advanced parsing"
+        status: "active"
+      - name: "Structured Data Extraction"
+        description: "AI-powered extraction into LegacyBusiness data models"
+        status: "active"
       - name: "Multi-Modal Processing"
         description: "Text and image extraction from PDFs"
-      - name: "LlamaParse Integration"
-        description: "Advanced PDF parsing capabilities"
-      - name: "Image Extraction"
-        description: "PyMuPDF-based image processing"
-      - name: "Relationship Mapping"
-        description: "Cross-modal content relationships"
-      - name: "Semantic Search"
-        description: "Vector-based text and image search"
+        status: "active"
+      - name: "Quality Scoring & Validation"
+        description: "Comprehensive data quality assessment"
+        status: "active"
+      - name: "Mock Mode Support"
+        description: "Development and demo capabilities with realistic data"
+        status: "active"
+      - name: "Batch Processing"
+        description: "Concurrent processing of multiple PDFs"
+        status: "active"
 
 environment:
   detection:
@@ -170,9 +181,219 @@ demo_readiness:
     - name: "Frontend Loading"
       check: "frontend_healthy"
       weight: 20
-    - name: "LlamaIndex Multi-Modal Ready"
-      check: "llamaindex_available"
+    - name: "LlamaIndex PDF Processing Ready"
+      check: "llamaindex_pdf_processing"
       weight: 15
     - name: "At Least One Vendor"
       check: "vendor_available"
       weight: 10
+
+api_endpoints:
+  primary_section: "business_data"
+  sections:
+    business_data:
+      name: "🏢 Business Data"
+      description: "Core business listing and details"
+      expanded: true
+      endpoints:
+        - path: "/api/businesses"
+          method: "GET"
+          priority: "high"
+        - path: "/api/businesses/1"
+          method: "GET"
+          priority: "high"
+          display_path: "/api/businesses/{business_id}"
+        - path: "/api/applications"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/applications/1"
+          method: "GET"
+          priority: "medium"
+          display_path: "/api/applications/{application_id}"
+        - path: "/api/heritage-scores"
+          method: "GET"
+          priority: "medium"
+    
+    location_filtering:
+      name: "📍 Location & Filtering"
+      description: "Neighborhood and geographic search"
+      expanded: false
+      endpoints:
+        - path: "/api/neighborhoods"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/neighborhoods/Mission/businesses"
+          method: "GET"
+          priority: "medium"
+          display_path: "/api/neighborhoods/{neighborhood}/businesses"
+        - path: "/api/business-types"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/business-types/cafe/businesses"
+          method: "GET"
+          priority: "medium"
+          display_path: "/api/business-types/{business_type}/businesses"
+    
+    ai_rag_system:
+      name: "🤖 AI & RAG System"
+      description: "Semantic search and AI processing"
+      expanded: false
+      endpoints:
+        - path: "/api/search"
+          method: "GET"
+          priority: "high"
+        - path: "/api/v2/rag/query"
+          method: "POST"
+          priority: "high"
+          request_body:
+            query: "traditional food businesses"
+            max_results: 3
+        - path: "/api/vendor/openai"
+          method: "POST"
+          priority: "medium"
+          display_path: "/api/vendor/{vendor_name}"
+          request_body:
+            operation: "analyze"
+            data:
+              content: "Test content for vendor processing"
+    
+    llamaindex_multimodal:
+      name: "📄 LlamaIndex Multi-Modal"
+      description: "Document processing and multi-modal AI"
+      expanded: false
+      endpoints:
+        - path: "/api/llamaindex/status"
+          method: "GET"
+          priority: "high"
+        - path: "/api/llamaindex/process"
+          method: "POST"
+          priority: "high"
+          request_body:
+            document_url: "https://example.com/sample.pdf"
+            extract_images: true
+        - path: "/api/llamaindex/query"
+          method: "POST"
+          priority: "high"
+          request_body:
+            query: "sample multimodal query"
+            document_id: "test-doc-id"
+        - path: "/api/llamaindex/documents"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/llamaindex/documents/sample-doc-id"
+          method: "GET"
+          priority: "medium"
+          display_path: "/api/llamaindex/documents/{document_id}"
+        - path: "/api/llamaindex/demo"
+          method: "GET"
+          priority: "low"
+    
+    pdf_processing:
+      name: "📋 PDF Processing"
+      description: "LlamaParse PDF extraction and processing"
+      expanded: false
+      endpoints:
+        - path: "/api/pdf/status"
+          method: "GET"
+          priority: "high"
+        - path: "/api/pdf/process"
+          method: "POST"
+          priority: "high"
+          request_body:
+            pdf_url: "https://example.com/sample.pdf"
+            store_metadata: true
+        - path: "/api/pdf/process-batch"
+          method: "POST"
+          priority: "high"
+          request_body:
+            pdf_urls:
+              - "https://example.com/sample1.pdf"
+              - "https://example.com/sample2.pdf"
+            max_concurrent: 2
+        - path: "/api/pdf/samples/el_faro.pdf"
+          method: "GET"
+          priority: "low"
+          display_path: "/api/pdf/samples/{filename}"
+        - path: "/api/pdf/demo"
+          method: "GET"
+          priority: "low"
+    
+    weaviate_vector_db:
+      name: "🔍 Weaviate Vector DB"
+      description: "Vector database and semantic search"
+      expanded: false
+      endpoints:
+        - path: "/api/weaviate/health"
+          method: "GET"
+          priority: "high"
+        - path: "/api/weaviate/businesses"
+          method: "GET"
+          priority: "high"
+        - path: "/api/weaviate/search"
+          method: "POST"
+          priority: "high"
+          request_body:
+            query: "coffee shops"
+            limit: 5
+            search_type: "semantic"
+        - path: "/api/weaviate/businesses/java-beach-cafe"
+          method: "GET"
+          priority: "medium"
+          display_path: "/api/weaviate/businesses/{business_name}"
+        - path: "/api/weaviate/businesses/java-beach-cafe/similar"
+          method: "GET"
+          priority: "medium"
+          display_path: "/api/weaviate/businesses/{business_name}/similar"
+        - path: "/api/weaviate/search/quick"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/weaviate/collections/info"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/weaviate/agent/question"
+          method: "POST"
+          priority: "medium"
+          request_body:
+            question: "What are some good coffee shops?"
+        - path: "/api/weaviate/agent/recommend"
+          method: "POST"
+          priority: "medium"
+          request_body:
+            business_name: "Java Beach Café"
+            limit: 3
+        - path: "/api/weaviate/agent/trends"
+          method: "GET"
+          priority: "low"
+        - path: "/api/weaviate/migrate/check"
+          method: "POST"
+          priority: "low"
+          request_body:
+            dry_run: true
+        - path: "/api/weaviate/demo/sample-data"
+          method: "GET"
+          priority: "low"
+    
+    analytics_insights:
+      name: "📊 Analytics & Insights"
+      description: "Performance metrics and business intelligence"
+      expanded: false
+      endpoints:
+        - path: "/api/metrics"
+          method: "GET"
+          priority: "medium"
+        - path: "/api/debug"
+          method: "GET"
+          priority: "high"
+        - path: "/api/debug/test/openai"
+          method: "GET"
+          priority: "low"
+          display_path: "/api/debug/test/{vendor_name}"
+    
+    system_debug:
+      name: "⚡ System & Debug"
+      description: "Health checks and system monitoring"
+      expanded: false
+      endpoints:
+        - path: "/api/health"
+          method: "GET"
+          priority: "high"

@@ -1,51 +1,36 @@
----
-import Card from './Card.astro';
+<script>
+  export let business;
+  export let expandable = true;
+  export let className = '';
+  
+  let expanded = false;
+  let modalOpen = false;
+  let modalElement;
+  
+  function toggleExpanded() {
+    expanded = !expanded;
+  }
+  
+  function openModal() {
+    modalOpen = true;
+    if (modalElement) {
+      modalElement.showModal();
+    }
+  }
+  
+  function closeModal() {
+    modalOpen = false;
+    if (modalElement) {
+      modalElement.close();
+    }
+  }
+  
+  // Generate unique IDs for modal functionality
+  $: modalId = `business-modal-${business.id || business.name.toLowerCase().replace(/\s+/g, '-')}`;
+  $: cardId = `business-card-${business.id || business.name.toLowerCase().replace(/\s+/g, '-')}`;
+</script>
 
-export interface Props {
-  business: {
-    id?: number;
-    name: string;
-    tagline?: string;
-    type: string;
-    neighborhood: string;
-    established: number;
-    founded?: string;
-    status: string;
-    heritage_score?: number;
-    // Rich narrative fields for RAG
-    founding_story?: string;
-    cultural_impact?: string;
-    unique_features?: string;
-    // Legacy field for compatibility
-    story?: string;
-    // Structured search fields
-    notable_features?: string[];
-    keywords?: string[];
-    features?: string[];
-    // Contact and metadata
-    phone?: string;
-    email?: string;
-    website?: string;
-    address?: string;
-    hours?: string;
-    rating?: number;
-    reviews_count?: number;
-    price_range?: string;
-    amenities?: string[];
-    social_media?: Record<string, string>;
-  };
-  class?: string;
-  expandable?: boolean;
-}
-
-const { business, class: className, expandable = true } = Astro.props;
-
-// Generate unique IDs for modal functionality
-const modalId = `business-modal-${business.id || business.name.toLowerCase().replace(/\s+/g, '-')}`;
-const cardId = `business-card-${business.id || business.name.toLowerCase().replace(/\s+/g, '-')}`;
----
-
-<Card class={`business-card ${className || ''}`} id={cardId}>
+<article class={`business-card ${className}`} class:expanded id={cardId}>
   <!-- Progressive Disclosure: Summary View -->
   <div class="business-summary">
     <header>
@@ -67,129 +52,131 @@ const cardId = `business-card-${business.id || business.name.toLowerCase().repla
           </span>
           <small>Founded {business.founded || business.established}</small>
         </p>
-        {business.rating && (
+        {#if business.rating}
           <p class="rating-preview">
             <span class="rating-stars">{'★'.repeat(Math.floor(business.rating))}{'☆'.repeat(5 - Math.floor(business.rating))}</span>
             <small>({business.reviews_count || 0} reviews)</small>
           </p>
-        )}
+        {/if}
       </div>
       
-      {expandable && (
+      {#if expandable}
         <div class="action-buttons">
           <button 
             class="expand-btn secondary"
-            onclick={`document.getElementById('${cardId}').classList.toggle('expanded')`}
+            on:click={toggleExpanded}
           >
-            <span class="expand-text">View Details</span>
-            <span class="collapse-text">Show Less</span>
+            {#if expanded}
+              Show Less
+            {:else}
+              View Details
+            {/if}
           </button>
           <button 
             class="modal-btn primary"
-            onclick={`document.getElementById('${modalId}').showModal()`}
+            on:click={openModal}
           >
             Full Info
           </button>
         </div>
-      )}
+      {/if}
     </div>
   </div>
   
   <!-- Progressive Disclosure: Expanded View -->
-  {expandable && (
+  {#if expandable && expanded}
     <div class="business-details">
       <div class="business-details-content">
         
         <div class="business-info">
           <h4>Cultural Impact</h4>
           
-          {business.founding_story && (
+          {#if business.founding_story}
             <div class="narrative-section">
               <h5>Origin Story</h5>
               <blockquote>{business.founding_story}</blockquote>
             </div>
-          )}
+          {/if}
           
-          {business.cultural_impact && (
+          {#if business.cultural_impact}
             <div class="narrative-section">
               <h5>Cultural Significance</h5>
               <blockquote>{business.cultural_impact}</blockquote>
             </div>
-          )}
+          {/if}
           
-          {business.unique_features && (
+          {#if business.unique_features}
             <div class="narrative-section">
               <h5>What Makes It Special</h5>
               <blockquote>{business.unique_features}</blockquote>
             </div>
-          )}
+          {/if}
           
-          {/* Fallback to story if no rich narratives */}
-          {!business.founding_story && business.story && (
+          {#if !business.founding_story && business.story}
             <div class="narrative-section">
               <h5>About</h5>
               <blockquote>{business.story}</blockquote>
             </div>
-          )}
+          {/if}
           
-          {business.notable_features && business.notable_features.length > 0 && (
+          {#if business.notable_features && business.notable_features.length > 0}
             <div class="features-list">
               <strong>Notable Features:</strong>
               <ul>
-                {business.notable_features.slice(0, 5).map(feature => (
+                {#each business.notable_features.slice(0, 5) as feature}
                   <li>{feature}</li>
-                ))}
-                {business.notable_features.length > 5 && (
+                {/each}
+                {#if business.notable_features.length > 5}
                   <li><small>+{business.notable_features.length - 5} more</small></li>
-                )}
+                {/if}
               </ul>
             </div>
-          )}
+          {/if}
           
-          {business.keywords && business.keywords.length > 0 && (
+          {#if business.keywords && business.keywords.length > 0}
             <div class="keywords-section">
               <strong>Keywords:</strong>
               <div class="keywords-tags">
-                {business.keywords.slice(0, 6).map(keyword => (
+                {#each business.keywords.slice(0, 6) as keyword}
                   <span class="keyword-tag">{keyword}</span>
-                ))}
+                {/each}
               </div>
             </div>
-          )}
+          {/if}
         </div>
 
-        {(business.phone || business.email || business.website || business.address || business.hours) && (
+        {#if business.phone || business.email || business.website || business.address || business.hours}
           <div class="contact-info">
             <h4>Contact</h4>
-            {business.phone && <p><strong>Phone:</strong> <a href={`tel:${business.phone}`}>{business.phone}</a></p>}
-            {business.email && <p><strong>Email:</strong> <a href={`mailto:${business.email}`}>{business.email}</a></p>}
-            {business.website && <p><strong>Website:</strong> <a href={business.website} target="_blank">{business.website}</a></p>}
-            {business.address && <p><strong>Address:</strong> {business.address}</p>}
-            {business.hours && <p><strong>Hours:</strong> <small>{business.hours}</small></p>}
+            {#if business.phone}<p><strong>Phone:</strong> <a href={`tel:${business.phone}`}>{business.phone}</a></p>{/if}
+            {#if business.email}<p><strong>Email:</strong> <a href={`mailto:${business.email}`}>{business.email}</a></p>{/if}
+            {#if business.website}<p><strong>Website:</strong> <a href={business.website} target="_blank">{business.website}</a></p>{/if}
+            {#if business.address}<p><strong>Address:</strong> {business.address}</p>{/if}
+            {#if business.hours}<p><strong>Hours:</strong> <small>{business.hours}</small></p>{/if}
           </div>
-        )}
+        {/if}
       </div>
       
-      {business.amenities && business.amenities.length > 0 && (
+      {#if business.amenities && business.amenities.length > 0}
         <div class="amenities-section">
           <h4>Amenities</h4>
           <div class="amenities-grid">
-            {business.amenities.slice(0, 6).map(amenity => (
+            {#each business.amenities.slice(0, 6) as amenity}
               <span class="amenity-tag">{amenity}</span>
-            ))}
-            {business.amenities.length > 6 && (
+            {/each}
+            {#if business.amenities.length > 6}
               <span class="amenity-tag more">+{business.amenities.length - 6} more</span>
-            )}
+            {/if}
           </div>
         </div>
-      )}
+      {/if}
     </div>
-  )}
-</Card>
+  {/if}
+</article>
 
 <!-- Modal Overlay for Full Information -->
-{expandable && (
-  <dialog id={modalId} class="business-modal">
+{#if expandable}
+  <dialog bind:this={modalElement} id={modalId} class="business-modal" on:close={closeModal}>
     <article>
       <header>
         <hgroup>
@@ -198,7 +185,7 @@ const cardId = `business-card-${business.id || business.name.toLowerCase().repla
         </hgroup>
         <button 
           class="close-btn secondary"
-          onclick={`document.getElementById('${modalId}').close()`}
+          on:click={closeModal}
           aria-label="Close"
         >
           ×
@@ -217,118 +204,116 @@ const cardId = `business-card-${business.id || business.name.toLowerCase().repla
                 </span>
               </div>
               
-              {business.rating && (
+              {#if business.rating}
                 <div class="rating-display">
                   <span class="rating-stars">{'★'.repeat(Math.floor(business.rating))}{'☆'.repeat(5 - Math.floor(business.rating))}</span>
                   <span class="rating-text">{business.rating}/5</span>
                   <small>({business.reviews_count || 0} reviews)</small>
                 </div>
-              )}
+              {/if}
             </div>
             
-            
-            {business.founding_story && (
+            {#if business.founding_story}
               <div class="story-section">
                 <h3>Origin Story</h3>
                 <blockquote>{business.founding_story}</blockquote>
               </div>
-            )}
+            {/if}
             
-            {business.cultural_impact && (
+            {#if business.cultural_impact}
               <div class="story-section">
                 <h3>Cultural Significance</h3>
                 <blockquote>{business.cultural_impact}</blockquote>
               </div>
-            )}
+            {/if}
             
-            {business.unique_features && (
+            {#if business.unique_features}
               <div class="story-section">
                 <h3>What Makes It Special</h3>
                 <blockquote>{business.unique_features}</blockquote>
               </div>
-            )}
+            {/if}
             
-            {/* Fallback to story if no rich narratives */}
-            {!business.founding_story && business.story && (
+            {#if !business.founding_story && business.story}
               <div class="story-section">
                 <h3>Our Story</h3>
                 <blockquote>{business.story}</blockquote>
               </div>
-            )}
+            {/if}
             
-            {business.notable_features && business.notable_features.length > 0 && (
+            {#if business.notable_features && business.notable_features.length > 0}
               <div class="features-section">
                 <h3>Notable Features</h3>
                 <div class="features-grid">
-                  {business.notable_features.map(feature => (
+                  {#each business.notable_features as feature}
                     <div class="feature-item">{feature}</div>
-                  ))}
+                  {/each}
                 </div>
               </div>
-            )}
+            {/if}
             
-            {business.keywords && business.keywords.length > 0 && (
+            {#if business.keywords && business.keywords.length > 0}
               <div class="keywords-section">
                 <h3>Keywords</h3>
                 <div class="keywords-grid">
-                  {business.keywords.map(keyword => (
+                  {#each business.keywords as keyword}
                     <span class="keyword-tag">{keyword}</span>
-                  ))}
+                  {/each}
                 </div>
               </div>
-            )}
+            {/if}
             
-            {business.amenities && business.amenities.length > 0 && (
+            {#if business.amenities && business.amenities.length > 0}
               <div class="amenities-section">
                 <h3>Amenities</h3>
                 <div class="amenities-grid">
-                  {business.amenities.map(amenity => (
+                  {#each business.amenities as amenity}
                     <span class="amenity-tag">{amenity}</span>
-                  ))}
+                  {/each}
                 </div>
               </div>
-            )}
+            {/if}
           </div>
           
           <div class="modal-sidebar">
             <div class="contact-card">
               <h3>Contact Information</h3>
-              {business.phone && (
+              {#if business.phone}
                 <p class="contact-item">
                   <strong>Phone:</strong>
                   <a href={`tel:${business.phone}`} class="contact-link">{business.phone}</a>
                 </p>
-              )}
-              {business.email && (
+              {/if}
+              {#if business.email}
                 <p class="contact-item">
                   <strong>Email:</strong>
                   <a href={`mailto:${business.email}`} class="contact-link">{business.email}</a>
                 </p>
-              )}
-              {business.website && (
+              {/if}
+              {#if business.website}
                 <p class="contact-item">
                   <strong>Website:</strong>
                   <a href={business.website} target="_blank" class="contact-link">{business.website}</a>
                 </p>
-              )}
-              {business.address && (
+              {/if}
+              {#if business.address}
                 <p class="contact-item">
                   <strong>Address:</strong>
                   <span>{business.address}</span>
                 </p>
-              )}
-              {business.hours && (
+              {/if}
+              {#if business.hours}
                 <p class="contact-item">
                   <strong>Hours:</strong>
                   <span>{business.hours}</span>
                 </p>
-              )}
-              {business.price_range && (
+              {/if}
+              {#if business.price_range}
                 <p class="contact-item">
                   <strong>Price Range:</strong>
                   <span>{business.price_range}</span>
                 </p>
-              )}
+              {/if}
             </div>
             
             <div class="business-stats">
@@ -338,30 +323,40 @@ const cardId = `business-card-${business.id || business.name.toLowerCase().repla
               <p><strong>Neighborhood:</strong> {business.neighborhood}</p>
             </div>
             
-            {business.social_media && Object.keys(business.social_media).length > 0 && (
+            {#if business.social_media && Object.keys(business.social_media).length > 0}
               <div class="social-links">
                 <h3>Social Media</h3>
                 <div class="social-grid">
-                  {Object.entries(business.social_media).map(([platform, url]) => (
+                  {#each Object.entries(business.social_media) as [platform, url]}
                     <a href={url} target="_blank" class="social-link">
                       {platform.charAt(0).toUpperCase() + platform.slice(1)}
                     </a>
-                  ))}
+                  {/each}
                 </div>
               </div>
-            )}
+            {/if}
           </div>
         </div>
       </div>
     </article>
   </dialog>
-)}
+{/if}
 
 <style>
   /* Progressive Disclosure Styles */
   .business-card {
     position: relative;
     transition: all 0.3s ease;
+    padding: 1rem;
+    border: 1px solid var(--pico-border-color);
+    border-radius: var(--pico-border-radius);
+    background: var(--pico-background-color);
+    margin: 0;
+  }
+  
+  .business-card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
   }
   
   .business-summary {
@@ -463,31 +458,37 @@ const cardId = `business-card-${business.id || business.name.toLowerCase().repla
   }
   
   .expand-btn, .modal-btn {
-    /* Use Pico's default button styling */
     font-size: 0.875rem;
     white-space: nowrap;
+    padding: 0.5rem 1rem;
+    border-radius: var(--pico-border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .expand-btn {
+    background: var(--pico-secondary-background);
+    color: var(--pico-secondary-color);
+    border: 1px solid var(--pico-secondary-border);
+  }
+  
+  .expand-btn:hover {
+    background: var(--pico-secondary-hover-background);
+  }
+  
+  .modal-btn {
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+    border: 1px solid var(--pico-primary);
+  }
+  
+  .modal-btn:hover {
+    background: var(--pico-primary-hover);
   }
   
   /* Expanded State */
   .business-details {
-    display: none;
     margin-top: var(--pico-spacing);
-  }
-  
-  .business-card.expanded .business-details {
-    display: block;
-  }
-  
-  .business-card.expanded .expand-text {
-    display: none;
-  }
-  
-  .business-card.expanded .collapse-text {
-    display: inline;
-  }
-  
-  .business-card:not(.expanded) .collapse-text {
-    display: none;
   }
   
   .business-details-content {
@@ -814,7 +815,6 @@ const cardId = `business-card-${business.id || business.name.toLowerCase().repla
     .expand-btn, .modal-btn {
       flex: 1;
     }
-    
     
     .modal-grid {
       grid-template-columns: 1fr;

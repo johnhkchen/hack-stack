@@ -1,5 +1,6 @@
 ---
 import BusinessCard from './BusinessCard.astro';
+import NeighborhoodCard from './NeighborhoodCard.svelte';
 
 export interface Props {
   businesses: Array<{
@@ -121,80 +122,15 @@ const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort(
   {groupByNeighborhood ? (
     <div class="neighborhood-sections">
       {neighborhoodStats.map(({ neighborhood, businessCount, types, avgRating, activeCount, businesses: neighborhoodBusinesses }) => (
-        <section class="neighborhood-section" data-neighborhood={neighborhood}>
-          <header class="neighborhood-header">
-            <div class="neighborhood-info">
-              <h2>{neighborhood}</h2>
-              <div class="neighborhood-meta">
-                <span class="business-count">{businessCount} businesses</span>
-                <span class="active-count">{activeCount} active</span>
-                {avgRating && (
-                  <span class="neighborhood-rating">
-                    <span class="rating-stars">{'★'.repeat(Math.floor(avgRating))}{'☆'.repeat(5 - Math.floor(avgRating))}</span>
-                    <span class="rating-value">{avgRating.toFixed(1)}</span>
-                  </span>
-                )}
-              </div>
-              <div class="neighborhood-types">
-                {types.slice(0, 3).map(type => (
-                  <span class="type-badge">{type}</span>
-                ))}
-                {types.length > 3 && (
-                  <span class="type-badge more">+{types.length - 3} more</span>
-                )}
-              </div>
-            </div>
-            
-            <div class="neighborhood-actions">
-              <button 
-                class="expand-neighborhood"
-                onclick={`toggleNeighborhood('${neighborhood}')`}
-              >
-                <span class="expand-text">Explore Area</span>
-                <span class="collapse-text">Show Less</span>
-              </button>
-            </div>
-          </header>
-          
-          <div class="neighborhood-content">
-            <div class="business-list-neighborhood">
-              {neighborhoodBusinesses.slice(0, 6).map((business, index) => (
-                <BusinessCard 
-                  business={business}
-                  class="neighborhood-business"
-                />
-              ))}
-            </div>
-            
-            {neighborhoodBusinesses.length > 6 && (
-              <div class="load-more-section">
-                <div class="hidden-businesses" style="display: none;">
-                  <div class="business-list-neighborhood">
-                    {neighborhoodBusinesses.slice(6).map((business, index) => (
-                      <BusinessCard 
-                        business={business}
-                        class="neighborhood-business"
-                      />
-                    ))}
-                  </div>
-                </div>
-                
-                <div class="load-more-controls">
-                  <button 
-                    class="load-more-btn secondary"
-                    onclick={`toggleMoreBusinesses('${neighborhood}')`}
-                  >
-                    <span class="show-more-text">Show {neighborhoodBusinesses.length - 6} More Businesses</span>
-                    <span class="show-less-text" style="display: none;">Show Less</span>
-                  </button>
-                  <p class="business-summary">
-                    <small>Showing 6 of {neighborhoodBusinesses.length} businesses in {neighborhood}</small>
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
+        <NeighborhoodCard 
+          neighborhood={neighborhood}
+          businessCount={businessCount}
+          activeCount={activeCount}
+          types={types}
+          avgRating={avgRating}
+          businesses={neighborhoodBusinesses}
+          client:load
+        />
       ))}
     </div>
   ) : (
@@ -210,53 +146,6 @@ const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort(
 </div>
 
 <script>
-  // Progressive disclosure for neighborhoods
-  function toggleNeighborhood(neighborhood) {
-    const section = document.querySelector(`[data-neighborhood="${neighborhood}"]`);
-    const content = section.querySelector('.neighborhood-content');
-    const button = section.querySelector('.expand-neighborhood');
-    
-    section.classList.toggle('expanded');
-    
-    if (section.classList.contains('expanded')) {
-      content.style.display = 'block';
-      button.querySelector('.expand-text').style.display = 'none';
-      button.querySelector('.collapse-text').style.display = 'inline';
-    } else {
-      content.style.display = 'none';
-      button.querySelector('.expand-text').style.display = 'inline';
-      button.querySelector('.collapse-text').style.display = 'none';
-    }
-  }
-  
-  // Make function globally available
-  window.toggleNeighborhood = toggleNeighborhood;
-  
-  // Progressive disclosure for individual neighborhood businesses
-  function toggleMoreBusinesses(neighborhood) {
-    const section = document.querySelector(`[data-neighborhood="${neighborhood}"]`);
-    const hiddenBusinesses = section.querySelector('.hidden-businesses');
-    const showMoreText = section.querySelector('.show-more-text');
-    const showLessText = section.querySelector('.show-less-text');
-    const loadMoreBtn = section.querySelector('.load-more-btn');
-    
-    if (hiddenBusinesses.style.display === 'none') {
-      // Show more businesses
-      hiddenBusinesses.style.display = 'block';
-      showMoreText.style.display = 'none';
-      showLessText.style.display = 'inline';
-      loadMoreBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      // Show less businesses
-      hiddenBusinesses.style.display = 'none';
-      showMoreText.style.display = 'inline';
-      showLessText.style.display = 'none';
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-  
-  // Make function globally available
-  window.toggleMoreBusinesses = toggleMoreBusinesses;
   
   // Filtering functionality
   document.addEventListener('DOMContentLoaded', function() {
@@ -438,31 +327,7 @@ const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort(
   }
   
   .clear-filters, .apply-filters {
-    padding: 0.5rem 1rem;
-    border-radius: var(--pico-border-radius);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-  }
-  
-  .clear-filters {
-    background: var(--pico-secondary-background);
-    color: var(--pico-secondary-color);
-  }
-  
-  .clear-filters:hover {
-    background: var(--pico-secondary-hover-background);
-  }
-  
-  .apply-filters {
-    background: var(--pico-primary);
-    color: var(--pico-primary-inverse);
-  }
-  
-  .apply-filters:hover {
-    background: var(--pico-primary-hover);
+    /* Use Pico's default button styling */
   }
   
   /* Results Summary */
@@ -490,126 +355,6 @@ const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort(
     gap: 2rem;
   }
   
-  .neighborhood-section {
-    border: 1px solid var(--pico-border-color);
-    border-radius: var(--pico-border-radius);
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-  
-  .neighborhood-section:hover {
-    border-color: rgba(59, 130, 246, 0.3);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
-  }
-  
-  .neighborhood-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 1.5rem;
-    background: rgba(59, 130, 246, 0.02);
-    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-    gap: 1rem;
-  }
-  
-  .neighborhood-info {
-    flex: 1;
-  }
-  
-  .neighborhood-info h2 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--pico-primary);
-  }
-  
-  .neighborhood-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-    flex-wrap: wrap;
-  }
-  
-  .business-count, .active-count {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--pico-muted-color);
-  }
-  
-  .business-count {
-    color: var(--pico-color);
-  }
-  
-  .neighborhood-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  
-  .rating-stars {
-    color: #fbbf24;
-    font-size: 0.875rem;
-  }
-  
-  .rating-value {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--pico-color);
-  }
-  
-  .neighborhood-types {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  
-  .type-badge {
-    padding: 0.25rem 0.5rem;
-    background: rgba(16, 185, 129, 0.1);
-    color: #059669;
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  
-  .type-badge.more {
-    background: rgba(139, 92, 246, 0.1);
-    color: #7c3aed;
-    border-color: rgba(139, 92, 246, 0.2);
-  }
-  
-  .neighborhood-actions {
-    flex-shrink: 0;
-  }
-  
-  .expand-neighborhood {
-    /* Use Pico's default button styling */
-  }
-  
-  .neighborhood-content {
-    display: none;
-    padding: 1.5rem;
-    background: var(--pico-background-color);
-  }
-  
-  .neighborhood-section.expanded .neighborhood-content {
-    display: block;
-  }
-  
-  .neighborhood-section.expanded .expand-text {
-    display: none;
-  }
-  
-  .neighborhood-section.expanded .collapse-text {
-    display: inline;
-  }
-  
-  .neighborhood-section:not(.expanded) .collapse-text {
-    display: none;
-  }
-  
   /* Business Lists */
   .business-list-neighborhood,
   .business-list-filtered {
@@ -618,47 +363,6 @@ const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort(
     gap: var(--pico-spacing);
   }
   
-  /* Load More Controls */
-  .load-more-section {
-    margin-top: 1.5rem;
-  }
-  
-  .load-more-controls {
-    text-align: center;
-    padding: 1.5rem;
-    background: rgba(249, 250, 251, 0.5);
-    border: 1px solid var(--pico-border-color);
-    border-radius: var(--pico-border-radius);
-    margin-top: 1rem;
-  }
-  
-  .load-more-btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--pico-border-radius);
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-    background: var(--pico-secondary-background);
-    color: var(--pico-secondary-color);
-    margin-bottom: 0.5rem;
-  }
-  
-  .load-more-btn:hover {
-    background: var(--pico-secondary-hover-background);
-    transform: translateY(-1px);
-  }
-  
-  .business-summary {
-    margin: 0;
-    color: var(--pico-muted-color);
-    font-size: 0.875rem;
-  }
-  
-  .hidden-businesses {
-    margin-top: 1rem;
-  }
   
   /* Mobile Responsive */
   @media (max-width: 768px) {
@@ -669,15 +373,5 @@ const allNeighborhoods = [...new Set(businesses.map(b => b.neighborhood))].sort(
     .filter-actions {
       flex-direction: column;
     }
-    
-    .neighborhood-header {
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .neighborhood-actions {
-      align-self: flex-start;
-    }
-    
   }
 </style>

@@ -1,7 +1,7 @@
-# 🚀 Hack Stack
-> Portfolio-worthy hackathon demo with modern AI integration patterns
+# 🏢 SF Legacy Business Registry
+> Full-stack demo showcasing modern RAG, search, and interactive data visualization
 
-**Architecture**: Astro + Svelte + FastAPI + Docker + 5 Sponsor Technologies
+**Stack**: Astro + Svelte + FastAPI + LlamaIndex RAG + Docker
 
 ## ⚡ 30-Second Startup
 
@@ -11,75 +11,59 @@ cd hack-stack
 just start
 ```
 
-**That's it.** Working demo with compelling data, beautiful UI, and AI integration.
+**That's it.** Working demo with SF business data, RAG assistant, and interactive search.
 
-## 🎯 Project Vision
+## 🎯 What You Get
 
-This is **not just a hackathon project**. It's:
+This is a **complete business registry application** with:
 
-- 🎨 **Portfolio piece** - Demonstrates full-stack + AI capabilities
-- 🏗️ **Architecture showcase** - Modern patterns that impress in interviews  
-- 🛠️ **Development template** - Foundation for future rapid prototyping
-- 💬 **Conversation starter** - Technical depth that launches careers
+- 🔍 **Intelligent Search** - Find businesses by name, type, or neighborhood
+- 🤖 **RAG Assistant** - Natural language queries powered by LlamaIndex
+- 📊 **Interactive Data Viz** - Neighborhood groupings with expandable cards
+- 🎨 **Modern UI** - Astro + Svelte with PicoCSS for clean design
+- 🛠️ **API Management** - Auto-discovery with YAML config override
+- 📱 **Mobile Responsive** - Works perfectly on all devices
 
-## 🏗️ Architecture Highlights
+## 🏗️ Architecture Overview
 
-### **Microservices with Containerization**
+### **Frontend (Astro + Svelte)**
 ```
-┌─────────────────┐    ┌─────────────────┐
-│  Astro + Svelte │────│   FastAPI       │
-│  (Frontend)     │    │   (Backend)     │
-│  Port 4321      │    │   Port 8000     │
-└─────────────────┘    └─────────────────┘
-          │                      │
-    ┌─────┴──────┐        ┌──────┴──────┐
-    │   Nginx    │        │  AI Vendors │
-    │ (Prod only)│        │ (Protocols) │
-    │  Port 80   │        └─────────────┘
-    └────────────┘
+├── Astro SSR Pages           # Server-side rendered routes
+├── Svelte Islands           # Interactive components with state
+├── Unified Search & List    # Single component for cross-island communication
+└── PicoCSS Design System   # Clean, semantic styling
 ```
 
-### **Progressive Enhancement Strategy**
-- **Layer 1**: Works with zero configuration (compelling mock data)
-- **Layer 2**: Upgrades automatically when API keys detected
-- **Layer 3**: Production monitoring and health checks
-
-### **Protocol-Based Vendor Integration**
-```python
-class VendorProtocol(Protocol):
-    async def process(self, operation: str, data: Dict) -> Dict: ...
-
-# Enables seamless sponsor swapping
-vendor = get_vendor("openai") or MockVendor()
-result = await vendor.process("analyze", business_data)
+### **Backend (FastAPI + LlamaIndex)**
+```
+├── Business Data API        # CRUD operations on business registry
+├── RAG Query Endpoint      # LlamaIndex-powered semantic search
+├── Business Search API     # Full-text search with filters
+├── Metrics & Health       # System monitoring and stats
+└── Auto-Discovery Debug   # API endpoint management
 ```
 
-## 🎪 Sponsor Technology Integration
+### **Key Features You'll Learn**
 
-### **1. OpenAI** - Business Analysis
-- **Demo**: Analyze business sentiment and growth potential
-- **Integration**: Real API calls with structured responses
-- **Fallback**: Realistic mock analysis results
+#### **🔗 Svelte Island Communication**
+- **Problem**: Astro islands can't communicate directly
+- **Solution**: Unified components that manage both search and display
+- **Learn**: How to structure reactive state across complex interactions
 
-### **2. Anthropic** - Structured Data Extraction  
-- **Demo**: Extract business categories and impact metrics
-- **Integration**: Claude API for data structuring
-- **Fallback**: Pre-generated structured business data
+#### **🤖 RAG Implementation** 
+- **LlamaIndex Integration**: Semantic search over business documents
+- **Vector Storage**: Persistent embeddings for fast queries
+- **Natural Language**: Users ask questions, get contextual answers with sources
 
-### **3. Weaviate** - Similarity Search
-- **Demo**: "Find businesses like this one" semantic matching
-- **Integration**: Vector database for business discovery
-- **Fallback**: Mock similarity scoring algorithm
+#### **🎨 Progressive Enhancement**
+- **Search-to-Card Navigation**: Search results scroll to and highlight specific cards
+- **Neighborhood Expansion**: Automatically expands collapsed sections
+- **Visual Feedback**: Smooth animations and highlight effects
 
-### **4. LlamaIndex** *(Integration Ready)*
-- **Demo**: Document processing and business profile generation
-- **Integration**: PDF processing pipeline
-- **Fallback**: Rich mock business profiles
-
-### **5. Additional Sponsor** *(Configurable)*
-- **Demo**: Extensible vendor registry pattern
-- **Integration**: Drop-in protocol implementation
-- **Fallback**: Generic mock response system
+#### **⚙️ API Auto-Discovery**
+- **Dynamic Endpoint Detection**: FastAPI route introspection
+- **YAML Configuration Override**: Manual categorization and organization
+- **Health Monitoring**: Real-time endpoint testing and status
 
 ## 🚀 Quick Commands
 
@@ -90,123 +74,189 @@ just frontend         # Astro dev server only
 just backend          # FastAPI dev server only
 
 # Demo Preparation
-just demo             # Start + open browser
+just start            # Start + open browser
+just build            # Production build and deploy
 just check            # Health check all services
-just build            # Production build
 
-# Container Deployment  
+# Container Management  
 docker compose up     # Full stack with networking
+docker compose down   # Stop all services
 ```
 
-## 📊 Environment Detection
+## 📊 Live Demo Features
 
-**Smart Mode Selection:**
-- **Mock Mode**: No API keys → Instant demo with compelling data
-- **Hybrid Mode**: Some API keys → Mix of real + mock responses  
-- **Live Mode**: All API keys → Full sponsor integration
+### **1. Business Search & Discovery**
+- **What it does**: Type in business names, neighborhoods, or types
+- **Technical**: Full-text search with autocomplete and filtering
+- **Cool part**: Search results have "View Full Details" buttons that scroll to and highlight the actual business card
 
-**Visual Indicators:**
-- 🟢 Real vendor responses
-- 🟡 Mock vendor responses  
-- 🔴 Connection errors (graceful fallback)
+### **2. RAG Knowledge Assistant**
+- **What it does**: Ask natural language questions about SF businesses
+- **Technical**: LlamaIndex RAG with embeddings and context retrieval
+- **Cool part**: Shows source businesses that contributed to the answer
 
-## 🏢 Demo Business Data
+### **3. Neighborhood Groupings**
+- **What it does**: Businesses organized by neighborhood with stats
+- **Technical**: Reactive Svelte components with expand/collapse
+- **Cool part**: Auto-expands when search directs you to a specific business
 
-**Compelling Stories That Resonate:**
-- **Quantum Coffee Co.** - Physics meets caffeine (tech audience appeal)
-- **Vinyl Rebellion Records** - Analog souls in digital world (nostalgia factor)
-- **Midnight Ramen Lab** - Data science ramen perfection (hackathon theme)
-- **Binary Bookshop** - Literature for digital age (intellectual appeal)
+### **4. Interactive Business Cards**
+- **What it does**: Rich business profiles with cultural narratives
+- **Technical**: Progressive disclosure with modals and detailed views
+- **Cool part**: Modal overlays with full business history and contact info
 
-## 🎯 Technical Interview Talking Points
+### **5. API Debug Interface**
+- **What it does**: Monitor and test all backend endpoints
+- **Technical**: Auto-discovery with YAML config override
+- **Cool part**: Real-time testing with organized collapsible sections
 
-### **Frontend Architecture**
-- "Server-side rendered with hydrated islands for performance"
-- "Component-based architecture with clear separation of concerns"
-- "Modern build tooling with hot reload and optimized production builds"
+## 🛠️ What Developers Need to Know
 
-### **Backend Design**
-- "Protocol-based vendor abstraction for easy sponsor integration"
-- "Graceful degradation with automatic mock fallback"
-- "Modern Python with uv for deterministic dependency management"
+### **Frontend Stack**
+```typescript
+// Astro for SSR + Static Generation
+export default {
+  output: 'server',      // SSR mode for dynamic content
+  adapter: '@astrojs/node', // Node.js deployment
+  integrations: ['@astrojs/svelte'] // Svelte islands
+}
 
-### **DevOps Patterns**
-- "Containerized microservices with health checks"
-- "Environment-based configuration with smart detection"
-- "Single command deployment from development to production"
+// Svelte for Interactive Components
+<script>
+  let searchQuery = '';
+  let searchResults = [];
+  
+  async function searchBusinesses() {
+    const response = await fetch('/api/search', { ... });
+    searchResults = await response.json();
+  }
+</script>
+```
 
-### **AI Integration**
-- "Vendor-agnostic AI service layer with consistent interfaces"
-- "Progressive enhancement from mock to live AI responses"
-- "Error handling and rate limiting for production reliability"
+### **Backend Stack**
+```python
+# FastAPI with modern Python
+from fastapi import FastAPI
+from llama_index.core import VectorStoreIndex
+import uvicorn
 
-## 🚨 Demo Day Resilience
+app = FastAPI()
 
-**Built for Murphy's Law:**
-- ✅ Works offline (no wifi required for basic demo)
-- ✅ Works with missing API keys (automatic mock mode)
-- ✅ Works on any laptop (Docker containers)
-- ✅ Works under pressure (30-second startup)
-- ✅ Works for team members (clear documentation)
+# RAG Implementation
+@app.post("/api/v2/rag/query")
+async def rag_query(query: RagQueryRequest):
+    response = index.as_query_engine().query(query.query)
+    return {
+        "response": str(response),
+        "source_contexts": response.source_nodes
+    }
+```
+
+### **Data Flow**
+```
+User Types Query → Svelte Component → FastAPI Endpoint → LlamaIndex → Vector DB
+                                  ↓
+User Sees Results ← UI Update ← JSON Response ← RAG Processing ← Embeddings
+```
 
 ## 📁 Project Structure
 
 ```
 hack-stack/
-├── frontend/                 # Astro + Svelte
+├── frontend/                    # Astro + Svelte
 │   ├── src/
-│   │   ├── components/      # Reusable Svelte components
-│   │   ├── pages/          # Astro page routes  
-│   │   └── layouts/        # Shared page layouts
-│   └── package.json        # Modern Node.js deps
-├── backend/                  # FastAPI + uv
+│   │   ├── components/         
+│   │   │   ├── BusinessCard.svelte      # Rich business profiles
+│   │   │   ├── NeighborhoodCard.svelte  # Collapsible neighborhood groups
+│   │   │   ├── RagAssistant.svelte      # LlamaIndex RAG interface
+│   │   │   ├── BusinessSearchAndList.svelte # Unified search + display
+│   │   │   └── ApiTestsTable.svelte     # API debugging interface
+│   │   ├── pages/
+│   │   │   ├── index.astro              # Main homepage
+│   │   │   └── debug.astro              # API management page
+│   │   └── layouts/Layout.astro         # Shared page structure
+├── backend/                     # FastAPI + LlamaIndex
 │   ├── api/
-│   │   ├── routes.py       # HTTP endpoints
-│   │   └── services.py     # Business logic
-│   └── pyproject.toml      # Python dependencies
-├── docker-compose.yml       # Multi-service orchestration
-├── justfile                 # Development commands
-└── README.md               # This file
+│   │   ├── routes.py           # HTTP endpoints
+│   │   ├── rag.py             # LlamaIndex RAG implementation
+│   │   ├── debug.py           # Auto-discovery service
+│   │   └── models.py          # Pydantic schemas
+│   ├── data/                  # Business registry data
+│   │   ├── businesses.json    # Mock business data
+│   │   └── documents/         # RAG document storage
+│   └── pyproject.toml         # uv dependency management
+├── config/
+│   └── debug.yaml             # API endpoint organization
+├── docker-compose.yml         # Multi-service orchestration
+├── justfile                   # Development commands
+└── README.md                  # This file
 ```
 
-## 🎬 4-Hour Implementation Timeline
+## 🎯 Key Learning Outcomes
 
-**Hour 1: Foundation**
-- ✅ Service architecture with Docker
-- ✅ Health checks and networking
-- ✅ Basic UI with mock data
+### **For Frontend Developers**
+- **Astro Islands Architecture**: When to use SSR vs client-side hydration
+- **Svelte State Management**: Reactive programming with cross-component communication
+- **Progressive Enhancement**: Building features that work without JavaScript
+- **API Integration**: Handling loading states, errors, and real-time updates
 
-**Hour 2: Sponsor Integration** 
-- ✅ Vendor protocol implementation
-- ✅ Mock/live mode switching
-- ✅ AI analysis features
+### **For Backend Developers**
+- **FastAPI Patterns**: Route organization, dependency injection, error handling
+- **RAG Implementation**: Vector databases, embeddings, and context retrieval
+- **API Design**: RESTful endpoints with proper status codes and schemas
+- **Service Architecture**: Auto-discovery, health checks, and monitoring
 
-**Hour 3: Polish**
-- ✅ Error handling and loading states
-- ✅ Visual status indicators
-- ✅ Responsive design
+### **For Full-Stack Developers**
+- **System Integration**: How frontend and backend communicate effectively
+- **Data Flow**: From user interaction to database and back
+- **Performance**: SSR for SEO, client-side hydration for interactivity
+- **DevOps**: Docker containerization and production deployment
 
-**Hour 4: Demo Prep**
-- 🎯 Demo script and talking points
-- 🎯 Sponsor-specific showcases
-- 🎯 Deployment verification
+## 🚨 Demo Day Resilience
 
-## 💼 Portfolio Value
+**Built for when everything goes wrong:**
+- ✅ **Works offline** - Mock data enables full demo without internet
+- ✅ **Fast startup** - 30 seconds from git clone to working demo
+- ✅ **Self-contained** - Docker handles all dependencies
+- ✅ **Error handling** - Graceful fallbacks for API failures
+- ✅ **Mobile ready** - Responsive design works on any device
 
-**This project demonstrates:**
-- Full-stack development with modern tools
-- Microservices architecture and containerization
-- AI/ML integration patterns and error handling
-- Protocol-driven design for extensibility
-- Production deployment and monitoring
-- Team collaboration and documentation
+## 🎬 Development Timeline
 
-**Interview conversation starters:**
-- "I built a hackathon platform that integrates 5 AI vendors..."
-- "The architecture uses protocol-based abstraction to..."
-- "We achieved 30-second deployment through..."
-- "The progressive enhancement strategy means..."
+**Hour 1: Setup & Data**
+- Clone repository and start services
+- Understand business data structure
+- Explore the interactive UI components
+
+**Hour 2: Backend APIs**
+- Examine FastAPI endpoint structure
+- Test RAG queries with different questions
+- Use the debug interface to monitor API health
+
+**Hour 3: Frontend Components** 
+- Study Svelte component architecture
+- Modify search functionality
+- Customize business card layouts
+
+**Hour 4: Integration & Deployment**
+- Add new business data
+- Customize RAG responses
+- Deploy with Docker compose
+
+## 💼 Technical Interview Talking Points
+
+### **"How did you handle complex state management?"**
+*"I used Svelte's reactive state within unified components to solve Astro island communication limitations. The search and business list share state in a single component, enabling features like scroll-to-card navigation."*
+
+### **"How did you implement the RAG system?"**
+*"Built with LlamaIndex for vector storage and retrieval. Users ask natural language questions, we embed the query, find similar business documents, and return contextual answers with source attribution."*
+
+### **"How did you ensure mobile responsiveness?"**
+*"Used PicoCSS for semantic styling with CSS Grid and Flexbox. Implemented responsive textareas, collapsible cards, and touch-friendly interactions. Tested on various screen sizes with proper breakpoints."*
+
+### **"How did you handle API management?"**
+*"Created an auto-discovery system that introspects FastAPI routes and organizes them via YAML configuration. The debug interface provides real-time endpoint testing with health monitoring."*
 
 ---
 
-*Built for hackathons where time matters, demos must work, and careers are launched.*
+*Ready to explore? Run `just start` and visit the demo!*
